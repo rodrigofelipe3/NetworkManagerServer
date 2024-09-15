@@ -1,0 +1,30 @@
+{
+  "name": "network-manager",
+  "version": "1.0.0",
+  "bin": "src/app.js",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start": "nodemon src/app.js",
+    "server": "nodemon src/app.js",
+    "build-server": "pkg . --targets node16-win-x64 --out-path dist"
+  },
+  "pkg": {
+    "scripts": "src/app.js",
+    "targets": [
+      "node18-win-x64"
+    ]
+  },
+  "dependencies": {
+    "concurrently": "^9.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "nodemon": "^3.1.4",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "electron": "^32.1.0",
+    "electron-builder": "^25.0.5",
+    "webpack": "^5.94.0"
+  }
+}

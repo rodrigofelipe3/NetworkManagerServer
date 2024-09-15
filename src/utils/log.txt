@@ -1,0 +1,4 @@
+2024-09-15T00:44:06.033Z - Iniciando
+2024-09-15T00:44:06.041Z - Servidor rodando na porta 5000
+2024-09-15T00:53:56.742Z - Iniciando
+2024-09-15T00:53:56.750Z - Servidor rodando na porta 5000

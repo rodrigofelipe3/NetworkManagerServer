@@ -1,0 +1,67 @@
+{
+  "name": "pcnetwork-manager",
+  "version": "0.1.0",
+  "main": "./main.js",
+  "author": {
+    "name": "Rodrigo Felipe",
+    "email": "email@email.com"
+  },
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "concurrently": "^9.0.1",
+    "cross-env": "^7.0.3",
+    "electron": "^32.1.0",
+    "electron-builder": "^25.0.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.3.0",
+    "react-router-dom": "^6.26.2",
+    "react-scripts": "5.0.1",
+    "styled-components": "^6.1.13",
+    "sweetalert2": "^11.14.0",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"cross-env BROWSER=none react-scripts start\" \"npm run electron\"  ",
+    "build": "react-scripts build",
+    "server": "cd .. && node src/app.js",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "electron-build": "electron-builder -w -c.extraMetadata.main=main.js",
+    "electron:package:win": "npm run build-server && electron-builder -w -c.extraMetadata.main=main.js"
+  },
+  "build": {
+    "appId": "com.ManageNetwork",
+    "productName": "Network Manager",
+    "files": [
+      "src/**/*",
+      "renderer/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": ""
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
