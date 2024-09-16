@@ -19,12 +19,23 @@ const data1 = [
 
 export const HomePage = () => {
     const [viewInformation, setViewInformation] = useState(false)
-    const [data, setData] = useState([""])
+    const [data, setData] = useState([{ 
+        id: "",
+        host: "",
+        ip: "", 
+        mac_address: "", 
+        status: "" 
+    }, 
+    ])
 
     const handleGetData = async () => {
         const response = await GetData()
+        if(response){ 
+            setData(response)
+        }else { 
 
-        setData(response)
+        }
+       
     }
     useEffect(() => {
         try {
@@ -49,12 +60,12 @@ export const HomePage = () => {
                 {!viewInformation && (
                     <GridContent>
                         {data.map((pcs) =>
-                            <ComputerCard key={pcs.id} onClick={() => setViewInformation(true)}
-                                id={pcs.id}
-                                host={pcs.host}
-                                ip={pcs.ip}
-                                mac_address={pcs.mac_address}
-                                status={pcs.status}
+                            <ComputerCard key={pcs.id? pcs.id : ""} onClick={() => setViewInformation(true)}
+                                id={pcs.id? pcs.id : " "}
+                                host={pcs.host? pcs.host : " "}
+                                ip={pcs.ip? pcs.ip : " "}
+                                mac_address={pcs.mac_address? pcs.mac_address : " "}
+                                status={pcs.status? pcs.status : " "}
 
                             />
                         )}
