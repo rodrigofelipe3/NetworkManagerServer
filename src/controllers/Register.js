@@ -24,8 +24,7 @@ const RegisterComputer = (req, res)=> {
     try{
         const response = RegisterComputerDB(host , processor, memory, operating_system, arch, release, ip, mac_address, status, lastHB)  
         if (response == true) { 
-            logToFile(host + " " + ip + " " + " " + mac_adress + " " + "Registrado com sucesso!")
-
+            logToFile(host + " " + ip + " " + " " + mac_address + " " + "Registrado com sucesso!")
             return true
         } else { 
             logToFile("Erro ao registrar ")

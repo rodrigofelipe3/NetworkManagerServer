@@ -82,6 +82,7 @@ const UpdateStatus = (status, hostname, lastHB) => {
         if(err){ 
             logToFile("Erro ao atualizar o status: " + err)
         }
+        logToFile("HeartBeat Recebido com sucesso!")
     })
 }
 

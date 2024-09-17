@@ -2,3 +2,464 @@
 2024-09-15T00:44:06.041Z - Servidor rodando na porta 5000
 2024-09-15T00:53:56.742Z - Iniciando
 2024-09-15T00:53:56.750Z - Servidor rodando na porta 5000
+2024-09-17T18:36:49.816Z - Iniciando
+2024-09-17T18:36:49.826Z - Servidor rodando na porta 5000
+2024-09-17T18:37:20.606Z - Iniciando
+2024-09-17T18:37:20.612Z - Servidor rodando na porta 5000
+2024-09-17T18:40:43.388Z - Iniciando
+2024-09-17T18:40:43.396Z - Servidor rodando na porta 5000
+2024-09-17T18:41:16.291Z - Iniciando
+2024-09-17T18:41:16.298Z - Servidor rodando na porta 5000
+2024-09-17T18:43:42.044Z - Erro ao registrar 
+2024-09-17T18:43:42.049Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T18:44:00.831Z - Iniciando
+2024-09-17T18:44:00.838Z - Servidor rodando na porta 5000
+2024-09-17T18:44:35.445Z - Iniciando
+2024-09-17T18:44:35.451Z - Servidor rodando na porta 5000
+2024-09-17T18:45:34.370Z - Erro ao registrar 
+2024-09-17T18:45:34.374Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T18:46:27.726Z - Erro ao registrar 
+2024-09-17T18:46:27.733Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T18:46:56.374Z - Erro ao registrar 
+2024-09-17T18:46:56.379Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T18:50:13.125Z - Erro ao registrar 
+2024-09-17T18:50:13.129Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T18:54:09.270Z - Erro ao registrar 
+2024-09-17T18:54:09.275Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T18:54:36.834Z - Erro ao registrar 
+2024-09-17T18:54:36.838Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T18:56:22.850Z - Iniciando
+2024-09-17T18:56:22.858Z - Servidor rodando na porta 5000
+2024-09-17T18:56:23.150Z - Erro ao registrar 
+2024-09-17T18:56:23.156Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T18:56:27.457Z - Iniciando
+2024-09-17T18:56:27.463Z - Servidor rodando na porta 5000
+2024-09-17T18:56:30.516Z - Iniciando
+2024-09-17T18:56:30.522Z - Servidor rodando na porta 5000
+2024-09-17T18:56:40.736Z - Iniciando
+2024-09-17T18:56:40.743Z - Servidor rodando na porta 5000
+2024-09-17T19:02:13.491Z - Erro ao registrar 
+2024-09-17T19:02:13.495Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:02:50.582Z - Iniciando
+2024-09-17T19:02:50.590Z - Servidor rodando na porta 5000
+2024-09-17T19:07:41.011Z - Erro ao registrar 
+2024-09-17T19:07:41.015Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:10:12.713Z - Erro ao registrar 
+2024-09-17T19:10:12.718Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:10:30.498Z - Erro ao registrar 
+2024-09-17T19:10:30.502Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:12:38.396Z - Erro ao registrar 
+2024-09-17T19:12:38.400Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:13:10.715Z - Erro ao registrar 
+2024-09-17T19:13:10.720Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:14:35.651Z - Erro ao registrar 
+2024-09-17T19:14:35.655Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:15:33.669Z - Erro ao registrar 
+2024-09-17T19:15:33.673Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:15:57.030Z - Erro ao registrar 
+2024-09-17T19:15:57.047Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:16:38.684Z - Erro ao registrar 
+2024-09-17T19:16:38.689Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:17:14.797Z - Erro ao registrar 
+2024-09-17T19:17:14.801Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:20:04.820Z - Erro ao registrar 
+2024-09-17T19:20:04.824Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:20:18.743Z - Erro ao registrar 
+2024-09-17T19:20:18.748Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:20:39.005Z - Erro ao registrar 
+2024-09-17T19:20:39.010Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:21:00.163Z - Erro ao registrar 
+2024-09-17T19:21:00.167Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:21:19.466Z - Erro ao registrar 
+2024-09-17T19:21:19.469Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:21:38.689Z - Erro ao registrar 
+2024-09-17T19:21:38.694Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:27:03.905Z - Erro ao registrar 
+2024-09-17T19:27:03.909Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:27:21.903Z - Erro ao registrar 
+2024-09-17T19:27:21.907Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:29:06.250Z - Erro ao registrar 
+2024-09-17T19:29:06.255Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:32:40.789Z - Erro ao registrar 
+2024-09-17T19:32:40.793Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:32:57.440Z - Erro ao registrar 
+2024-09-17T19:32:57.444Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:42:07.803Z - Iniciando
+2024-09-17T19:42:07.810Z - Servidor rodando na porta 5000
+2024-09-17T19:42:20.557Z - Iniciando
+2024-09-17T19:42:20.564Z - Servidor rodando na porta 5000
+2024-09-17T19:42:24.146Z - Iniciando
+2024-09-17T19:42:24.155Z - Servidor rodando na porta 5000
+2024-09-17T19:42:26.084Z - Iniciando
+2024-09-17T19:42:26.090Z - Servidor rodando na porta 5000
+2024-09-17T19:42:29.805Z - Iniciando
+2024-09-17T19:42:29.811Z - Servidor rodando na porta 5000
+2024-09-17T19:42:31.357Z - Iniciando
+2024-09-17T19:42:31.364Z - Servidor rodando na porta 5000
+2024-09-17T19:42:34.170Z - Iniciando
+2024-09-17T19:42:34.177Z - Servidor rodando na porta 5000
+2024-09-17T19:42:36.164Z - Iniciando
+2024-09-17T19:42:36.170Z - Servidor rodando na porta 5000
+2024-09-17T19:43:36.636Z - Erro ao registrar 
+2024-09-17T19:43:36.641Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:48:14.849Z - Iniciando
+2024-09-17T19:48:14.855Z - Servidor rodando na porta 5000
+2024-09-17T19:49:55.825Z - Iniciando
+2024-09-17T19:49:55.830Z - Servidor rodando na porta 5000
+2024-09-17T19:49:58.548Z - Iniciando
+2024-09-17T19:49:58.556Z - Servidor rodando na porta 5000
+2024-09-17T19:50:05.772Z - Iniciando
+2024-09-17T19:50:05.781Z - Servidor rodando na porta 5000
+2024-09-17T19:50:11.838Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:50:26.838Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:50:41.845Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:50:45.476Z - Iniciando
+2024-09-17T19:50:45.484Z - Servidor rodando na porta 5000
+2024-09-17T19:50:53.074Z - Iniciando
+2024-09-17T19:50:53.081Z - Servidor rodando na porta 5000
+2024-09-17T19:50:56.864Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:51:11.860Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:51:26.861Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:51:41.874Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:51:56.880Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:52:11.885Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:52:12.977Z - Iniciando
+2024-09-17T19:52:12.984Z - Servidor rodando na porta 5000
+2024-09-17T19:52:26.910Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:52:26.911Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:52:41.905Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:52:41.905Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:52:56.914Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:52:56.914Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:53:11.921Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:53:11.922Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:53:26.930Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:53:26.931Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:53:41.944Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:53:41.945Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:53:56.959Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:53:56.959Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:54:11.969Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:54:11.970Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:54:26.969Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:54:26.969Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:54:41.976Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:54:41.977Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:55:32.733Z - Erro ao registrar 
+2024-09-17T19:55:32.738Z - Status do computador RODRIGO atualizado para Conectado
+2024-09-17T19:55:37.967Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:55:37.967Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:55:52.974Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:55:52.974Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:56:07.984Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:56:07.984Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:56:22.996Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:56:22.997Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:56:37.998Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:56:37.998Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:56:53.007Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:56:53.007Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:57:08.022Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:57:08.023Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:57:23.033Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:57:23.033Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:57:38.043Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:57:38.044Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:57:53.055Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:57:53.056Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:58:08.058Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:58:08.058Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:58:23.072Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:58:23.073Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:58:38.077Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:58:38.077Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:58:53.092Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:58:53.092Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:59:08.095Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:59:08.095Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:59:23.097Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:59:23.097Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:59:38.108Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:59:38.108Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:59:53.119Z - HeartBeat Recebido com sucesso!
+2024-09-17T19:59:53.119Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:00:08.121Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:00:08.121Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:00:23.131Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:00:23.131Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:00:38.139Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:00:38.139Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:00:53.143Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:00:53.143Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:01:08.152Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:01:08.152Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:01:23.161Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:01:23.161Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:01:38.164Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:01:38.164Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:01:53.165Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:01:53.166Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:02:08.176Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:02:08.176Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:02:23.187Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:02:23.187Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:02:38.186Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:02:38.186Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:02:53.190Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:02:53.190Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:03:08.204Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:03:08.204Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:03:23.218Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:03:23.218Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:03:38.231Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:03:38.232Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:03:53.238Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:03:53.239Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:04:08.239Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:04:08.239Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:04:23.258Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:04:23.259Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:04:38.249Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:04:38.249Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:04:53.253Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:04:53.253Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:05:08.257Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:05:08.257Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:05:23.270Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:05:23.270Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:05:38.268Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:05:38.269Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:05:53.281Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:05:53.282Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:06:08.292Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:06:08.292Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:06:23.297Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:06:23.297Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:06:38.300Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:06:38.301Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:06:40.607Z - Iniciando
+2024-09-17T20:06:40.627Z - Servidor rodando na porta 5000
+2024-09-17T20:06:53.321Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:06:53.321Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:07:08.315Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:07:08.315Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:07:23.319Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:07:23.320Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:07:38.324Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:07:38.325Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:07:53.336Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:07:53.336Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:08:08.350Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:08:08.350Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:08:23.360Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:08:23.360Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:08:38.371Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:08:38.371Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:08:53.380Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:08:53.380Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:09:08.394Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:09:08.394Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:09:23.403Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:09:23.404Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:09:38.404Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:09:38.404Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:09:53.404Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:09:53.405Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:10:08.417Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:10:08.417Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:10:23.429Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:10:23.429Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:10:38.440Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:10:38.440Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:10:53.442Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:10:53.443Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:11:08.445Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:11:08.445Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:11:23.460Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:11:23.460Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:11:38.470Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:11:38.470Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:11:53.479Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:11:53.479Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:12:08.491Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:12:08.491Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:12:23.503Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:12:23.503Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:12:38.516Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:12:38.517Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:12:53.515Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:12:53.516Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:13:08.523Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:13:08.523Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:13:23.523Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:13:23.524Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:13:38.530Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:13:38.531Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:13:53.543Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:13:53.543Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:14:08.548Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:14:08.549Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:14:23.554Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:14:23.555Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:14:38.569Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:14:38.570Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:14:53.573Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:14:53.574Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:15:08.583Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:15:08.583Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:15:23.596Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:15:23.596Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:15:38.607Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:15:38.608Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:15:53.608Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:15:53.609Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:16:08.613Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:16:08.613Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:16:23.615Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:16:23.616Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:16:38.625Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:16:38.625Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:16:53.645Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:16:53.645Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:17:08.647Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:17:08.647Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:17:23.659Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:17:23.659Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:17:38.669Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:17:38.669Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:17:53.670Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:17:53.671Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:18:08.679Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:18:08.680Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:18:23.692Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:18:23.692Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:18:38.705Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:18:38.705Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:18:53.714Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:18:53.714Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:19:08.719Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:19:08.719Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:19:23.723Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:19:23.723Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:19:38.727Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:19:38.728Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:19:53.731Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:19:53.731Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:20:08.734Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:20:08.734Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:20:23.735Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:20:23.736Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:20:38.746Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:20:38.747Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:20:53.759Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:20:53.759Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:21:08.771Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:21:08.771Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:21:23.773Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:21:23.774Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:21:38.785Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:21:38.786Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:21:53.797Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:21:53.797Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:22:08.809Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:22:08.809Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:22:23.823Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:22:23.824Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:22:38.827Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:22:38.828Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:22:53.841Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:22:53.841Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:23:08.849Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:23:08.849Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:23:23.855Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:23:23.855Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:23:38.863Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:23:38.863Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:23:53.868Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:23:53.868Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:24:08.876Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:24:08.876Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:24:23.887Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:24:23.887Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:24:38.894Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:24:38.894Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:24:53.903Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:24:53.904Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:25:08.916Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:25:08.916Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:25:23.930Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:25:23.930Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:25:38.944Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:25:38.945Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:25:53.950Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:25:53.951Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:26:08.958Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:26:08.959Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:26:23.962Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:26:23.963Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:26:38.964Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:26:38.964Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:26:53.969Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:26:53.969Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:27:08.968Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:27:08.968Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:27:23.981Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:27:23.981Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:27:38.983Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:27:38.983Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:27:53.989Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:27:53.989Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:28:08.991Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:28:08.992Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:28:23.996Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:28:23.996Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:28:38.998Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:28:38.999Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:28:54.001Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:28:54.001Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:29:09.008Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:29:09.009Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:29:24.011Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:29:24.011Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:29:39.015Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:29:39.015Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:29:54.024Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:29:54.024Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:30:09.031Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:30:09.032Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:30:24.037Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:30:24.037Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:30:39.039Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:30:39.039Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:30:54.038Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:30:54.038Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:31:09.040Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:31:09.041Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:31:24.056Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:31:24.056Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:31:39.103Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:31:39.103Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:31:54.088Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:31:54.089Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:32:09.103Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:32:09.104Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:32:24.118Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:32:24.119Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:32:39.121Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:32:39.121Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:32:54.129Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:32:54.130Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:33:09.142Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:33:09.143Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:33:24.146Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:33:24.147Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:33:39.154Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:33:39.154Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:33:54.162Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:33:54.162Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:34:09.166Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:34:09.166Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:34:24.173Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:34:24.173Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:34:39.188Z - HeartBeat Recebido com sucesso!
+2024-09-17T20:34:39.188Z - HeartBeat Recebido com sucesso!

@@ -8,6 +8,7 @@ const HeartBeat = (hostname, lastHB) => {
         }else { 
             const hostName = rows.map((pcs)=> pcs.hostname == hostname)
             UpdateStatus("Conectado",hostName, lastHB)
+            logToFile("HeartBeat Recebido com sucesso!")
         }
     })
 }

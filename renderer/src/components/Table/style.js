@@ -19,18 +19,22 @@ export const TopContent = styled.div `
 
 export const TableContent = styled.table `
     width: 100%;
+    border: 1px solid #000000;
+    
+    border-radius: 1rem;
 `
 
 export const TableHeader = styled.thead`
     width: 100%;
 `
 export const HeaderCell = styled.th `
+    width: 100%;
     padding: 1rem;
 `
 
 export const TableBody = styled.tbody `
     width: 100%;
-
+    
 `
 
 export const TableRow = styled.tr `

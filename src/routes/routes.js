@@ -2,6 +2,7 @@ const express = require("express")
 const RegisterComputer = require("../controllers/Register");
 const { GetAllComputer } = require("../database/database");
 const HeartBeat = require("../controllers/HeartBeat");
+const logToFile = require("../utils/LogToFile");
 const router = express.Router()
 
 
@@ -29,9 +30,10 @@ router.post("/heartbeat/:name", (req, res)=> {
     const lastHB = Date.now()
     try { 
         HeartBeat(hostname, lastHB)
-        return res.status(200)
+       
+        return res.status(200).json({msg: "HeartBeat Recebido com sucesso!"})
     }catch{ 
-        return res.status(500)
+        return res.status(500).json({error: "Houve um erro" + error})
     }
    
  })
