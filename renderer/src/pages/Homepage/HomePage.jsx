@@ -4,27 +4,122 @@ import { GridContent, HeaderContent, InformationContent, StyledButton } from "./
 import { ComputerCard } from "../../components/ComputerCard";
 import { GetData } from "../../services/getData";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-const data1 = [
-    { id: 1, host: "RODRIGO", ip: "10.10.1.2", mac_address: "4f:5:6f:7f:8f", status: "Conectado" },
-    { id: 2, host: "VANESSA", ip: "10.10.1.1", mac_address: "4f:5:6f:7f:2f", status: "Conectado" },
-    { id: 3, host: "MARCOS", ip: "10.10.1.3", mac_address: "4f:5:6f:7f:3f", status: "Conectado" },
-    { id: 4, host: "GABRIEL", ip: "10.10.1.5", mac_address: "4f:5:6f:7f:6f", status: "Offline" },
-    { id: 5, host: "GABRIEL", ip: "10.10.1.5", mac_address: "4f:5:6f:7f:6f", status: "Offline" },
-    { id: 6, host: "GABRIEL", ip: "10.10.1.5", mac_address: "4f:5:6f:7f:6f", status: "Offline" },
-    { id: 7, host: "GABRIEL", ip: "10.10.1.5", mac_address: "4f:5:6f:7f:6f", status: "Offline" },
-    { id: 8, host: "GABRIEL", ip: "10.10.1.5", mac_address: "4f:5:6f:7f:6f", status: "Offline" },
-    { id: 9, host: "GABRIEL", ip: "10.10.1.5", mac_address: "4f:5:6f:7f:6f", status: "Offline" },
+import { Table } from "../../components/Table";
 
-]
+
+const Tabledata = [{
+  system: {
+      cpuUsage: "35.60",
+      memoryUsage: "58.34"
+  },
+  processes: [
+      {
+          name: "chrome.exe",
+          cpu: "12.30",
+          memory: "500.23",
+          pid: 1234
+      },
+      {
+          name: "node.exe",
+          cpu: "9.45",
+          memory: "102.56",
+          pid: 5678
+      },
+      {
+          name: "explorer.exe",
+          cpu: "7.80",
+          memory: "230.15",
+          pid: 9101
+      },
+      {
+          name: "cmd.exe",
+          cpu: "4.32",
+          memory: "45.67",
+          pid: 1121
+      },
+      {
+          name: "MsMpEng.exe",
+          cpu: "3.45",
+          memory: "300.12",
+          pid: 1415
+      },
+      {
+          name: "svchost.exe",
+          cpu: "2.65",
+          memory: "400.45",
+          pid: 1617
+      },
+      {
+          name: "discord.exe",
+          cpu: "2.10",
+          memory: "100.50",
+          pid: 1819
+      },
+      {
+          name: "Teams.exe",
+          cpu: "1.80",
+          memory: "210.70",
+          pid: 2021
+      },
+      {
+          name: "System Idle Process",
+          cpu: "1.50",
+          memory: "0.00",
+          pid: 0
+      },
+      {
+          name: "Spotify.exe",
+          cpu: "1.20",
+          memory: "120.50",
+          pid: 2223
+      },
+      {
+          name: "firefox.exe",
+          cpu: "0.90",
+          memory: "130.65",
+          pid: 2425
+      },
+      {
+          name: "vscode.exe",
+          cpu: "0.85",
+          memory: "250.30",
+          pid: 2627
+      },
+      {
+          name: "OneDrive.exe",
+          cpu: "0.75",
+          memory: "200.12",
+          pid: 2829
+      },
+      {
+          name: "Outlook.exe",
+          cpu: "0.65",
+          memory: "150.45",
+          pid: 3031
+      },
+      {
+          name: "Skype.exe",
+          cpu: "0.55",
+          memory: "80.20",
+          pid: 3233
+      }
+  ]
+}]
 
 export const HomePage = () => {
     const [viewInformation, setViewInformation] = useState(false)
+    const [selectedKey, setSelectedKey] = useState("")
     const [data, setData] = useState([{ 
         id: "",
         host: "",
+        processor: "",
+        memory: "",
+        operating_system: "",
+        arch: "",
+        release: "",
         ip: "", 
         mac_address: "", 
-        status: "" 
+        status: "" ,
     }, 
     ])
 
@@ -51,6 +146,13 @@ export const HomePage = () => {
 
     }, [])
 
+    const handleClick = (pcs) => {
+  
+      const keyValue = pcs.id ? pcs.id : "1";
+      setSelectedKey(keyValue);
+      setViewInformation(true);
+    };
+
     return (
         <>
             <ContainerJSX>
@@ -60,12 +162,12 @@ export const HomePage = () => {
                 {!viewInformation && (
                     <GridContent>
                         {data.map((pcs) =>
-                            <ComputerCard key={pcs.id? pcs.id : ""} onClick={() => setViewInformation(true)}
-                                id={pcs.id? pcs.id : " "}
-                                host={pcs.host? pcs.host : " "}
-                                ip={pcs.ip? pcs.ip : " "}
-                                mac_address={pcs.mac_address? pcs.mac_address : " "}
-                                status={pcs.status? pcs.status : " "}
+                            <ComputerCard key={pcs.id? pcs.id : "1"} onClick={handleClick}
+                                id={pcs.id? pcs.id : "1 "}
+                                host={pcs.host? pcs.host : "1 "}
+                                ip={pcs.ip? pcs.ip : " 1"}
+                                mac_address={pcs.mac_address? pcs.mac_address : " 1"}
+                                status={pcs.status? pcs.status : "1 "}
 
                             />
                         )}
@@ -78,7 +180,30 @@ export const HomePage = () => {
                                 VOLTAR
                             </StyledButton>
                         </div>
-                        <h1>System Information</h1>
+                        
+                        <div id={"grid-display"}>
+                          <div id="SystemInformation">
+                            <h1>System Information</h1>
+                            {data.map((information)=> 
+                              <Table
+                              isTaskManager={false}
+                              headers={["Information", "Type"]}
+                              data={data}
+                              isSystemInfo={true}
+                              information={information}
+                               />
+                            )}
+                          </div>
+                          <div id="ManagerTask">
+                            <Table 
+                              isTaskManager={true}
+                              headers={["Nome", "CPU", "Memory", "PID"]}
+                              data={Tabledata}
+                            />
+                          </div>
+                            
+                        </div>
+                        
                     </InformationContent>
                 )}
             </ContainerJSX>

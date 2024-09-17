@@ -25,9 +25,17 @@ export const InformationContent = styled.div `
     flex-wrap: wrap;
     margin-left: 5%;
     margin-right: 5%;
+    
     #button-div { 
         width: 100%;
         height: 3rem;
+    }
+
+    #grid-display { 
+        width: 100%;
+        justify-content: space-around;
+        display: grid;
+        grid-template-columns: auto auto;
     }
 `
 
