@@ -8,12 +8,25 @@ export const TopContent = styled.div `
     justify-content: end;
 
     #cpu-usage { 
+        cursor: pointer;
         width: 100%;
         padding: 1rem;
+        
+    }
+
+    #cpu-usage:hover { 
+            background-color: #b2b2b2;    
     }
     #mem-usage { 
+        cursor: pointer;
         width: 100%;
-        padding: 1rem;
+        padding: 3rem;
+        :hover { 
+            background-color: #b2b2b2;
+        }
+    }
+    #mem-usage:hover { 
+            background-color: #b2b2b2;    
     }
 `
 
@@ -48,8 +61,13 @@ export const TableRow = styled.tr `
         text-align: start;
     }
 
+    #task-name { 
+        text-align: start;
+    }
 `
 
 export const TableCell = styled.td `
     padding: 0.200rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
 `

@@ -6,6 +6,7 @@ import { GetData } from "../../services/getData";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { Table } from "../../components/Table";
 import { getProcess } from "../../services/getProcess";
+import { getProcessMemory } from "../../services/GetProcessMemory";
 
 
 
@@ -53,13 +54,41 @@ export const HomePage = () => {
     const handleGetProcess = async (event) => {
         event.preventDefault()
         try {
-            const response = await getProcess("10.10.1.45")
+            const response = await getProcess("localhost")
             if (response) {
-                
-                setInformation(response)
+
+                setInformation([response])
                 console.log(information)
+            }else { 
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: response.error,
+                })
             }
         } catch (err) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: err,
+            })
+        }
+    }
+    const handleGetProcessMemory = async (event) => {
+        event.preventDefault() 
+        try { 
+            const response =  await getProcessMemory("localhost")
+            if (response) {
+                setInformation([response])
+                console.log(information)
+            }else { 
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: response.error,
+                })
+            }
+        }catch (err) {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
@@ -109,20 +138,18 @@ export const HomePage = () => {
                 )}
                 {viewInformation && (
                     <InformationContent>
-                        <div id="button-div" style={{ width: "100%" }}>
+
+                        <div id={"grid-display"}>
+                           
+                            <div id="systemInformation">
                             <StyledButton onClick={() => setViewInformation(false)}>
                                 VOLTAR
                             </StyledButton>
-                        </div>
-
-                        <div id={"grid-display"}>
-                            <div id="SystemInformation">
                                 <h1>System Information</h1>
                                 {data.map((information) =>
                                     <Table
                                         isTaskManager={false}
                                         headers={["Information", "Type"]}
-                                        data={data}
                                         isSystemInfo={true}
                                         information={information}
                                     />
@@ -131,6 +158,8 @@ export const HomePage = () => {
                             <div id="ManagerTask">
                                 <StyledButton onClickCapture={handleGetProcess}>GERENCIAR</StyledButton>
                                 <Table
+                                    onClickMem={handleGetProcessMemory}
+                                    onClickCPU={handleGetProcess}
                                     isTaskManager={true}
                                     headers={["Nome", "CPU", "Memory", "PID"]}
                                     data={information}

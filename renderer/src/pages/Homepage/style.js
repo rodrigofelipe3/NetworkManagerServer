@@ -25,11 +25,6 @@ export const InformationContent = styled.div `
     flex-wrap: wrap;
     margin-left: 5%;
     margin-right: 5%;
-    
-    #button-div { 
-        width: 100%;
-        height: 3rem;
-    }
 
     #grid-display { 
         width: 100%;
@@ -37,11 +32,16 @@ export const InformationContent = styled.div `
         display: grid;
         grid-template-columns: auto auto;
     }
-`
 
+    #systeminformation { 
+        h1 { 
+            padding: 1rem;
+        }
+    }
+`
 export const StyledButton = styled.div `
     width: 5rem;
-    height: 2rem;
+    padding: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,7 +49,7 @@ export const StyledButton = styled.div `
     font-size: 0.800rem;
     font-family: Poppins, Arial, Helvetica, sans-serif;
     background-color: #c2c2c2;
-    border-radius: 1rem;
+    border-radius: 2rem;
     color: white;
     cursor: pointer;
 
