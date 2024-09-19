@@ -167,9 +167,9 @@ export const HomePage = () => {
                             </div>
 
                         </div>
-
                     </InformationContent>
-                )}
+                    
+                )}      
             </ContainerJSX>
         </>
     )
