@@ -51,6 +51,25 @@ export const HomePage = () => {
 
     }
 
+    const handleGetScreen = async () => { 
+        const ip = "localhost"
+        const SERV = "localhost"
+        try { 
+            fetch(`http://localhost:5000/api/get/screen/${ip}/${SERV}`, {
+                method: "POST",
+                headers: { 
+                    "Content-Type":"application/json"
+                },
+            })
+        }catch(err){ 
+            Swal.fire({ 
+                icon: "error",
+                title: "Oops...",
+                text: err,
+            })
+        }
+    }
+
     const handleGetProcess = async (event) => {
         event.preventDefault()
         try {
@@ -157,6 +176,7 @@ export const HomePage = () => {
                             </div>
                             <div id="ManagerTask">
                                 <StyledButton onClickCapture={handleGetProcess}>GERENCIAR</StyledButton>
+                                <StyledButton onClick={() => handleGetScreen()}>SCREEN</StyledButton>
                                 <Table
                                     onClickMem={handleGetProcessMemory}
                                     onClickCPU={handleGetProcess}

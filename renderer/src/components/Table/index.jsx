@@ -1,5 +1,6 @@
 import React from "react";
 import { HeaderCell, TableBody, TableCell, TableContent, TableHeader, TableRow, TopContent } from "./style";
+import { StyledButton } from "../../pages/Homepage/style";
 
 
 const data1 = [ {
@@ -69,7 +70,9 @@ export const Table = ({
     return (
         <>
             {isTaskManager && 
+            
                 <TopContent>
+                    
                     <div id="cpu-usage" onClickCapture={onClickCPU}>
                         <h4>CPU USAGE</h4>
                         <h2>{data? data.map((information) => information.data.system.cpuUsage? information.data.system.cpuUsage : ""): ""}%</h2>

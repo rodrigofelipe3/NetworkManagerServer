@@ -6,8 +6,10 @@ const HeartBeat = (hostname, lastHB) => {
         if(err){ 
             logToFile("Erro ao procurar computador" + err)
         }else { 
+            console.log(rows)
             const hostName = rows.map((pcs)=> pcs.hostname == hostname)
             UpdateStatus("Conectado",hostName, lastHB)
+            console.log("HeartBeat Recebido com Sucesso!")
             logToFile("HeartBeat Recebido com sucesso!")
         }
     })
