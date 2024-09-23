@@ -7,7 +7,6 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { Table } from "../../components/Table";
 import { getProcess } from "../../services/getProcess";
 import { getProcessMemory } from "../../services/GetProcessMemory";
-import ScreenShared from "../../components/ScreenVideo";
 
 
 
@@ -20,10 +19,10 @@ export const HomePage = () => {
                 memoryUsage: "0.0"
             },
             processes: [{
-                name: "chrome.exe",
-                cpu: "12.30",
-                memory: "500.23",
-                pid: 1234
+                name: "",
+                cpu: "",
+                memory: "",
+                pid: 1
             }]
         }
     }])
@@ -39,6 +38,9 @@ export const HomePage = () => {
         ip: "",
         mac_address: "",
         status: "",
+        networkdevices: "",
+        networkSpeed: "",
+
     },
     ])
 
@@ -51,7 +53,6 @@ export const HomePage = () => {
         }
 
     }
-
     const handleGetScreen = async () => { 
         const ip = "127.0.0.1"
         const SERV = "127.0.0.1"
@@ -70,7 +71,6 @@ export const HomePage = () => {
             })
         }
     }
-
     const handleGetProcess = async (event) => {
         event.preventDefault()
         try {
@@ -131,7 +131,8 @@ export const HomePage = () => {
 
     const handleClick = (pcs) => {
 
-        const keyValue = pcs.id ? pcs.id : "1";
+        const keyValue = pcs? pcs : "32";
+        console.log(selectedKey)
         setSelectedKey(keyValue);
         setViewInformation(true);
     };
@@ -144,23 +145,22 @@ export const HomePage = () => {
                 </HeaderContent>
                 {!viewInformation && (
                     <GridContent>
-                        {data.map((pcs) =>
-                            <ComputerCard key={pcs.id ? pcs.id : "1"} onClick={handleClick}
-                                id={pcs.id ? pcs.id : "1 "}
-                                host={pcs.host ? pcs.host : "1 "}
-                                ip={pcs.ip ? pcs.ip : " 1"}
-                                mac_address={pcs.mac_address ? pcs.mac_address : " 1"}
-                                status={pcs.status ? pcs.status : "1 "}
-
+                        {data.id !== ""? 
+                        data.map((pcs) =>
+                            <ComputerCard key={pcs.id ? pcs.id : "1"} onClick={() => handleClick(pcs.id)}
+                                id={pcs.id ? pcs.id : ""}
+                                host={pcs.host ? pcs.host : ""}
+                                ip={pcs.ip ? pcs.ip : ""}
+                                mac_address={pcs.mac_address ? pcs.mac_address : ""}
+                                status={pcs.status ? pcs.status : ""}
                             />
-                        )}
+                        ) : <h5>Nenhum Computador Registrado</h5>} 
                     </GridContent>
                 )}
                 {viewInformation && (
                     <InformationContent>
 
                         <div id={"grid-display"}>
-                           
                             <div id="systemInformation">
                             <StyledButton onClick={() => setViewInformation(false)}>
                                 VOLTAR
@@ -176,8 +176,8 @@ export const HomePage = () => {
                                 )}
                             </div>
                             <div id="ManagerTask">
-                                <StyledButton onClickCapture={handleGetProcess}>GERENCIAR</StyledButton>
-                                <StyledButton onClick={() => handleGetScreen()}>SCREEN</StyledButton>
+                                <StyledButton onClickCapture={handleGetProcess}>Gerenciar</StyledButton>
+                                <StyledButton onClick={() => handleGetScreen()}>Screen</StyledButton>
                                 <Table
                                     onClickMem={handleGetProcessMemory}
                                     onClickCPU={handleGetProcess}
@@ -186,12 +186,9 @@ export const HomePage = () => {
                                     data={information}
                                 />
                             </div>
-
                         </div>
 
-                        <ScreenShared></ScreenShared>
                     </InformationContent>
-                    
                 )}      
             </ContainerJSX>
         </>

@@ -60,6 +60,8 @@ export const Table = ({
             ip: "", 
             mac_address: "", 
             status: "" ,
+            adapter_types: "",
+            main_adapter: ""
     }
 }) => {
     const bytesToGigabytes = (bytes) => {
@@ -145,6 +147,14 @@ export const Table = ({
                         <TableRow>
                             <TableCell id="information">MAC: </TableCell>
                             <TableCell id="type">{information.mac_address? information.mac_address : "NULL"}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell id="information">Network Types: </TableCell>
+                            <TableCell id="type">{information.adapter_types? information.adapter_types : "NULL"}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell id="information">Adaptador Principal: </TableCell>
+                            <TableCell id="type">{information.main_adapter? information.main_adapter : "NULL"}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell id="information">Status: </TableCell>

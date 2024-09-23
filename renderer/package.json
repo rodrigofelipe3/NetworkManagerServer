@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "./main.js",
   "author": {
-    "name": "Rodrigo Felipe",
+    "name": "Rodrigo Felipe dos Santos Lima",
     "email": "email@email.com"
   },
   "private": true,
@@ -27,7 +27,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "concurrently \"cross-env BROWSER=none react-scripts start\" \"npm run server\"  \"npm run electron\"  ",
+    "start": "concurrently \"cross-env BROWSER=none react-scripts start\" \"npm run server\" \"npm run wait-react\"",
+    "wait-react": "node WaitReact.js && npm run electron",
     "build": "react-scripts build",
     "server": "cd .. && nodemon src/app.js",
     "test": "react-scripts test",
