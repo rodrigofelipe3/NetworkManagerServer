@@ -7,6 +7,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { Table } from "../../components/Table";
 import { getProcess } from "../../services/getProcess";
 import { getProcessMemory } from "../../services/GetProcessMemory";
+import ScreenShared from "../../components/ScreenVideo";
 
 
 
@@ -52,8 +53,8 @@ export const HomePage = () => {
     }
 
     const handleGetScreen = async () => { 
-        const ip = "localhost"
-        const SERV = "localhost"
+        const ip = "127.0.0.1"
+        const SERV = "127.0.0.1"
         try { 
             fetch(`http://localhost:5000/api/get/screen/${ip}/${SERV}`, {
                 method: "POST",
@@ -187,6 +188,8 @@ export const HomePage = () => {
                             </div>
 
                         </div>
+
+                        <ScreenShared></ScreenShared>
                     </InformationContent>
                     
                 )}      
