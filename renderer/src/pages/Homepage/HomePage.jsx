@@ -57,7 +57,7 @@ export const HomePage = () => {
         const ip = "127.0.0.1"
         const SERV = "127.0.0.1"
         try { 
-            fetch(`http://localhost:5000/api/get/screen/${ip}/${SERV}`, {
+            fetch(`http://localhost:5000/api/get/screen/${ip}/`, {
                 method: "POST",
                 headers: { 
                     "Content-Type":"application/json"
