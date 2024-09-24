@@ -1,5 +1,5 @@
 const { RegisterComputerDB } = require("../database/database")
-const logToFile = require("../utils/LogToFile")
+const {logToFile} = require("../utils/LogToFile")
 
 const RegisterComputer = (req, res)=> { 
     const {host , processor, memory, operating_system, arch, release, ip, mac_address} = req.body;

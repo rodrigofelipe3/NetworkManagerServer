@@ -1,4 +1,5 @@
-const logToFile = require('../utils/LogToFile');
+const { log } = require('electron-builder');
+const {logToFile} = require('../utils/LogToFile');
 
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database( './database.db')
@@ -32,7 +33,7 @@ const createTableIfNotExist = () => {
 
 const RegisterComputerDB = (host, processor, memory, operating_system, arch, release, ip, mac_adress, status, lastHB) => {
     db.serialize(() => {
-       
+       console.log(host)
         db.get("SELECT * FROM pcs WHERE host = ?", [host], (err, row) => {
             if (err) {
                 logToFile('Erro ao verificar se o computador já está registrado: ' + err.message);
@@ -40,8 +41,8 @@ const RegisterComputerDB = (host, processor, memory, operating_system, arch, rel
             }
 
             if (row) {
-                // O computador já foi registrado, então fazemos o UPDATE no status
-                db.run("UPDATE pcs SET status = ?, lasthb = ?  WHERE host = ?", [status, lastHB, host], (err) => {
+                // O computador já foi registrado
+                db.run("UPDATE pcs SET processor = ?, memory = ? , operating_system = ?, arch =?, release =?, ip = ?, mac_address=?, status = ?, lasthb = ?  WHERE host = ?", [ processor, memory, operating_system, arch, release, ip, mac_adress, status, lastHB, host], (err) => {
                     if (err) {
                         logToFile('Erro ao atualizar o status: ' + err.message);
                         return false;
@@ -78,7 +79,8 @@ const GetAllComputer = (callback) => {
 }
 
 const UpdateStatus = (status, hostname, lastHB) => { 
-    db.run("UPDATE pcs SET status = ?, lasthb = ? WHERE host = ?", [status, lastHB, hostname], (err)=> { 
+    console.log(hostname[0])
+    db.run("UPDATE pcs SET status = ?, lasthb = ? WHERE host = ?", [status, lastHB, hostname[0]], (err)=> { 
         if(err){ 
             logToFile("Erro ao atualizar o status: " + err)
         }
@@ -92,6 +94,8 @@ const UpdateStatusToOff = (status, hostname) => {
         if(err){ 
             logToFile("Erro ao atualizar o status: " + err)
         }
+        logToFile("Status Atualizado com Sucesso!")
+        console.log("Status Atualizado com Sucesso!")
     })
 }
 

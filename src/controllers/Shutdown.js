@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const logToFile = require('../utils/LogToFile');
+const {logToFile} = require('../utils/LogToFile');
 
 const sendShutdownRequest = async () => {
   try {

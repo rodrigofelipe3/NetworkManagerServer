@@ -4,7 +4,7 @@ const route = require("./routes/routes")
 const db = require("./database/database")
 const cors = require("cors")
 const CheckStatus = require("./utils/CheckStatus")
-const logToFile = require("./utils/LogToFile")
+const {logToFile, clearLogFile} = require("./utils/LogToFile")
 const PORT = 5000
 const corsOptions = { 
     origin:"*",
@@ -20,5 +20,6 @@ db.createTableIfNotExist()
 
 setInterval(CheckStatus, 10000)
 app.listen(PORT, ()=> { 
+    clearLogFile()
     logToFile("Servidor rodando na porta 5000")
 })

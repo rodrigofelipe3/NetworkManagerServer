@@ -1,7 +1,7 @@
 const { exec } = require('child_process');
 
 const GetScreen = () => {
-    /*const ffmpegPath = 'C:/ffmpeg-2024-09-19-git-0d5b68c27c-full_build/bin/ffmpeg.exe'
+    const ffmpegPath = 'C:/ffmpeg-2024-09-19-git-0d5b68c27c-full_build/bin/ffmpeg.exe'
     const command = `${ffmpegPath} -i udp://0.0.0.0:1234 -f sdl "Screen Mirror" `;
 
     exec(command, (error, stdout, stderr) => {
@@ -15,7 +15,7 @@ const GetScreen = () => {
         }
         console.log(`stdout: ${stdout}`);
         
-    });*/
+    });
 }
 
 

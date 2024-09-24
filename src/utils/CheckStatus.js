@@ -1,5 +1,5 @@
 const { GetAllComputer, UpdateStatusToOff } = require("../database/database");
-const logToFile = require("./LogToFile");
+const {logToFile} = require("./LogToFile");
 
 const TIMEOUT = 90000;
 const CheckStatus = () => {
@@ -13,6 +13,7 @@ const CheckStatus = () => {
         
         if (currentTime - lastHbAsInt > TIMEOUT && pcs.status === "Conectado") {
                 UpdateStatusToOff("Offline", pcs.host);
+                console.log("É verdadeiro")
         }
       });
     }
