@@ -12,6 +12,7 @@ import { getProcessMemory } from "../../services/GetProcessMemory";
 
 export const HomePage = () => {
     const [viewInformation, setViewInformation] = useState(false)
+    const [adressIp, setAdressip] = useState(null)
     const [information, setInformation] = useState([{
         data: {
             system: {
@@ -46,6 +47,7 @@ export const HomePage = () => {
 
     const handleGetData = async () => {
         const response = await GetData()
+        
         if (response) {
             setData(response)
         } else {
@@ -54,10 +56,8 @@ export const HomePage = () => {
 
     }
     const handleGetScreen = async () => { 
-        const ip = "127.0.0.1"
-        const SERV = "127.0.0.1"
         try { 
-            fetch(`http://localhost:5000/api/get/screen/${ip}/`, {
+            fetch(`http://localhost:5000/api/get/screen/${adressIp}/`, {
                 method: "POST",
                 headers: { 
                     "Content-Type":"application/json"
@@ -127,12 +127,12 @@ export const HomePage = () => {
             });
         }
 
-    }, [])
+    }, [viewInformation])
 
-    const handleClick = (pcs) => {
+    const handleClick = (pcs, ip) => {
 
         const keyValue = pcs? pcs : "32";
-        console.log(selectedKey)
+        setAdressip(ip)
         setSelectedKey(keyValue);
         setViewInformation(true);
     };
@@ -147,7 +147,7 @@ export const HomePage = () => {
                     <GridContent>
                         {data.id !== ""? 
                         data.map((pcs) =>
-                            <ComputerCard key={pcs.id ? pcs.id : "1"} onClick={() => handleClick(pcs.id)}
+                            <ComputerCard key={pcs.id ? pcs.id : "1"} onClick={() => handleClick(pcs.id, pcs.ip)}
                                 id={pcs.id ? pcs.id : ""}
                                 host={pcs.host ? pcs.host : ""}
                                 ip={pcs.ip ? pcs.ip : ""}
@@ -159,7 +159,7 @@ export const HomePage = () => {
                 )}
                 {viewInformation && (
                     <InformationContent>
-
+                       
                         <div id={"grid-display"}>
                             <div id="systemInformation">
                             <StyledButton onClick={() => setViewInformation(false)}>

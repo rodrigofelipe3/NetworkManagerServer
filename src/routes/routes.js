@@ -10,9 +10,9 @@ const si = require("systeminformation");
 router.get("/computers", (req, res) => {
   GetAllComputer((err, rows) => {
     if (err) {
-      res.status(500).json({ error: "Erro ao consultar dados." });
+      return res.status(500).json({ error: "Erro ao consultar dados." });
     } else {
-      res.json(rows); // Retorna os dados em JSON
+      return res.json(rows); 
     }
   });
 });
@@ -33,26 +33,25 @@ router.post("/heartbeat/:name", (req, res) => {
   try {
     HeartBeat(name, lastHB);
 
-    return res.status(200).json({ msg: "HeartBeat Recebido com sucesso!" });
+    return res.status(200)
   } catch {
-    return res.status(500).json({ error: "Houve um erro" + error });
+    return res.status(500)
   }
 });
 
 router.post("/get/screen/:URL", async (req, res) => {
   const { URL } = req.params;
-
+  console.log(URL)
   const netData = await si.networkInterfaces();
   let machineIP = "";
-
   netData.forEach((iface) => {
-    if (iface.ip4 && !iface.internal) {
+    if (iface.iface == "Ethernet") {
       machineIP = iface.ip4;
     }
   });
   
   const SERV = machineIP;
-
+  
   try { 
     const response = await fetch(`http://${URL}:5001/api/share/screen/${SERV}`, {
       method: "POST",
@@ -60,8 +59,9 @@ router.post("/get/screen/:URL", async (req, res) => {
         "Content-Type": "application/json",
       },
     });
-    console.log(response);
+
     GetScreen();
+    return res.status(200)
   }catch(err){ 
     return logToFile("Erro na rota de GETSCREEN: " + err)
   }
