@@ -8,10 +8,12 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
+
 const PORT = 8080;
 
 // Inicia o listener de teclado global
 const keyboardListener = new GlobalKeyboardListener();
+
 
 // Conexão do socket
 io.on("connection", (socket) => {
@@ -24,15 +26,9 @@ io.on("connection", (socket) => {
   }, 100);
 
   // Escuta eventos de teclas pressionadas
-  keyboardListener.addListener((event) => {
-    const key = event.key;
-    console.log(key)
-    if (key) {
-      console.log(`Tecla pressionada: ${key}`);
-      socket.emit("keyboard", { key: key });
-    } else {
-      console.log("Tecla pressionada: undefined");
-    }
+  keyboardListener.addListener((e, down) => {
+      socket.emit("keyboard", {key: e.name});
+    
   });
 });
 
