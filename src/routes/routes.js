@@ -6,6 +6,7 @@ const { logToFile } = require("../utils/LogToFile");
 const { GetScreen } = require("../controllers/getScreen");
 const router = express.Router();
 const si = require("systeminformation");
+const { GetComputerById } = require("../controllers/getComputerById");
 
 router.get("/computers", (req, res) => {
   GetAllComputer((err, rows) => {
@@ -67,4 +68,20 @@ router.post("/get/screen/:URL", async (req, res) => {
   }
 
 });
+
+
+router.get("/computerbyid/:id", async (req, res)=> { 
+  const id = req.params.id
+  try { 
+    const response = await GetComputerById(id)
+    if(response.ok == true) { 
+        return res.status(200).json({msg: response.row})
+    }else { 
+      return res.status(500).json({error: "Não há computador com esse ID"})
+    }
+  }catch(err){ 
+    logToFile("Erro interno ao consultar computador pelo id: " + err)
+    return res.status(500).json({error: "Erro interno"})
+  }
+})
 module.exports = router;

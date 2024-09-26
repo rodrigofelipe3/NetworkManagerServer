@@ -7,12 +7,15 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { Table } from "../../components/Table";
 import { getProcess } from "../../services/getProcess";
 import { getProcessMemory } from "../../services/GetProcessMemory";
+import { getComputerById } from "../../services/GetComputerById";
+import { Loading } from "../../components/IsLoading";
 
 
 
 export const HomePage = () => {
     const [viewInformation, setViewInformation] = useState(false)
     const [adressIp, setAdressip] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
     const [information, setInformation] = useState([{
         data: {
             system: {
@@ -44,14 +47,29 @@ export const HomePage = () => {
 
     },
     ])
-
+    const handleGetComputerById = async (id) => { 
+        const response = await getComputerById(id)
+        if (response.msg){ 
+            setData(response.msg)
+        }else { 
+            Swal.fire({ 
+                icon: "error",
+                title: "Oops...",
+                text: response.error,
+            })
+        }
+    }
     const handleGetData = async () => {
         const response = await GetData()
         
         if (response) {
             setData(response)
         } else {
-
+            Swal.fire({ 
+                icon: "error",
+                title: "Oops...",
+                text: "Erro",
+            })
         }
 
     }
@@ -78,7 +96,6 @@ export const HomePage = () => {
             if (response) {
 
                 setInformation([response])
-                console.log(information)
             }else { 
                 Swal.fire({
                     icon: "error",
@@ -117,14 +134,22 @@ export const HomePage = () => {
         }
     }
     useEffect(() => {
+        setIsLoading(true)
         try {
-            handleGetData()
+            if(viewInformation){ 
+                handleGetComputerById(selectedKey)
+            }else if(!viewInformation){ 
+                handleGetData()
+            }
+            console.log(data)
         } catch (err) {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text: err,
             });
+        }finally{ 
+            setIsLoading(false)
         }
 
     }, [viewInformation])
@@ -140,6 +165,7 @@ export const HomePage = () => {
     return (
         <>
             <ContainerJSX>
+                {isLoading && <Loading></Loading>}
                 <HeaderContent>
                     <h1>Computadores Conectados</h1>
                 </HeaderContent>
@@ -166,14 +192,12 @@ export const HomePage = () => {
                                 VOLTAR
                             </StyledButton>
                                 <h1>System Information</h1>
-                                {data.map((information) =>
                                     <Table
                                         isTaskManager={false}
                                         headers={["Information", "Type"]}
                                         isSystemInfo={true}
-                                        information={information}
+                                        information={data}
                                     />
-                                )}
                             </div>
                             <div id="ManagerTask">
                                 <StyledButton onClickCapture={handleGetProcess}>Gerenciar</StyledButton>

@@ -78,6 +78,18 @@ const GetAllComputer = (callback) => {
     })
 }
 
+const GetComputerByIdDB = (id) => { 
+    return new Promise((resolve, reject) => {
+        db.get("SELECT * FROM pcs WHERE id = ?", [id], (err, row) => { 
+            if (err) { 
+                logToFile("Houve um erro ao consultar o computador pelo ID: " + err);
+                return resolve({ ok: false }); // Resolva a Promise com erro
+            }
+            return resolve({ ok: true, row: row }); // Resolva a Promise com o resultado
+        });
+    });
+}
+
 const UpdateStatus = (status, hostname, lastHB) => { 
     console.log(hostname[0])
     db.run("UPDATE pcs SET status = ?, lasthb = ? WHERE host = ?", [status, lastHB, hostname[0]], (err)=> { 
@@ -104,5 +116,6 @@ module.exports = {
     RegisterComputerDB,
     GetAllComputer,
     UpdateStatus,
-    UpdateStatusToOff
+    UpdateStatusToOff,
+    GetComputerByIdDB
 }
