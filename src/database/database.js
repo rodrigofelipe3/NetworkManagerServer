@@ -1,15 +1,14 @@
-const { log } = require('electron-builder');
-const {logToFile} = require('../utils/LogToFile');
+const { log } = require("electron-builder");
+const { logToFile } = require("../utils/LogToFile");
 
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database( './database.db')
+const sqlite3 = require("sqlite3").verbose();
+const db = new sqlite3.Database("./database.db");
 //const db = new sqlite3.Database('C:/Users/Rodrigo/Documents/Programação/ManagerShutdownNetwork/dist/database.db');
 
-
-
 const createTableIfNotExist = () => {
-    db.serialize(() => {
-        db.run(`CREATE TABLE IF NOT EXISTS pcs (
+  db.serialize(() => {
+    db.run(
+      `CREATE TABLE IF NOT EXISTS pcs (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     host TEXT NOT NULL,
                     processor TEXT NOT NULL,
@@ -22,100 +21,153 @@ const createTableIfNotExist = () => {
                     status TEXT,
                     lasthb DATE
                 )`,
-            (err) => {
-                if (err) {
-                    logToFile('Erro ao criar a tabela:' + err.message);
-                }
-            });
-    });
-
-}
-
-const RegisterComputerDB = (host, processor, memory, operating_system, arch, release, ip, mac_adress, status, lastHB) => {
-    db.serialize(() => {
-       console.log(host)
-        db.get("SELECT * FROM pcs WHERE host = ?", [host], (err, row) => {
-            if (err) {
-                logToFile('Erro ao verificar se o computador já está registrado: ' + err.message);
-                return false;
-            }
-
-            if (row) {
-                // O computador já foi registrado
-                db.run("UPDATE pcs SET processor = ?, memory = ? , operating_system = ?, arch =?, release =?, ip = ?, mac_address=?, status = ?, lasthb = ?  WHERE host = ?", [ processor, memory, operating_system, arch, release, ip, mac_adress, status, lastHB, host], (err) => {
-                    if (err) {
-                        logToFile('Erro ao atualizar o status: ' + err.message);
-                        return false;
-                    } else {
-                        logToFile(`Status do computador ${host} atualizado para ${status}`);
-                        return true;
-                    }
-                });
-            } else {
-                db.run("INSERT INTO pcs (host, processor, memory, operating_system, arch, release, ip, mac_address, status, lasthb) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [host, processor, memory, operating_system, arch, release, ip, mac_adress, status, lastHB], (err) => {
-                    if (err) {
-                        logToFile('Erro ao inserir dados: ' + err.message);
-                        return false;
-                    } else {
-                        logToFile(`Computador ${host} registrado com sucesso.`);
-                        return true;
-                    }
-                });
-            }
-        });
-    });
+      (err) => {
+        if (err) {
+          logToFile("Erro ao criar a tabela:" + err.message);
+        }
+      }
+    );
+  });
 };
 
-const GetAllComputer = (callback) => { 
-    db.all("SELECT * FROM pcs", [], (err, rows) => { 
-        if (err) {
-            logToFile('Erro ao consultar dados:', err.message);
-            callback(err, null); 
-           
-        }else { 
-            callback(null, rows); 
-        }
-    })
-}
+const RegisterComputerDB = (
+  host,
+  processor,
+  memory,
+  operating_system,
+  arch,
+  release,
+  ip,
+  mac_adress,
+  status,
+  lastHB
+) => {
+  db.serialize(() => {
+    console.log(host);
+    db.get("SELECT * FROM pcs WHERE host = ?", [host], (err, row) => {
+      if (err) {
+        logToFile(
+          "Erro ao verificar se o computador já está registrado: " + err.message
+        );
+        return false;
+      }
 
-const GetComputerByIdDB = (id) => { 
-    return new Promise((resolve, reject) => {
-        db.get("SELECT * FROM pcs WHERE id = ?", [id], (err, row) => { 
-            if (err) { 
-                logToFile("Houve um erro ao consultar o computador pelo ID: " + err);
-                return resolve({ ok: false }); // Resolva a Promise com erro
+      if (row) {
+        // O computador já foi registrado
+        db.run(
+          "UPDATE pcs SET processor = ?, memory = ? , operating_system = ?, arch =?, release =?, ip = ?, mac_address=?, status = ?, lasthb = ?  WHERE host = ?",
+          [
+            processor,
+            memory,
+            operating_system,
+            arch,
+            release,
+            ip,
+            mac_adress,
+            status,
+            lastHB,
+            host,
+          ],
+          (err) => {
+            if (err) {
+              logToFile("Erro ao atualizar o status: " + err.message);
+              return false;
+            } else {
+              logToFile(
+                `Status do computador ${host} atualizado para ${status}`
+              );
+              return true;
             }
-            return resolve({ ok: true, row: row }); // Resolva a Promise com o resultado
-        });
+          }
+        );
+      } else {
+        db.run(
+          "INSERT INTO pcs (host, processor, memory, operating_system, arch, release, ip, mac_address, status, lasthb) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          [
+            host,
+            processor,
+            memory,
+            operating_system,
+            arch,
+            release,
+            ip,
+            mac_adress,
+            status,
+            lastHB,
+          ],
+          (err) => {
+            if (err) {
+              logToFile("Erro ao inserir dados: " + err.message);
+              return false;
+            } else {
+              logToFile(`Computador ${host} registrado com sucesso.`);
+              return true;
+            }
+          }
+        );
+      }
     });
-}
+  });
+};
 
-const UpdateStatus = (status, hostname, lastHB) => { 
-    console.log(hostname[0])
-    db.run("UPDATE pcs SET status = ?, lasthb = ? WHERE host = ?", [status, lastHB, hostname[0]], (err)=> { 
-        if(err){ 
-            logToFile("Erro ao atualizar o status: " + err)
+const GetAllComputer = (callback) => {
+  db.all("SELECT * FROM pcs", [], (err, rows) => {
+    if (err) {
+      logToFile("Erro ao consultar dados:", err.message);
+      callback(err, null);
+    } else {
+      callback(null, rows);
+    }
+  });
+};
+
+const GetComputerByIdDB = (id) => {
+  return new Promise((resolve, reject) => {
+    db.get("SELECT * FROM pcs WHERE id = ?", [id], (err, row) => {
+      if (err) {
+        logToFile("Houve um erro ao consultar o computador pelo ID: " + err);
+        return resolve({ ok: false }); // Resolva a Promise com erro
+      }
+      return resolve({ ok: true, row: row }); // Resolva a Promise com o resultado
+    });
+  });
+};
+
+const UpdateStatus = (status, hostname, lastHB) => {
+  return new Promise((resolve, reject) => {
+    db.run(
+      "UPDATE pcs SET status = ?, lasthb = ? WHERE host = ?",
+      [status, lastHB, hostname[0]],
+      (err) => {
+        if (err) {
+          logToFile("Erro ao atualizar o status: " + err);
+          resolve(false);
         }
-        logToFile("HeartBeat Recebido com sucesso!")
-    })
-}
+        logToFile("HeartBeat Recebido com sucesso!");
+        resolve(true);
+      }
+    );
+  });
+};
 
-const UpdateStatusToOff = (status, hostname) => { 
+const UpdateStatusToOff = (status, hostname) => {
+  db.run(
+    "UPDATE pcs SET status = ? WHERE host = ?",
+    [status, hostname],
+    (err) => {
+      if (err) {
+        logToFile("Erro ao atualizar o status: " + err);
+      }
+      logToFile("Status Atualizado com Sucesso!");
+    }
+  );
+};
 
-    db.run("UPDATE pcs SET status = ? WHERE host = ?", [status,  hostname], (err)=> { 
-        if(err){ 
-            logToFile("Erro ao atualizar o status: " + err)
-        }
-        logToFile("Status Atualizado com Sucesso!")
-        console.log("Status Atualizado com Sucesso!")
-    })
-}
-
-module.exports = { 
-    createTableIfNotExist,
-    RegisterComputerDB,
-    GetAllComputer,
-    UpdateStatus,
-    UpdateStatusToOff,
-    GetComputerByIdDB
-}
+module.exports = {
+  createTableIfNotExist,
+  RegisterComputerDB,
+  GetAllComputer,
+  UpdateStatus,
+  UpdateStatusToOff,
+  GetComputerByIdDB,
+};

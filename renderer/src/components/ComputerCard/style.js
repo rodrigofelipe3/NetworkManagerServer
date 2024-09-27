@@ -5,15 +5,17 @@ export const CardBody = styled.div `
     
     height: 9rem;
     //display: flex;
+    color: #d6d6d6;
     margin: 0.500rem;
-    background-color: #eaeaea;
+    background-color: #242424;
     /*justify-content: center;
     align-items: center;*/
     border-radius: 0.300rem;
     cursor: pointer;
 
     &:hover{ 
-        background-color: #c2c2c2;
+        background-color: #161616;
+        color: #bcbcbc
     }
 `
 
@@ -31,7 +33,7 @@ export const CardContent = styled.div `
         display: flex;
         align-items: center;
         padding: 1rem;
-        background-color: #020202;
+        background-color: #141313;
     }
 
     #info-content { 

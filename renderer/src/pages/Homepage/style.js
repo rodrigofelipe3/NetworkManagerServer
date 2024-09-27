@@ -3,9 +3,7 @@ import styled from "styled-components";
 
 export const GridContent = styled.div `
     width: 100%;
-    height: 100vh;
-    margin-left: 1rem;
-    margin-right: 1rem;
+    margin: 0 auto;
     display: grid;
     justify-content: center;
     grid-template-columns: auto auto auto auto;
@@ -23,8 +21,7 @@ export const InformationContent = styled.div `
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    margin-left: 5%;
-    margin-right: 5%;
+    margin: 0 auto;
 
     #grid-display { 
         width: 100%;
@@ -37,6 +34,11 @@ export const InformationContent = styled.div `
         h1 { 
             padding: 1rem;
         }
+    }
+
+    #manager-buttons{ 
+        display: flex;
+        justify-content: space-around;
     }
 `
 export const StyledButton = styled.div `

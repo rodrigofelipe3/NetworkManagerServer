@@ -13,7 +13,7 @@ router.get("/computers", (req, res) => {
     if (err) {
       return res.status(500).json({ error: "Erro ao consultar dados." });
     } else {
-      return res.json(rows); 
+      return res.json(rows);
     }
   });
 });
@@ -27,22 +27,25 @@ router.post("/registerComputer", (req, res) => {
   }
 });
 
-router.post("/heartbeat/:name", (req, res) => {
-  const  name  = req.params.name;
+router.post("/heartbeat/:name", async (req, res) => {
+  const name = req.params.name;
   const lastHB = new Date(Date.now());
-  console.log(name)
+  console.log(name);
   try {
-    HeartBeat(name, lastHB);
-
-    return res.status(200)
+    const response = await HeartBeat(name, lastHB);
+    if (response.ok == true) {
+      return res.status(200);
+    }else { 
+      return res.status(404);
+    }
   } catch {
-    return res.status(500)
+    return res.status(500);
   }
 });
 
 router.post("/get/screen/:URL", async (req, res) => {
   const { URL } = req.params;
-  console.log(URL)
+  console.log(URL);
   const netData = await si.networkInterfaces();
   let machineIP = "";
   netData.forEach((iface) => {
@@ -50,38 +53,39 @@ router.post("/get/screen/:URL", async (req, res) => {
       machineIP = iface.ip4;
     }
   });
-  
+
   const SERV = machineIP;
-  
-  try { 
-    const response = await fetch(`http://${URL}:5001/api/share/screen/${SERV}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+
+  try {
+    const response = await fetch(
+      `http://${URL}:5001/api/share/screen/${SERV}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     GetScreen();
-    return res.status(200)
-  }catch(err){ 
-    return logToFile("Erro na rota de GETSCREEN: " + err)
+    return res.status(200);
+  } catch (err) {
+    return logToFile("Erro na rota de GETSCREEN: " + err);
   }
-
 });
 
-
-router.get("/computerbyid/:id", async (req, res)=> { 
-  const id = req.params.id
-  try { 
-    const response = await GetComputerById(id)
-    if(response.ok == true) { 
-        return res.status(200).json({msg: response.row})
-    }else { 
-      return res.status(500).json({error: "Não há computador com esse ID"})
+router.get("/computerbyid/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const response = await GetComputerById(id);
+    if (response.ok == true) {
+      return res.status(200).json({ msg: response.row });
+    } else {
+      return res.status(500).json({ error: "Não há computador com esse ID" });
     }
-  }catch(err){ 
-    logToFile("Erro interno ao consultar computador pelo id: " + err)
-    return res.status(500).json({error: "Erro interno"})
+  } catch (err) {
+    logToFile("Erro interno ao consultar computador pelo id: " + err);
+    return res.status(500).json({ error: "Erro interno" });
   }
-})
+});
 module.exports = router;

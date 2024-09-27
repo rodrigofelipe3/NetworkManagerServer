@@ -1,73 +1,101 @@
 import styled from "styled-components";
 
+export const TopContent = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  overflow: hidden;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 
-export const TopContent = styled.div `
-    width: 100%;
-    display: grid;
-    grid-template-columns: auto auto;
-    justify-content: end;
-
-    #cpu-usage { 
-        cursor: pointer;
-        width: 100%;
-        padding: 1rem;
-        
-    }
-
-    #cpu-usage:hover { 
-            background-color: #b2b2b2;    
-    }
-    #mem-usage { 
-        cursor: pointer;
-        width: 100%;
-        padding: 3rem;
-        :hover { 
-            background-color: #b2b2b2;
-        }
-    }
-    #mem-usage:hover { 
-            background-color: #b2b2b2;    
-    }
-`
-
-export const TableContent = styled.table `
-    width: 100%;
-    border: 1px solid #000000;
-    
-    border-radius: 1rem;
-`
-
-export const TableHeader = styled.thead`
-    width: 100%;
-`
-export const HeaderCell = styled.th `
+  #cpu-usage {
+    cursor: pointer;
     width: 100%;
     padding: 1rem;
-`
+    border-radius: 0.5rem;
+  }
 
-export const TableBody = styled.tbody `
+  #cpu-usage:hover {
+    background-color: #b2b2b2;
+  }
+  #mem-usage {
+    cursor: pointer;
     width: 100%;
-    
-`
-
-export const TableRow = styled.tr `
-    width: 100%;
-    text-align: center;
-    #type { 
-        text-align: end;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    :hover {
+      background-color: #b2b2b2;
     }
+  }
+  #mem-usage:hover {
+    background-color: #b2b2b2;
+  }
+`;
 
-    #information { 
-        text-align: start;
+export const TableContent = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+`;
+
+export const TableHeader = styled.thead`
+  width: 100%;
+  background-color: #1e2126;
+  color: #d6d6d6;
+`;
+export const HeaderCell = styled.th`
+  width: 100%;
+  padding: 1rem;
+`;
+
+export const TableBody = styled.tbody`
+  width: 100%;
+`;
+
+export const TableRow = styled.tr`
+  width: 100%;
+  text-align: center;
+  color: #d6d6d6;
+
+  &:nth-child(even) {
+    background-color: #2e3135; /* Cor para as linhas pares */
+
+    :hover {
+      background-color: #25282b;
     }
+  }
+  &:nth-child(even):hover {
+    background-color: #25282b;
+  }
 
-    #task-name { 
-        text-align: start;
-    }
-`
+  &:nth-child(odd) {
+    background-color: #25292d; /* Cor para as linhas ímpares */
+  }
 
-export const TableCell = styled.td `
-    padding: 0.200rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
-`
+  &:nth-child(odd):hover {
+    background-color: #161a1e;
+  }
+  &:hover {
+    color: #bcbcbc;
+  }
+  #type {
+    text-align: end;
+    padding-right: 1.5rem;
+  }
+
+  #information {
+    text-align: start;
+    padding-left: 1.5rem;
+  }
+
+  #task-name {
+    text-align: start;
+  }
+`;
+
+export const TableCell = styled.td`
+  padding: 0.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+`;

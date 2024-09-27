@@ -1,6 +1,7 @@
 import React from "react";
 import { TailSpin } from "react-loader-spinner"
 import { LoadingContainer } from "./style";
+
 export const Loading = () => {
     return (
         <>

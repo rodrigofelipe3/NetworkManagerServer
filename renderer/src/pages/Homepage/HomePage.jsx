@@ -50,7 +50,8 @@ export const HomePage = () => {
     const handleGetComputerById = async (id) => { 
         const response = await getComputerById(id)
         if (response.msg){ 
-            setData(response.msg)
+            setData([response.msg])
+            console.log(data)
         }else { 
             Swal.fire({ 
                 icon: "error",
@@ -136,9 +137,9 @@ export const HomePage = () => {
     useEffect(() => {
         setIsLoading(true)
         try {
-            if(viewInformation){ 
+            if(viewInformation == true){ 
                 handleGetComputerById(selectedKey)
-            }else if(!viewInformation){ 
+            }else if(viewInformation == false){ 
                 handleGetData()
             }
             console.log(data)
@@ -164,8 +165,9 @@ export const HomePage = () => {
 
     return (
         <>
+        {isLoading && <Loading></Loading>}
             <ContainerJSX>
-                {isLoading && <Loading></Loading>}
+                
                 <HeaderContent>
                     <h1>Computadores Conectados</h1>
                 </HeaderContent>
@@ -192,16 +194,21 @@ export const HomePage = () => {
                                 VOLTAR
                             </StyledButton>
                                 <h1>System Information</h1>
-                                    <Table
+                                    {data.id !== ""? data.map((information)=> 
+                                     (<Table
                                         isTaskManager={false}
                                         headers={["Information", "Type"]}
                                         isSystemInfo={true}
-                                        information={data}
-                                    />
+                                        information={information}
+                                    />)
+                                   ): <h1>Nenhum dado encontrado!</h1>}
                             </div>
                             <div id="ManagerTask">
-                                <StyledButton onClickCapture={handleGetProcess}>Gerenciar</StyledButton>
-                                <StyledButton onClick={() => handleGetScreen()}>Screen</StyledButton>
+                                <div id="manager-buttons">
+                                    <StyledButton onClickCapture={handleGetProcess}>Gerenciar</StyledButton>
+                                    <StyledButton onClick={() => handleGetScreen()}>Screen</StyledButton>
+                                </div>  
+                                
                                 <Table
                                     onClickMem={handleGetProcessMemory}
                                     onClickCPU={handleGetProcess}

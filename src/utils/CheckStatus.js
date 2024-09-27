@@ -13,7 +13,6 @@ const CheckStatus = () => {
         
         if (currentTime - lastHbAsInt > TIMEOUT && pcs.status === "Conectado") {
                 UpdateStatusToOff("Offline", pcs.host);
-                console.log("É verdadeiro")
         }
       });
     }
