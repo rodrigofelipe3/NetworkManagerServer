@@ -1,9 +1,7 @@
-import swal from "sweetalert"
-
-export const getProcessMemory = async (IP) => { 
-    const URL = `http://${IP}:5001/api/sendprocess/memory`
+export const Taskkill = async (IP, pid) => { 
+    const URL = `http://${IP}:5001/api/taskkill/${pid}`
     const options = { 
-        method: "GET",
+        method: "POST",
         headers: { 
             "Content-Type":"application/json"
         }
@@ -12,15 +10,10 @@ export const getProcessMemory = async (IP) => {
     const response = await fetch(URL, options)
     .then((response)=> response.json())
     .then((data)=> {
+        console.log("taskkill " +  data) 
         return data
     })
     .catch((err)=> { 
-        swal({
-            title: "Error",
-            text: err,
-            icon: "error",
-            timer: 2000
-        })
         return console.error(err)
     })
 

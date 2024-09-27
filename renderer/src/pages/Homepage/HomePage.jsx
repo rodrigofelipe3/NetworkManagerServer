@@ -3,13 +3,13 @@ import { ContainerJSX } from "../../components/Container";
 import { GridContent, HeaderContent, InformationContent, StyledButton } from "./style";
 import { ComputerCard } from "../../components/ComputerCard";
 import { GetData } from "../../services/getData";
-import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { Table } from "../../components/Table";
 import { getProcess } from "../../services/getProcess";
 import { getProcessMemory } from "../../services/GetProcessMemory";
 import { getComputerById } from "../../services/GetComputerById";
 import { Loading } from "../../components/IsLoading";
-
+import { Taskkill } from "../../services/Taskkill";
+import swal from "sweetalert"
 
 
 export const HomePage = () => {
@@ -53,10 +53,24 @@ export const HomePage = () => {
             setData([response.msg])
             console.log(data)
         }else { 
-            Swal.fire({ 
-                icon: "error",
-                title: "Oops...",
+        }
+    }
+
+    const handleTaskkill = async (ip, pid) => { 
+        const response = await Taskkill(ip, pid)
+        if(response.msg) { 
+            swal({
+                title: "Feito",
+                text: response.msg,
+                icon: "success",
+                timer: 2000
+            })
+        }else { 
+            swal({
+                title: "Error",
                 text: response.error,
+                icon: "error",
+                timer: 2000
             })
         }
     }
@@ -66,10 +80,11 @@ export const HomePage = () => {
         if (response) {
             setData(response)
         } else {
-            Swal.fire({ 
+            swal({
+                title: "Error",
+                text: response.error,
                 icon: "error",
-                title: "Oops...",
-                text: "Erro",
+                timer: 2000
             })
         }
 
@@ -82,55 +97,53 @@ export const HomePage = () => {
                     "Content-Type":"application/json"
                 },
             })
-        }catch(err){ 
-            Swal.fire({ 
+        }catch(error){ 
+            swal({
+                title: "Error",
+                text: error,
                 icon: "error",
-                title: "Oops...",
-                text: err,
+                timer: 2000
             })
         }
     }
-    const handleGetProcess = async (event) => {
-        event.preventDefault()
+    const handleGetProcess = async (ip) => {
+        
         try {
-            const response = await getProcess("localhost")
+            const response = await getProcess(ip)
             if (response) {
 
                 setInformation([response])
             }else { 
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
+                swal({
+                    title: "Error",
                     text: response.error,
+                    icon: "error",
+                    timer: 2000
                 })
             }
         } catch (err) {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: err,
-            })
         }
     }
-    const handleGetProcessMemory = async (event) => {
-        event.preventDefault() 
+    const handleGetProcessMemory = async (ip) => {
+        
         try { 
-            const response =  await getProcessMemory("localhost")
+            const response =  await getProcessMemory(ip)
             if (response) {
                 setInformation([response])
-                console.log(information)
-            }else { 
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
+            }else {
+                swal({
+                    title: "Error",
                     text: response.error,
+                    icon: "error",
+                    timer: 2000
                 })
             }
-        }catch (err) {
-            Swal.fire({
+        }catch (error) {
+            swal({
+                title: "Error",
+                text: error,
                 icon: "error",
-                title: "Oops...",
-                text: err,
+                timer: 2000
             })
         }
     }
@@ -139,16 +152,40 @@ export const HomePage = () => {
         try {
             if(viewInformation == true){ 
                 handleGetComputerById(selectedKey)
+                setInformation([{
+                    data: {
+                        system: {
+                            cpuUsage: "0.0",
+                            memoryUsage: "0.0"
+                        },
+                        processes: [{
+                            name: "",
+                            cpu: "",
+                            memory: "",
+                            pid: 1
+                        }]
+                    }
+                }])
             }else if(viewInformation == false){ 
                 handleGetData()
+                setInformation([{
+                    data: {
+                        system: {
+                            cpuUsage: "0.0",
+                            memoryUsage: "0.0"
+                        },
+                        processes: [{
+                            name: "",
+                            cpu: "",
+                            memory: "",
+                            pid: 1
+                        }]
+                    }
+                }])
             }
-            console.log(data)
+           
         } catch (err) {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: err,
-            });
+            
         }finally{ 
             setIsLoading(false)
         }
@@ -165,15 +202,15 @@ export const HomePage = () => {
 
     return (
         <>
-        {isLoading && <Loading></Loading>}
+      
             <ContainerJSX>
-                
+            {isLoading && <Loading></Loading>}
                 <HeaderContent>
                     <h1>Computadores Conectados</h1>
                 </HeaderContent>
                 {!viewInformation && (
                     <GridContent>
-                        {data.id !== ""? 
+                    {data.id !== ""? 
                         data.map((pcs) =>
                             <ComputerCard key={pcs.id ? pcs.id : "1"} onClick={() => handleClick(pcs.id, pcs.ip)}
                                 id={pcs.id ? pcs.id : ""}
@@ -205,7 +242,7 @@ export const HomePage = () => {
                             </div>
                             <div id="ManagerTask">
                                 <div id="manager-buttons">
-                                    <StyledButton onClickCapture={handleGetProcess}>Gerenciar</StyledButton>
+                                    <StyledButton >Gerenciar</StyledButton>
                                     <StyledButton onClick={() => handleGetScreen()}>Screen</StyledButton>
                                 </div>  
                                 

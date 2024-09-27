@@ -37,6 +37,10 @@ export const TableContent = styled.table`
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
+
+  #task-row:hover{ 
+    cursor: pointer;
+  }
 `;
 
 export const TableHeader = styled.thead`
@@ -51,6 +55,7 @@ export const HeaderCell = styled.th`
 
 export const TableBody = styled.tbody`
   width: 100%;
+    
 `;
 
 export const TableRow = styled.tr`

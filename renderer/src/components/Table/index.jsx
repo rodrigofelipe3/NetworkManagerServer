@@ -75,12 +75,12 @@ export const Table = ({
             
                 <TopContent>
                     
-                    <div id="cpu-usage" onClickCapture={onClickCPU}>
+                    <div id="cpu-usage" onClickCapture={onClickCPU(information.ip? information.ip : null)}>
                         <h4>CPU USAGE</h4>
                         <h2>{data? data.map((information) => information.data.system.cpuUsage? information.data.system.cpuUsage : ""): ""}%</h2>
 
                     </div>
-                    <div id="mem-usage" onClickCapture={onClickMem}>
+                    <div id="mem-usage" onClickCapture={onClickMem(information.ip? information.ip : null)}>
                         <h4>MEM USAGE</h4>
                         <h2>{data? data.map((information) => information.data.system.memoryUsage? information.data.system.memoryUsage : "0,0" ): ""}%</h2>
                     </div>
@@ -97,7 +97,7 @@ export const Table = ({
                     <TableBody>
                         {data?data.map((information) => information? 
                             information.data.processes.map((process, index) => process.name != "System Idle Process"  &&  process.name != "Memory Compression"? (
-                                <TableRow>
+                                <TableRow id="task-row">
                                     <TableCell id="task-name" key={index}>{process.name}</TableCell>
                                     <TableCell key={index}>{process.cpu}%</TableCell>
                                     <TableCell key={index}>{process.memory}MB</TableCell>
