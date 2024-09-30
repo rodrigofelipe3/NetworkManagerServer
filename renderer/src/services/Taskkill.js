@@ -1,3 +1,5 @@
+import swal from "sweetalert"
+
 export const Taskkill = async (IP, pid) => { 
     const URL = `http://${IP}:5001/api/taskkill/${pid}`
     const options = { 
@@ -14,8 +16,14 @@ export const Taskkill = async (IP, pid) => {
         return data
     })
     .catch((err)=> { 
-        return console.error(err)
+        return swal({
+            title: "Error",
+            text: "Não foi possivel contactar o computador selecionado.",
+            icon: "error",
+            timer: 3000,
+            buttons: false
+        })
     })
-
+    
     return response
 }

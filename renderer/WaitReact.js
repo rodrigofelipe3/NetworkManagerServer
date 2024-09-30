@@ -1,7 +1,7 @@
 const http = require('http');
 
 const serverUrl = 'http://127.0.0.1:3000'; // URL do seu servidor React
-const interval = 3000; // Intervalo para tentar novamente (1 segundo)
+const interval = 1000; // Intervalo para tentar novamente (1 segundo)
 
 function checkServer() {
   return new Promise((resolve, reject) => {
@@ -30,7 +30,7 @@ async function waitForServer() {
     }
   }
   console.log('Servidor React está pronto!');
-  process.exit(0); // Finaliza o processo quando o servidor estiver pronto
+  process.exit(0); 
 }
 
 waitForServer();

@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { ContainerJSX } from "../../components/Container";
-import { GridContent, HeaderContent, InformationContent, StyledButton } from "./style";
-import { ComputerCard } from "../../components/ComputerCard";
 import { GetData } from "../../services/getData";
-import { Table } from "../../components/Table";
 import { getProcess } from "../../services/getProcess";
 import { getProcessMemory } from "../../services/GetProcessMemory";
 import { getComputerById } from "../../services/GetComputerById";
 import { Loading } from "../../components/IsLoading";
-import { Taskkill } from "../../services/Taskkill";
 import swal from "sweetalert"
+import { InformationScreen } from "../../components/screens/ViewInformation";
+import { ComputerListScreen } from "../../components/screens/ListCompScreen";
+import { CompHeader } from "../../components/Header";
 
 
 export const HomePage = () => {
     const [viewInformation, setViewInformation] = useState(false)
     const [adressIp, setAdressip] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
+    const [InputValue, setInputValue] = useState("")
     const [information, setInformation] = useState([{
         data: {
             system: {
@@ -51,43 +51,31 @@ export const HomePage = () => {
         const response = await getComputerById(id)
         if (response.msg){ 
             setData([response.msg])
-            console.log(data)
-        }else { 
-        }
-    }
-
-    const handleTaskkill = async (ip, pid) => { 
-        const response = await Taskkill(ip, pid)
-        if(response.msg) { 
-            swal({
-                title: "Feito",
-                text: response.msg,
-                icon: "success",
-                timer: 2000
-            })
+            
         }else { 
             swal({
-                title: "Error",
-                text: response.error,
+                title: "Oops...",
+                text: "Error: " + response.error,
                 icon: "error",
                 timer: 2000
             })
         }
     }
+
     const handleGetData = async () => {
         const response = await GetData()
         
-        if (response) {
-            setData(response)
-        } else {
+        if (response.error) {
             swal({
-                title: "Error",
-                text: response.error,
+                title: "Oops..",
+                text: "Error " + response.error,
                 icon: "error",
                 timer: 2000
             })
-        }
 
+        } else {
+            setData(response)
+        }
     }
     const handleGetScreen = async () => { 
         try { 
@@ -98,25 +86,20 @@ export const HomePage = () => {
                 },
             })
         }catch(error){ 
-            swal({
-                title: "Error",
-                text: error,
-                icon: "error",
-                timer: 2000
-            })
+            
         }
     }
-    const handleGetProcess = async (ip) => {
+    const handleGetProcess = async () => {
         
         try {
-            const response = await getProcess(ip)
+            const response = await getProcess(adressIp)
             if (response) {
 
                 setInformation([response])
             }else { 
                 swal({
                     title: "Error",
-                    text: response.error,
+                    text: "Error: " + response.error,
                     icon: "error",
                     timer: 2000
                 })
@@ -124,16 +107,16 @@ export const HomePage = () => {
         } catch (err) {
         }
     }
-    const handleGetProcessMemory = async (ip) => {
+    const handleGetProcessMemory = async () => {
         
         try { 
-            const response =  await getProcessMemory(ip)
+            const response =  await getProcessMemory(adressIp)
             if (response) {
                 setInformation([response])
             }else {
                 swal({
                     title: "Error",
-                    text: response.error,
+                    text: "Erro: " + response.error,
                     icon: "error",
                     timer: 2000
                 })
@@ -141,12 +124,23 @@ export const HomePage = () => {
         }catch (error) {
             swal({
                 title: "Error",
-                text: error,
+                text: "Erro: " + error,
                 icon: "error",
                 timer: 2000
             })
         }
     }
+    const handleClick = (pcs, ip) => {
+
+        const keyValue = pcs? pcs : "1";
+        setAdressip(ip)
+        setSelectedKey(keyValue);
+        setViewInformation(true);
+    };
+
+    const filteredComputers = data.filter(computer => 
+        computer.host.toLowerCase().includes(InputValue.toLowerCase())
+    );
     useEffect(() => {
         setIsLoading(true)
         try {
@@ -192,71 +186,32 @@ export const HomePage = () => {
 
     }, [viewInformation])
 
-    const handleClick = (pcs, ip) => {
-
-        const keyValue = pcs? pcs : "32";
-        setAdressip(ip)
-        setSelectedKey(keyValue);
-        setViewInformation(true);
-    };
 
     return (
         <>
-      
-            <ContainerJSX>
+            
             {isLoading && <Loading></Loading>}
-                <HeaderContent>
-                    <h1>Computadores Conectados</h1>
-                </HeaderContent>
+            <ContainerJSX>
+                <CompHeader
+                    setInputValue={setInputValue}
+                    InputValue={InputValue}
+                />
                 {!viewInformation && (
-                    <GridContent>
-                    {data.id !== ""? 
-                        data.map((pcs) =>
-                            <ComputerCard key={pcs.id ? pcs.id : "1"} onClick={() => handleClick(pcs.id, pcs.ip)}
-                                id={pcs.id ? pcs.id : ""}
-                                host={pcs.host ? pcs.host : ""}
-                                ip={pcs.ip ? pcs.ip : ""}
-                                mac_address={pcs.mac_address ? pcs.mac_address : ""}
-                                status={pcs.status ? pcs.status : ""}
-                            />
-                        ) : <h5>Nenhum Computador Registrado</h5>} 
-                    </GridContent>
+                    <ComputerListScreen
+                    data={filteredComputers}
+                    handleClick={handleClick}
+                    />
                 )}
                 {viewInformation && (
-                    <InformationContent>
-                       
-                        <div id={"grid-display"}>
-                            <div id="systemInformation">
-                            <StyledButton onClick={() => setViewInformation(false)}>
-                                VOLTAR
-                            </StyledButton>
-                                <h1>System Information</h1>
-                                    {data.id !== ""? data.map((information)=> 
-                                     (<Table
-                                        isTaskManager={false}
-                                        headers={["Information", "Type"]}
-                                        isSystemInfo={true}
-                                        information={information}
-                                    />)
-                                   ): <h1>Nenhum dado encontrado!</h1>}
-                            </div>
-                            <div id="ManagerTask">
-                                <div id="manager-buttons">
-                                    <StyledButton >Gerenciar</StyledButton>
-                                    <StyledButton onClick={() => handleGetScreen()}>Screen</StyledButton>
-                                </div>  
-                                
-                                <Table
-                                    onClickMem={handleGetProcessMemory}
-                                    onClickCPU={handleGetProcess}
-                                    isTaskManager={true}
-                                    headers={["Nome", "CPU", "Memory", "PID"]}
-                                    data={information}
-                                />
-                            </div>
-                        </div>
-
-                    </InformationContent>
+                    <InformationScreen 
+                        data={data}
+                        information={information}
+                        informationScreen={()=> setViewInformation(false)}
+                        handleGetProcess={handleGetProcess}
+                        handleGetProcessMemory={handleGetProcessMemory}
+                        handleGetScreen={handleGetScreen}
+                        ipAdress={adressIp}
+                    />
                 )}      
             </ContainerJSX>
         </>

@@ -4,32 +4,33 @@ export const TopContent = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: auto auto;
-  justify-content: space-between;
   overflow: hidden;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  color: #fff;
+
 
   #cpu-usage {
     cursor: pointer;
-    width: 100%;
+    width: 67%;
     padding: 1rem;
     border-radius: 0.5rem;
+    background-image:  ${props => props.isActive? "linear-gradient(to top, #0056C6, #4C91FF)" : "none" };
   }
 
   #cpu-usage:hover {
-    background-color: #b2b2b2;
+    background-color: #0056C6;
   }
   #mem-usage {
     cursor: pointer;
-    width: 100%;
+    width: 67%;
     padding: 1rem;
     border-radius: 0.5rem;
-    :hover {
-      background-color: #b2b2b2;
-    }
+    background-image:  ${props => props.isActive? "linear-gradient(to top, #0056C6, #4C91FF)" : "none" }
+    
   }
   #mem-usage:hover {
-    background-color: #b2b2b2;
+    background-color: #0056C6;
   }
 `;
 

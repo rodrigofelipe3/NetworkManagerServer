@@ -1,24 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { HeaderCell, TableBody, TableCell, TableContent, TableHeader, TableRow, TopContent } from "./style";
-import { StyledButton } from "../../pages/Homepage/style";
+import { FloatButton } from "../FloatMenu";
+import { getComputerById } from "../../services/GetComputerById";
 
 
-const data1 = [ {
-    data: {
-        system: {
-            cpuUsage: "6.24",
-            memoryUsage: "56.67"
-        },
-        processes: [
-        {
-            name: "System Idle Process",
-            cpu: "96.09",
-            memory: "0.00",
-            pid: 0
-        },
-    ]
-}
-}]
 
 export const Table = ({
     headers,
@@ -27,21 +12,21 @@ export const Table = ({
     data = [ {
         data: {
             system: {
-                cpuUsage: "6.24",
-                memoryUsage: "56.67"
+                cpuUsage: "0.00",
+                memoryUsage: "0.00"
             },
              processes: [
             {
-                name: "System Idle Process",
-                cpu: "96.09",
-                memory: "0.00",
+                name: "",
+                cpu: "",
+                memory: "",
                 pid: 0
             },
             {
-                name: "Mobi Leucotron.exe",
-                cpu: "0.57",
-                memory: "1.16",
-                pid: 12896
+                name: "",
+                cpu: "",
+                memory: "",
+                pid: 1
             },
         ]
     }
@@ -62,25 +47,40 @@ export const Table = ({
             status: "" ,
             adapter_types: "",
             main_adapter: ""
-    }
+    },
+    ipAdress
 }) => {
+    const [isCPUActive, setCPUActive] = useState(false)
+    const [isMemActive, setMemActive] = useState(false)
     const bytesToGigabytes = (bytes) => {
-        const gigabytes = bytes / (1024 ** 3); // Divide por 1024³ para converter para GB
+        const gigabytes = bytes / (1024 ** 3); 
         return gigabytes;
     }
 
+    const handleClickCPU = (ip) => { 
+        onClickCPU(ip)
+        setCPUActive(true)
+        setMemActive(false)
+    }
+    const handleClickMEM = (ip) => { 
+        onClickMem(ip)
+        setMemActive(!isMemActive)
+        setCPUActive(false)
+    }
+
+    console.log("CPU IS ACTIVE?: " + isCPUActive)
     return (
         <>
             {isTaskManager && 
             
                 <TopContent>
                     
-                    <div id="cpu-usage" onClickCapture={onClickCPU(information.ip? information.ip : null)}>
+                    <div id="cpu-usage" onClick={()=> handleClickCPU(information.ip)} isActive={true}>
                         <h4>CPU USAGE</h4>
                         <h2>{data? data.map((information) => information.data.system.cpuUsage? information.data.system.cpuUsage : ""): ""}%</h2>
 
                     </div>
-                    <div id="mem-usage" onClickCapture={onClickMem(information.ip? information.ip : null)}>
+                    <div id="mem-usage" onClick={() => handleClickMEM(information.ip)} isActive={isMemActive}>
                         <h4>MEM USAGE</h4>
                         <h2>{data? data.map((information) => information.data.system.memoryUsage? information.data.system.memoryUsage : "0,0" ): ""}%</h2>
                     </div>
@@ -88,26 +88,35 @@ export const Table = ({
                 </TopContent>
             }
             {isTaskManager && 
+                
                 <TableContent>
                     <TableHeader>
                         {headers.map((th)=> 
                             <HeaderCell>{th}</HeaderCell>
                         )}
                     </TableHeader>
+                    
                     <TableBody>
                         {data?data.map((information) => information? 
                             information.data.processes.map((process, index) => process.name != "System Idle Process"  &&  process.name != "Memory Compression"? (
-                                <TableRow id="task-row">
-                                    <TableCell id="task-name" key={index}>{process.name}</TableCell>
-                                    <TableCell key={index}>{process.cpu}%</TableCell>
-                                    <TableCell key={index}>{process.memory}MB</TableCell>
-                                    <TableCell key={index}>{process.pid}</TableCell>
-                                </TableRow>) : undefined
+                                
+                                    <TableRow id="task-row" >
+                                        
+                                        <TableCell id="task-name" key={index}>{process.name}</TableCell>
+                                        <TableCell key={index}>{process.cpu}%</TableCell>
+                                        <TableCell key={index}>{process.memory}MB</TableCell>
+                                        <FloatButton ip={ipAdress} pid={ process.pid}><TableCell key={index}>{process.pid}</TableCell></FloatButton>
+                                        
+                                    </TableRow>
+                                ) : undefined
                             ): undefined): undefined}
                     </TableBody>
+                    
+                    
                 </TableContent>
+              
             }
-
+            
             {!isTaskManager && isSystemInfo && 
                 <TableContent>
                     <TableHeader>

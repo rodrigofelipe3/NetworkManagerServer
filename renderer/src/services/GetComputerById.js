@@ -1,3 +1,6 @@
+import swal from "sweetalert"
+
+
 export const getComputerById = async (id) => { 
     const URL = `http://localhost:5000/api/computerbyid/${id}`
     const options = { 
@@ -13,7 +16,14 @@ export const getComputerById = async (id) => {
         return data
     })
     .catch((err)=> { 
-        return console.error(err)
+        console.error(err)
+        return swal({
+            title: "Error",
+            text: "Não foi possivel contactar o computador selecionado.",
+            icon: "error",
+            timer: 3000,
+            buttons: false
+        })
     })
 
     return response

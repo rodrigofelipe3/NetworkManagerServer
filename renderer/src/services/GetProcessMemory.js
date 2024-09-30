@@ -15,13 +15,15 @@ export const getProcessMemory = async (IP) => {
         return data
     })
     .catch((err)=> { 
-        swal({
+       console.error(err)
+       return swal({
             title: "Error",
-            text: err,
+            text: "Não foi possivel contactar o computador selecionado.",
             icon: "error",
-            timer: 2000
+            timer: 3000,
+            buttons: false
         })
-        return console.error(err)
+        
     })
 
     return response
