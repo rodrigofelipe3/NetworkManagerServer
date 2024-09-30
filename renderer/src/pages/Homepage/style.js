@@ -9,7 +9,7 @@ export const StyledButton = styled.div `
     align-items: center;
     font-weight: 600;
     font-size: 0.800rem;
-    font-family: Poppins, Arial, Helvetica, sans-serif;
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
     background-color: #0056C6;
     border-radius: 2rem;
     color: white;

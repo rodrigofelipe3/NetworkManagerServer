@@ -2,29 +2,32 @@ import styled from "styled-components";
 
 
 export const CardBody = styled.div `
-    
-    height: 9rem;
-    //display: flex;
+    position: relative;
     color: #d6d6d6;
     margin: 0.500rem;
     background-color: #242424;
-    /*justify-content: center;
-    align-items: center;*/
-    border-radius: 0.300rem;
+    border-radius: 0.900rem;
     cursor: pointer;
 
     &:hover{ 
-        background-color: #161616;
-        color: #bcbcbc
+        background-color: #202020;
+        color: #fff;
+    }
+
+    #verticaloptions{ 
+        position: absolute;
+        display: flex;
+        justify-content: start;
+        width: 100%;
+       
     }
 `
 
 export const CardContent = styled.div `
-    display: flex;
+    
+    display: grid;
     height: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
+    grid-template-columns: auto auto;
     text-align: center;
     overflow: hidden;
    

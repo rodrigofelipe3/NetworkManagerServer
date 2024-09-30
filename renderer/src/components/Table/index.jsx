@@ -75,13 +75,13 @@ export const Table = ({
             
                 <TopContent>
                     
-                    <div id="cpu-usage" onClick={()=> handleClickCPU(information.ip)} isActive={true}>
-                        <h4>CPU USAGE</h4>
+                    <div id="cpu-usage" onClick={()=> handleClickCPU(information.ip)} visible={isCPUActive}>
+                        <h4>USO DA CPU</h4>
                         <h2>{data? data.map((information) => information.data.system.cpuUsage? information.data.system.cpuUsage : ""): ""}%</h2>
 
                     </div>
                     <div id="mem-usage" onClick={() => handleClickMEM(information.ip)} isActive={isMemActive}>
-                        <h4>MEM USAGE</h4>
+                        <h4>USO DA MEM</h4>
                         <h2>{data? data.map((information) => information.data.system.memoryUsage? information.data.system.memoryUsage : "0,0" ): ""}%</h2>
                     </div>
 

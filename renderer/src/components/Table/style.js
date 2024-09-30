@@ -9,13 +9,12 @@ export const TopContent = styled.div`
   margin-bottom: 1rem;
   color: #fff;
 
-
   #cpu-usage {
     cursor: pointer;
     width: 67%;
     padding: 1rem;
     border-radius: 0.5rem;
-    background-image:  ${props => props.isActive? "linear-gradient(to top, #0056C6, #4C91FF)" : "none" };
+    background-image:  ${({ visible }) => (visible ? "linear-gradient(to top, #0056C6, #4C91FF)" : 'none')};
   }
 
   #cpu-usage:hover {

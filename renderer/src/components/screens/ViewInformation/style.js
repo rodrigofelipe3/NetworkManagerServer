@@ -5,7 +5,10 @@ export const InformationContent = styled.div `
     display: flex;
     flex-wrap: wrap;
     margin: 0 auto;
-
+    h1 { 
+        margin-top: 2rem;
+        color: #fff;
+    }
     #grid-display { 
         width: 100%;
         justify-content: space-around;
@@ -21,6 +24,12 @@ export const InformationContent = styled.div `
 
     #manager-buttons{ 
         display: flex;
-        justify-content: space-around;
+        width: 75%;
+        justify-content: start;
+        margin: 0 auto;
+    }
+
+    #back-button{ 
+        margin-right: 1rem;
     }
 `

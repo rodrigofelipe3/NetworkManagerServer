@@ -87,7 +87,7 @@ export const SearchInput = styled.input`
     opacity: ${props => (props.isVisible ? "1" : "0")}; // Controle de opacidade
     transition: width 0.4s ease-in-out, opacity 0.3s ease-in-out; // Transição suave
     &::placeholder { 
-        color: #056CF2;
+        color: #3d94ff;
     }
     &:focus { 
         outline: none;

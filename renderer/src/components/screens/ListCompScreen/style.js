@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import CountUp from 'react-countup';
-
+import { FaEllipsisVertical } from "react-icons/fa6";
 const consolebg = require("../../../assets/imagens/network-console.png")
+
+
 export const GridContent = styled.div `
     width: 100%;
     margin: 0 auto;
@@ -49,4 +51,16 @@ export const CountUpp = styled(CountUp)`
     font-size: 4rem;
     text-align: center;
     font-weight: 700;
+`
+
+export const VerticalIcon = styled(FaEllipsisVertical)`
+    margin: 0.500rem;
+    padding: 0.500rem;
+    border-radius: 1rem;
+    color: #fff;
+    background-color: #242424;
+    &:hover { 
+        color: #fff;
+        background-color: #0056C6;
+    }
 `

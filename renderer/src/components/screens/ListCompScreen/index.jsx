@@ -2,6 +2,7 @@ import React from "react";
 import { HeaderContent, GridContent, Console, CountUpp } from "./style";
 import { ComputerCard } from "../../ComputerCard";
 
+
 export const ComputerListScreen = ({
     data,
     handleClick

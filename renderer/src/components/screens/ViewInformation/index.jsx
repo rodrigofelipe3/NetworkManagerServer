@@ -4,7 +4,7 @@ import { InformationContent } from "./style";
 import { Table } from "../../Table";
 
 
-export const InformationScreen = ({ 
+export const InformationScreen = ({
     data = [{
         id: "",
         host: "",
@@ -40,46 +40,48 @@ export const InformationScreen = ({
     handleGetProcess,
     handleGetScreen,
     ipAdress
-}) => { 
+}) => {
     return (
-    <>
-        <InformationContent>
-                       
-                       <div id={"grid-display"}>
-                           <div id="systemInformation">
-                           <StyledButton onClick={() => informationScreen()}>
-                               VOLTAR
-                           </StyledButton>
-                               <h1>System Information</h1>
-                                   {data.id !== ""? 
-                                   data.map((information)=> 
-                                    (<Table
-                                       isTaskManager={false}
-                                       headers={["Information", "Type"]}
-                                       isSystemInfo={true}
-                                       information={information}
-                                   />)
-                                  ): <h1>Nenhum dado encontrado!</h1>}
-                           </div>
-                           <div id="ManagerTask">
-                               <div id="manager-buttons">
-                                   <StyledButton >Gerenciar</StyledButton>
-                                   <StyledButton onClick={() => handleGetScreen}>Screen</StyledButton>
-                               </div>  
-                               
-                               <Table
-                                   onClickMem={handleGetProcessMemory}
-                                   onClickCPU={handleGetProcess}
-                                   isTaskManager={true}
-                                   headers={["Nome", "CPU", "Memory", "PID"]}
-                                   data={information}
-                                   ipAdress={ipAdress}
-                               />
-                           </div>
-                       </div>
+        <>
+            <InformationContent>
+                <div id="manager-buttons">
+                    <StyledButton id="back-button" onClick={() => informationScreen()}>
+                        Voltar
+                    </StyledButton>
+                    <StyledButton id="screen-button" onClick={() => handleGetScreen}>Screen</StyledButton>
 
-                   </InformationContent>
-        
-    </>
+                </div>
+                <div id={"grid-display"}>
+                    <div id="systemInformation">
+
+
+                        <h1>System Information</h1>
+                        {data.id !== "" ?
+                            data.map((information) =>
+                            (<Table
+                                isTaskManager={false}
+                                headers={["Information", "Type"]}
+                                isSystemInfo={true}
+                                information={information}
+                            />)
+                            ) : <h1>Nenhum dado encontrado!</h1>}
+                    </div>
+                    <div id="ManagerTask">
+
+
+                        <Table
+                            onClickMem={handleGetProcessMemory}
+                            onClickCPU={handleGetProcess}
+                            isTaskManager={true}
+                            headers={["Nome", "CPU", "Memory", "PID"]}
+                            data={information}
+                            ipAdress={ipAdress}
+                        />
+                    </div>
+                </div>
+
+            </InformationContent>
+
+        </>
     )
 }
