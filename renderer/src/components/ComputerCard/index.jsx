@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import { CardBody, CardContent } from "./style";
 import { VerticalIcon } from "../screens/ListCompScreen/style";
-import { DropDownMenu } from "../DropdownMenu";
-import { DropdownItem } from "../DropdownMenu/style";
 
 
 export const ComputerCard = ({ id, host, ip, mac_address, status, onClick}) => { 
@@ -12,14 +10,6 @@ export const ComputerCard = ({ id, host, ip, mac_address, status, onClick}) => {
     return (
         <>
            <CardBody key={id} onClick={onClick}>
-            <div id="verticaloptions" onClick={()=> setVisible(!visible)}>
-                <DropDownMenu isVisible={false}>
-                    <DropdownItem>
-                        Deletar
-                    </DropdownItem>
-                </DropDownMenu>
-                <VerticalIcon />
-            </div>
             <CardContent>
                 <div id="img-content">
                     <img  src={status == "Conectado"? require("../../assets/imagens/conected.png") : require("../../assets/imagens/disconected.png")} alt="connected/disconnected"/>

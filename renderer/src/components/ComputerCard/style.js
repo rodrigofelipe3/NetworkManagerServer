@@ -32,7 +32,7 @@ export const CardContent = styled.div `
     overflow: hidden;
    
     #img-content { 
-        height: 100%;
+        height: 90%;
         display: flex;
         align-items: center;
         padding: 1rem;

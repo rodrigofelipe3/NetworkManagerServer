@@ -54,9 +54,10 @@ export const CountUpp = styled(CountUp)`
 `
 
 export const VerticalIcon = styled(FaEllipsisVertical)`
-    margin: 0.500rem;
-    padding: 0.500rem;
-    border-radius: 1rem;
+    
+    margin-left: 1rem;
+    padding: 1rem;
+    border-radius: 2rem;
     color: #fff;
     background-color: #242424;
     &:hover { 

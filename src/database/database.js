@@ -18,6 +18,7 @@ const createTableIfNotExist = () => {
                     release TEXT NOT NULL,
                     ip TEXT UNIQUE NOT NULL,
                     mac_address TEXT UNIQUE NOT NULL,
+                    network_devices TEXT,
                     status TEXT,
                     lasthb DATE
                 )`,
@@ -39,6 +40,7 @@ const RegisterComputerDB = (
   release,
   ip,
   mac_adress,
+  network_devices,
   status,
   lastHB
 ) => {
@@ -55,7 +57,7 @@ const RegisterComputerDB = (
       if (row) {
         // O computador já foi registrado
         db.run(
-          "UPDATE pcs SET processor = ?, memory = ? , operating_system = ?, arch =?, release =?, ip = ?, mac_address=?, status = ?, lasthb = ?  WHERE host = ?",
+          "UPDATE pcs SET processor = ?, memory = ? , operating_system = ?, arch =?, release =?, ip = ?, mac_address=?, network_devices = ?, status = ?, lasthb = ?  WHERE host = ?",
           [
             processor,
             memory,
@@ -64,6 +66,7 @@ const RegisterComputerDB = (
             release,
             ip,
             mac_adress,
+            network_devices,
             status,
             lastHB,
             host,
@@ -82,7 +85,7 @@ const RegisterComputerDB = (
         );
       } else {
         db.run(
-          "INSERT INTO pcs (host, processor, memory, operating_system, arch, release, ip, mac_address, status, lasthb) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "INSERT INTO pcs (host, processor, memory, operating_system, arch, release, ip, mac_address, network_devices, status, lasthb) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             host,
             processor,
@@ -92,6 +95,7 @@ const RegisterComputerDB = (
             release,
             ip,
             mac_adress,
+            network_devices,
             status,
             lastHB,
           ],
@@ -163,6 +167,19 @@ const UpdateStatusToOff = (status, hostname) => {
   );
 };
 
+const DeleteComputerDB = (ip) => { 
+  return new Promise((resolve, reject)=> { 
+    db.run("DELETE FROM pcs WHERE ip = ? ", [ip], (err)=> { 
+      if(err){ 
+          logToFile("Erro ao Deletar " + err)
+          resolve({ok: false, error: err})
+      }else { 
+          logToFile("Computador deletado com sucesso!")
+          resolve({ok: true, msg: "Computador deletado com sucesso!"})
+      }
+    })
+  })
+}
 module.exports = {
   createTableIfNotExist,
   RegisterComputerDB,
@@ -170,4 +187,5 @@ module.exports = {
   UpdateStatus,
   UpdateStatusToOff,
   GetComputerByIdDB,
+  DeleteComputerDB
 };

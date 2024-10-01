@@ -42,7 +42,7 @@ export const HomePage = () => {
         ip: "",
         mac_address: "",
         status: "",
-        networkdevices: "",
+        network_devices: "",
         networkSpeed: "",
 
     },

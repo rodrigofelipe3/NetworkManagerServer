@@ -6,7 +6,7 @@ const { logToFile } = require("../utils/LogToFile");
 const { GetScreen } = require("../controllers/getScreen");
 const router = express.Router();
 const si = require("systeminformation");
-const { GetComputerById } = require("../controllers/getComputerById");
+const { GetComputerById, DeleteComputer } = require("../controllers/Computer");
 
 router.get("/computers", (req, res) => {
   GetAllComputer((err, rows) => {
@@ -88,4 +88,13 @@ router.get("/computerbyid/:id", async (req, res) => {
     return res.status(500).json({ error: "Erro interno" });
   }
 });
+
+router.delete("/deletecomputer/:ip", async (req, res)=> { 
+  const ip = req.params.ip
+  try { 
+    return await DeleteComputer(ip, res)
+  }catch(err){ 
+    return res.status(500).json({ok: false, error: "Erro interno " + err})
+  }
+})
 module.exports = router;

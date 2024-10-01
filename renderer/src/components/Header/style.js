@@ -40,7 +40,7 @@ export const Li = styled.li`
   }
 
   #icon-content {
-    position: fixed;
+    position: stick;
     top: -18rem;
     right: 5rem;
     height: 100%;
@@ -77,15 +77,17 @@ export const Li = styled.li`
 
 export const SearchInput = styled.input`
     width: ${props => (props.isVisible ? "15rem" : "0")}; // Controle de largura
-    height: 1.5rem;
+    height: 2rem;
     padding-left: 0.625rem;
+    font-size: 1rem;
     background-color: transparent;
     color: #fff;
     border-radius: 1rem;
-    border: solid 1.5px #fff;
+    border: solid 1.7px #fff;
     text-decoration: none;
     opacity: ${props => (props.isVisible ? "1" : "0")}; // Controle de opacidade
     transition: width 0.4s ease-in-out, opacity 0.3s ease-in-out; // Transição suave
+
     &::placeholder { 
         color: #3d94ff;
     }

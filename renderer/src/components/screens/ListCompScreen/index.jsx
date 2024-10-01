@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { HeaderContent, GridContent, Console, CountUpp } from "./style";
 import { ComputerCard } from "../../ComputerCard";
 
@@ -7,6 +7,8 @@ export const ComputerListScreen = ({
     data,
     handleClick
 }) => {
+    const [dataLength, setDataLength] = useState(data.length? data.length : 0)
+
     return (
         <>
             <HeaderContent>
@@ -14,7 +16,7 @@ export const ComputerListScreen = ({
                         <h3>CONECTADOS</h3>
                        <CountUpp 
                         start={0}
-                        end={data.length}
+                        end={dataLength}
                         decimals={undefined}
                         decimal={undefined}
                         duration={2}
@@ -24,7 +26,7 @@ export const ComputerListScreen = ({
                         <h3>DESCONECTADOS</h3>
                         <CountUpp 
                         start={0}
-                        end={data.length}
+                        end={dataLength}
                         decimals={undefined}
                         decimal={undefined}
                         duration={2}
@@ -34,7 +36,7 @@ export const ComputerListScreen = ({
                         <h3>DESL. PROGRAMADO</h3>
                         <CountUpp 
                         start={0}
-                        end={data.length}
+                        end={dataLength}
                         decimals={undefined}
                         decimal={undefined}
                         duration={2}

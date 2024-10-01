@@ -101,12 +101,10 @@ export const Table = ({
                             information.data.processes.map((process, index) => process.name != "System Idle Process"  &&  process.name != "Memory Compression"? (
                                 
                                     <TableRow id="task-row" >
-                                        
                                         <TableCell id="task-name" key={index}>{process.name}</TableCell>
                                         <TableCell key={index}>{process.cpu}%</TableCell>
                                         <TableCell key={index}>{process.memory}MB</TableCell>
-                                        <FloatButton ip={ipAdress} pid={ process.pid}><TableCell key={index}>{process.pid}</TableCell></FloatButton>
-                                        
+                                        <FloatButton taskkill={true} ip={ipAdress} pid={ process.pid}><TableCell key={index}>{process.pid}</TableCell></FloatButton>
                                     </TableRow>
                                 ) : undefined
                             ): undefined): undefined}

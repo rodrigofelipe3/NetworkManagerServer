@@ -6,14 +6,14 @@ export const Menu = styled.ul`
   left: ${({ left }) => left}px;
   background-color: #262626;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  padding: 10px;
   list-style-type: none;
   border-radius: 5px;
   display: ${({ visible }) => (visible ? 'block' : 'none')};
 `;
 
 export const MenuItem = styled.li`
-  padding: 8px 12px;
+  color: #f2f2f2;
+  padding: 12px;
   cursor: pointer;
   &:hover {
     color: #f2f2f2;

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { StyledButton } from "../../../pages/Homepage/style";
 import { InformationContent } from "./style";
 import { Table } from "../../Table";
+import { VerticalIcon } from "../ListCompScreen/style";
+import { FloatButton } from "../../FloatMenu";
 
 
 export const InformationScreen = ({
@@ -16,7 +18,7 @@ export const InformationScreen = ({
         ip: "",
         mac_address: "",
         status: "",
-        networkdevices: "",
+        network_devices: "",
         networkSpeed: "",
 
     },
@@ -49,12 +51,12 @@ export const InformationScreen = ({
                         Voltar
                     </StyledButton>
                     <StyledButton id="screen-button" onClick={() => handleGetScreen}>Screen</StyledButton>
-
+                    <FloatButton ip={ipAdress} taskkill={false}>
+                        <VerticalIcon />
+                    </FloatButton>
                 </div>
                 <div id={"grid-display"}>
                     <div id="systemInformation">
-
-
                         <h1>System Information</h1>
                         {data.id !== "" ?
                             data.map((information) =>
@@ -67,8 +69,6 @@ export const InformationScreen = ({
                             ) : <h1>Nenhum dado encontrado!</h1>}
                     </div>
                     <div id="ManagerTask">
-
-
                         <Table
                             onClickMem={handleGetProcessMemory}
                             onClickCPU={handleGetProcess}
