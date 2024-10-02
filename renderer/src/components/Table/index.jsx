@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { HeaderCell, TableBody, TableCell, TableContent, TableHeader, TableRow, TopContent } from "./style";
 import { FloatButton } from "../FloatMenu";
-import { getComputerById } from "../../services/GetComputerById";
+import { getComputerById } from "../../services/server/GetComputerById";
 
 
 
@@ -45,8 +45,7 @@ export const Table = ({
             ip: "", 
             mac_address: "", 
             status: "" ,
-            adapter_types: "",
-            main_adapter: ""
+            network_devices: ''
     },
     ipAdress
 }) => {
@@ -156,12 +155,8 @@ export const Table = ({
                             <TableCell id="type">{information.mac_address? information.mac_address : "NULL"}</TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell id="information">Network Types: </TableCell>
-                            <TableCell id="type">{information.adapter_types? information.adapter_types : "NULL"}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell id="information">Adaptador Principal: </TableCell>
-                            <TableCell id="type">{information.main_adapter? information.main_adapter : "NULL"}</TableCell>
+                            <TableCell id="information">Adaptadores de Rede: </TableCell>
+                            <TableCell id="type">{information.network_devices? information.network_devices.replace(", Loopback Pseudo-Interface 1", "") : "NULL"}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell id="information">Status: </TableCell>

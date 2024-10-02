@@ -28,7 +28,8 @@
     "socket.io": "^4.8.0",
     "socket.io-client": "^4.8.0",
     "sqlite3": "^5.1.7",
-    "systeminformation": "^5.23.5"
+    "systeminformation": "^5.23.5",
+    "wake_on_lan": "^1.0.0"
   },
   "devDependencies": {
     "electron": "^32.1.0",

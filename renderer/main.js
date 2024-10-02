@@ -34,13 +34,13 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
-  /*exec('taskkill /IM network-manager.exe /F', (err, stdout, stderr) => {
+  exec('taskkill /IM NTServer.exe /F', (err, stdout, stderr) => {
     if (err) {
       console.error('Erro ao fechar network-manager.exe:', err);
       return;
     }
     console.log('network-manager.exe finalizado com sucesso');
-  });*/
+  });
 });
 
 app.on('activate', () => {

@@ -46,7 +46,7 @@ export const ComputerListScreen = ({
             <GridContent>
                     {data.id !== ""? 
                         data.map((pcs) =>
-                            <ComputerCard key={pcs.id ? pcs.id : "1"} onClick={() => handleClick(pcs.id, pcs.ip)}
+                            <ComputerCard key={pcs.id ? pcs.id : "1"} onClick={() => handleClick(pcs.id, pcs.ip, pcs.mac_address)}
                                 id={pcs.id ? pcs.id : ""}
                                 host={pcs.host ? pcs.host : ""}
                                 ip={pcs.ip ? pcs.ip : ""}

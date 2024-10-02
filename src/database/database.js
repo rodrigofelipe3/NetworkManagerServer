@@ -45,7 +45,7 @@ const RegisterComputerDB = (
   lastHB
 ) => {
   db.serialize(() => {
-    console.log(host);
+    console.log(network_devices);
     db.get("SELECT * FROM pcs WHERE host = ?", [host], (err, row) => {
       if (err) {
         logToFile(
@@ -85,7 +85,7 @@ const RegisterComputerDB = (
         );
       } else {
         db.run(
-          "INSERT INTO pcs (host, processor, memory, operating_system, arch, release, ip, mac_address, network_devices, status, lasthb) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "INSERT INTO pcs (host, processor, memory, operating_system, arch, release, ip, mac_address, network_devices, status, lasthb) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             host,
             processor,

@@ -1,5 +1,6 @@
 import styled from "styled-components";
-
+import { CgEthernet } from "react-icons/cg";
+import { FaPowerOff } from "react-icons/fa";
 export const InformationContent = styled.div `
     width: 100%;
     display: flex;
@@ -24,7 +25,7 @@ export const InformationContent = styled.div `
 
     #manager-buttons{ 
         display: flex;
-        width: 75%;
+        width: 80%;
         justify-content: start;
         margin: 0 auto;
     }
@@ -32,4 +33,20 @@ export const InformationContent = styled.div `
     #back-button{ 
         margin-right: 1rem;
     }
+
+    #wake-on-button{
+        margin-left: 1rem;
+    }
+`
+
+export const IconEthernet = styled(CgEthernet)`
+    padding-right: 0.5rem;
+    font-size: 1rem;
+    color: #fff;
+`
+
+export const IconPower = styled(FaPowerOff)`
+    padding-right: 0.5rem;
+    font-size: 1rem;
+    color: #fff;
 `

@@ -7,6 +7,7 @@ const { GetScreen } = require("../controllers/getScreen");
 const router = express.Router();
 const si = require("systeminformation");
 const { GetComputerById, DeleteComputer } = require("../controllers/Computer");
+const { WakeOnLan } = require("../controllers/WakeOnLan");
 
 router.get("/computers", (req, res) => {
   GetAllComputer((err, rows) => {
@@ -95,6 +96,20 @@ router.delete("/deletecomputer/:ip", async (req, res)=> {
     return await DeleteComputer(ip, res)
   }catch(err){ 
     return res.status(500).json({ok: false, error: "Erro interno " + err})
+  }
+})
+
+router.post("/wakeonlan", async (req, res)=> { 
+  const {mac, ip} = req.body 
+  try { 
+    const response = await WakeOnLan(mac, ip)
+    if(response.ok == true) { 
+      return res.status(200).json(response)
+    }else { 
+      return res.status(500).json(response)
+    }
+  }catch(err){ 
+    return res.status(500).json({ok: false, error: err})
   }
 })
 module.exports = router;

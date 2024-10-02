@@ -1,31 +1,30 @@
 import swal from "sweetalert"
 
-export const GetData = async () => { 
-    const URL = "http://localhost:5000/api/computers"
+export const Wake_On_Lan = async (ip, data) => { 
+    const URL = `http://${ip}:5000/api/wakeonlan`
     const options = { 
-        method: "GET",
+        method: "POST",
         headers: { 
-            "Content-Type": "application/json"
-        }
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify(data) 
     }
     
     const response = await fetch(URL, options)
     .then((response)=> response.json())
-    .then((data)=> { 
+    .then((data)=> {
+
         return data
     })
     .catch((err)=> { 
-       console.error(err) 
-       return swal({
+        return swal({
             title: "Error",
-            text: `Impossivel buscar os dados,
-            o servidor local não está ativo.`,
+            text: "Não foi possivel contactar o computador selecionado.",
             icon: "error",
             timer: 3000,
             buttons: false
         })
-        
     })
-
+    
     return response
 }

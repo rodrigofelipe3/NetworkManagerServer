@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Menu, MenuItem } from "./style";
 import swal from "sweetalert";
-import { Taskkill } from "../../services/Taskkill";
-import { CancelShutDown, CreateShutDown } from "../../services/Shutdown";
-import { DeleteComputer } from "../../services/DeleteComputer";
+import { Taskkill } from "../../services/cliente/Taskkill";
+import { CancelShutDown, CreateShutDown } from "../../services/cliente/Shutdown";
+import { DeleteComputer } from "../../services/server/DeleteComputer";
 
 
 export const FloatButton = ({
@@ -55,25 +55,29 @@ export const FloatButton = ({
             title: "Atenção!",
             text: "Tem certeza que deseja cancelar a programação de Shutdown?",
             icon: "warning",
-            dangerMode: true,
-        }).then(async () => {
-            const response = await CancelShutDown(ip)
+            dangerMode: false,
+            buttons: true
+        }).then(async (value) => {
+            if (value) {
+                const response = await CancelShutDown(ip)
 
-            if (response.ok == true) {
-                swal({
-                    title: "Feito!",
-                    text: response.msg,
-                    icon: "success",
-                    timer: 2000
-                })
-            } else {
-                swal({
-                    title: "Error!",
-                    text: response.error,
-                    icon: "error",
-                    timer: 2000
-                })
+                if (response.ok == true) {
+                    swal({
+                        title: "Feito!",
+                        text: response.msg,
+                        icon: "success",
+                        timer: 2000
+                    })
+                } else {
+                    swal({
+                        title: "Error!",
+                        text: response.error,
+                        icon: "error",
+                        timer: 2000
+                    })
+                }
             }
+
         })
     }
     const handleOnChange = (e) => {
@@ -105,23 +109,25 @@ export const FloatButton = ({
             },
             buttons: [true, true]
 
-        }).then(async () => {
-            const response = await CreateShutDown(ip, value)
+        }).then(async (value) => {
+            if (value) {
+                const response = await CreateShutDown(ip, value)
 
-            if (response.ok == true) {
-                swal({
-                    title: "Feito!",
-                    text: response.msg,
-                    icon: "success",
-                    timer: 2000
-                })
-            } else {
-                swal({
-                    title: "Error!",
-                    text: response.error,
-                    icon: "error",
-                    timer: 2000
-                })
+                if (response.ok == true) {
+                    swal({
+                        title: "Feito!",
+                        text: response.msg,
+                        icon: "success",
+                        timer: 2000
+                    })
+                } else {
+                    swal({
+                        title: "Error!",
+                        text: response.error,
+                        icon: "error",
+                        timer: 2000
+                    })
+                }
             }
         })
     }
@@ -133,25 +139,26 @@ export const FloatButton = ({
             dangerMode: false,
             buttons: true
         }).then(async (value) => {
-            if(value === true ) {
+            if (value === true) {
                 const response = await DeleteComputer(ip)
 
-            if (response.ok === true) {
-                swal({
-                    title: "Feito!",
-                    text: response.msg,
-                    icon: "success",
-                    timer: 2000
-                })
-            } else {
-                swal({
-                    title: "Error!",
-                    text: response.error,
-                    icon: "error",
-                    timer: 2000
-                })
+                if (response.ok === true) {
+                    swal({
+                        title: "Feito!",
+                        text: response.msg,
+                        icon: "success",
+                        timer: 2000
+                    })
+                } else {
+                    swal({
+                        title: "Error!",
+                        text: response.error,
+                        icon: "error",
+                        timer: 2000
+                    })
+                }
             }
-        }})
+        })
     }
 
 
@@ -159,10 +166,10 @@ export const FloatButton = ({
         <>
             <div onContextMenu={handleContextMenu} style={{ width: "100%", display: "flex" }}>
 
-                {taskkill && 
-                <Menu top={menuPosition.y} left={menuPosition.x} visible={visible}>
-                    <MenuItem onClick={() => handleTaskkill(ip, pid)} >Finalizar tarefa</MenuItem>
-                </Menu>
+                {taskkill &&
+                    <Menu top={menuPosition.y} left={menuPosition.x} visible={visible}>
+                        <MenuItem onClick={() => handleTaskkill(ip, pid)} >Finalizar tarefa</MenuItem>
+                    </Menu>
                 }
                 {!taskkill &&
                     <Menu top={menuPosition.y} left={menuPosition.x} visible={visible}>

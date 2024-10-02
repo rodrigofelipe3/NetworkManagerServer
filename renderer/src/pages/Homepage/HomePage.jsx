@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { ContainerJSX } from "../../components/Container";
-import { GetData } from "../../services/getData";
-import { getProcess } from "../../services/getProcess";
-import { getProcessMemory } from "../../services/GetProcessMemory";
-import { getComputerById } from "../../services/GetComputerById";
+import { GetData } from "../../services/server/getData";
+import { getProcess } from "../../services/cliente/getProcess";
+import { getProcessMemory } from "../../services/cliente/GetProcessMemory";
+import { getComputerById } from "../../services/server/GetComputerById";
 import { Loading } from "../../components/IsLoading";
 import swal from "sweetalert"
 import { InformationScreen } from "../../components/screens/ViewInformation";
@@ -14,6 +14,7 @@ import { CompHeader } from "../../components/Header";
 export const HomePage = () => {
     const [viewInformation, setViewInformation] = useState(false)
     const [adressIp, setAdressip] = useState(null)
+    const [macAdress, setMacAdress] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const [InputValue, setInputValue] = useState("")
     const [information, setInformation] = useState([{
@@ -43,10 +44,10 @@ export const HomePage = () => {
         mac_address: "",
         status: "",
         network_devices: "",
-        networkSpeed: "",
 
     },
     ])
+    
     const handleGetComputerById = async (id) => { 
         const response = await getComputerById(id)
         if (response.msg){ 
@@ -130,10 +131,11 @@ export const HomePage = () => {
             })
         }
     }
-    const handleClick = (pcs, ip) => {
+    const handleClick = (pcs, ip, mac) => {
 
         const keyValue = pcs? pcs : "1";
         setAdressip(ip)
+        setMacAdress(mac)
         setSelectedKey(keyValue);
         setViewInformation(true);
     };
@@ -186,7 +188,6 @@ export const HomePage = () => {
 
     }, [viewInformation])
 
-
     return (
         <>
             
@@ -211,6 +212,7 @@ export const HomePage = () => {
                         handleGetProcessMemory={handleGetProcessMemory}
                         handleGetScreen={handleGetScreen}
                         ipAdress={adressIp}
+                        macAdress={macAdress}
                     />
                 )}      
             </ContainerJSX>

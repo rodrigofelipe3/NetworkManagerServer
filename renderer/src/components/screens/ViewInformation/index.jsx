@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { StyledButton } from "../../../pages/Homepage/style";
-import { InformationContent } from "./style";
+import { IconPower, InformationContent } from "./style";
 import { Table } from "../../Table";
 import { VerticalIcon } from "../ListCompScreen/style";
 import { FloatButton } from "../../FloatMenu";
-
+import { Wake_On_Lan } from "../../../services/server/WakeOnLan";
+import { IconEthernet } from "./style";
+import swal from "sweetalert";
 
 export const InformationScreen = ({
     data = [{
@@ -19,7 +21,6 @@ export const InformationScreen = ({
         mac_address: "",
         status: "",
         network_devices: "",
-        networkSpeed: "",
 
     },
     ],
@@ -41,8 +42,34 @@ export const InformationScreen = ({
     handleGetProcessMemory,
     handleGetProcess,
     handleGetScreen,
-    ipAdress
+    ipAdress,
+    macAdress
 }) => {
+
+    const WakeOnLan = { 
+        mac: macAdress,
+        ip: ipAdress
+    }
+
+    const handleWakeOnLan = () => { 
+        const response = Wake_On_Lan(ipAdress, WakeOnLan)
+        if(response.ok == true){ 
+            swal({ 
+                title: "Feito!",
+                text: response.msg,
+                icon: "success",
+                timer: 2000
+            })
+        }else { 
+            swal({ 
+                title: "Error!",
+                text: response.error,
+                icon: "error",
+                timer: 2000
+            })
+        }
+    }
+
     return (
         <>
             <InformationContent>
@@ -51,6 +78,8 @@ export const InformationScreen = ({
                         Voltar
                     </StyledButton>
                     <StyledButton id="screen-button" onClick={() => handleGetScreen}>Screen</StyledButton>
+                    <StyledButton id="wake-on-button" onClick={()=> handleWakeOnLan()}> <IconEthernet/> Acordar</StyledButton>
+                    <StyledButton id="wake-on-button" onClick={()=> handleWakeOnLan()}> <IconPower/> Desligar</StyledButton>
                     <FloatButton ip={ipAdress} taskkill={false}>
                         <VerticalIcon />
                     </FloatButton>

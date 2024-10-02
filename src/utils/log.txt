@@ -1,2 +1,0 @@
-2024-10-01T20:30:18.036Z - Erro ao registrar 
-2024-10-01T20:30:18.039Z - Erro ao inserir dados: SQLITE_ERROR: 10 values for 11 columns
