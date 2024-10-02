@@ -41,6 +41,7 @@ export const HomePage = () => {
         arch: "",
         release: "",
         ip: "",
+        user:"", 
         mac_address: "",
         status: "",
         network_devices: "",

@@ -48,6 +48,7 @@ export const ComputerListScreen = ({
                         data.map((pcs) =>
                             <ComputerCard key={pcs.id ? pcs.id : "1"} onClick={() => handleClick(pcs.id, pcs.ip, pcs.mac_address)}
                                 id={pcs.id ? pcs.id : ""}
+                                user={pcs.user? pcs.user: ""}
                                 host={pcs.host ? pcs.host : ""}
                                 ip={pcs.ip ? pcs.ip : ""}
                                 mac_address={pcs.mac_address ? pcs.mac_address : ""}

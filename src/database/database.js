@@ -17,6 +17,7 @@ const createTableIfNotExist = () => {
                     arch TEXT NOT NULL,
                     release TEXT NOT NULL,
                     ip TEXT UNIQUE NOT NULL,
+                    user TEXT,
                     mac_address TEXT UNIQUE NOT NULL,
                     network_devices TEXT,
                     status TEXT,

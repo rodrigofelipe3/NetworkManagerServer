@@ -96,7 +96,7 @@ export const FloatButton = ({
     const handleCreateShutDown = async () => {
         swal({
             title: "Atenção!",
-            text: "Digite horário",
+            text: "Digite o horário para desligar",
             icon: "warning",
             content: {
                 element: "input",

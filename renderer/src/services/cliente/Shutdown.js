@@ -55,3 +55,32 @@ export const CreateShutDown = async (IP, time) => {
     
     return response
 }
+
+
+export const ShutDownNow = async (IP) => { 
+    const URL = `http://${IP}:5001/api/shutdown/now`
+    const options = { 
+        method: "POST",
+        headers: { 
+            "Content-Type":"application/json"
+        }
+    }
+    
+    const response = await fetch(URL, options)
+    .then((response)=> response.json())
+    .then((data)=> {
+        return data
+    })
+    .catch((err)=> { 
+        return swal({
+            title: "Error",
+            text: "Não foi possivel contactar o computador selecionado." + err,
+            icon: "error",
+            timer: 3000,
+            buttons: false
+        })
+    })
+    
+    return response
+}
+
