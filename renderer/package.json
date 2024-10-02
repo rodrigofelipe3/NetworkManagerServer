@@ -1,7 +1,7 @@
 {
   "name": "pcnetwork-manager",
   "version": "0.1.0",
-  "main": "./main.js",
+  "main": "main.js",
   "author": {
     "name": "Rodrigo Felipe dos Santos Lima",
     "email": "email@email.com"
@@ -13,8 +13,6 @@
     "@testing-library/user-event": "^13.5.0",
     "concurrently": "^9.0.1",
     "cross-env": "^7.0.3",
-    "electron": "^32.1.0",
-    "electron-builder": "^25.0.5",
     "nodemon": "^3.1.4",
     "react": "^18.3.1",
     "react-countup": "^6.5.3",
@@ -28,6 +26,10 @@
     "sweetalert": "^2.1.2",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "electron": "^32.1.0",
+    "electron-builder": "^25.0.5"
+  },
   "scripts": {
     "start": "concurrently \"cross-env BROWSER=none react-scripts start\" \"npm run server\" \"npm run wait-react\"",
     "wait-react": "node WaitReact.js && npm run electron",
@@ -36,19 +38,17 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron": "electron .",
-    "electron-build": "electron-builder -w -c.extraMetadata.main=main.js",
-    "electron:package:win": "npm run build-server && electron-builder -w -c.extraMetadata.main=main.js"
+    "electron-build": "electron-builder "
   },
   "build": {
     "appId": "com.ManageNetwork",
     "productName": "Network Manager",
     "files": [
       "src/**/*",
-      "renderer/**/*",
       "node_modules/**/*"
     ],
     "directories": {
-      "buildResources": ""
+      "buildResources": "build"
     }
   },
   "eslintConfig": {

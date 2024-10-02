@@ -17,8 +17,8 @@ function createWindow() {
 
 app.whenReady().then(() => {
   // Inicia o servidor Node.js a partir do executável gerado pelo pkg
-  const serverExecutable = path.join("C:/Users/Rodrigo/Documents/Programação/ManagerShutdownNetwork/MyProgram 1.0/server", 'NTServer.exe');  
-  
+  const serverExecutable = path.join("C:/Users/Setor Administrativo/Documents/Admin-Server-Network-Manager/MyProgram 1.0/server", 'NTServer.exe');  
+
   exec(serverExecutable, (err, stdout, stderr) => {
     if (err) {
       console.error('Erro ao iniciar o servidor:', err);
