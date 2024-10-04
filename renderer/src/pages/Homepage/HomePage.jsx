@@ -4,7 +4,7 @@ import { GetData } from "../../services/server/getData";
 import { getProcess } from "../../services/cliente/getProcess";
 import { getProcessMemory } from "../../services/cliente/GetProcessMemory";
 import { getComputerById } from "../../services/server/GetComputerById";
-import { Loading } from "../../components/IsLoading";
+import { LoadingComponent } from "../../components/IsLoading";
 import swal from "sweetalert"
 import { InformationScreen } from "../../components/screens/ViewInformation";
 import { ComputerListScreen } from "../../components/screens/ListCompScreen";
@@ -192,8 +192,9 @@ export const HomePage = () => {
     return (
         <>
             
-            {isLoading && <Loading></Loading>}
+            
             <ContainerJSX>
+            {isLoading && <LoadingComponent/>}
                 <CompHeader
                     setInputValue={setInputValue}
                     InputValue={InputValue}

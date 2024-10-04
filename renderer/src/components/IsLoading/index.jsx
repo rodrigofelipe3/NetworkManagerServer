@@ -2,11 +2,25 @@ import React from "react";
 import {CircleLoader} from "react-spinner"
 import { LoadingContainer } from "./style";
 
-export const Loading = () => {
+export const LoadingComponent = () => {
     return (
         <>
             <LoadingContainer>
-                <CircleLoader></CircleLoader>
+                <h3>LOADING</h3>
+                <h3>LOADING</h3>
+                <h3>LOADING</h3>
+                <h3>LOADING</h3>
+                <h3>LOADING</h3>
+                <h3>LOADING</h3>
+                <h3>LOADING</h3>
+                <h3>LOADING</h3>
+                <h3>LOADING</h3>
+                <h3>LOADING</h3><h3>LOADING</h3>
+
+                <h3>LOADING</h3>
+                <h3>LOADING</h3><h3>LOADING</h3>
+                <h3>LOADING</h3>
+                
             </LoadingContainer>
 
         </>

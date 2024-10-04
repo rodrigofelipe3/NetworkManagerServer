@@ -1,10 +1,10 @@
 {
-  "name": "pcnetwork-manager",
-  "version": "0.1.0",
-  "main": "main.js",
+  "name": "NetworkManager",
+  "version": "0.9.0",
+  "main": "./main.js",
   "author": {
     "name": "Rodrigo Felipe dos Santos Lima",
-    "email": "email@email.com"
+    "email": "rodrigo.suporte@contas.com"
   },
   "private": true,
   "dependencies": {
@@ -13,7 +13,6 @@
     "@testing-library/user-event": "^13.5.0",
     "concurrently": "^9.0.1",
     "cross-env": "^7.0.3",
-    "nodemon": "^3.1.4",
     "react": "^18.3.1",
     "react-countup": "^6.5.3",
     "react-dom": "^18.3.1",
@@ -38,17 +37,23 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron": "electron .",
-    "electron-build": "electron-builder "
+    "electron-build": "electron-builder -w"
   },
   "build": {
     "appId": "com.ManageNetwork",
     "productName": "Network Manager",
+    "mac": {
+      "category": "Network-Manager.network"
+    },
     "files": [
-      "src/**/*",
-      "node_modules/**/*"
+      "./main.js",
+      "./node_modules/**/*"
     ],
-    "directories": {
-      "buildResources": "build"
+    "extraMetadata": {
+      "main": "./main.js"
+    },
+    "win": { 
+        "target": "portable"
     }
   },
   "eslintConfig": {
