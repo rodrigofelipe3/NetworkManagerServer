@@ -33,7 +33,7 @@ export const ComputerListScreen = ({
                        />
                     </Console>
                     <Console>
-                        <h3>DESL. PROGRAMADO</h3>
+                        <h3>DESLIGAMENTO PROGRAMADO</h3>
                         <CountUpp 
                         start={0}
                         end={dataLength}

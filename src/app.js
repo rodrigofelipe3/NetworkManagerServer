@@ -1,7 +1,7 @@
 const express = require("express")
 const app = express()
 const route = require("./routes/routes")
-const db = require("./database/database")
+const {createTableIfNotExist} = require("./database/database")
 const cors = require("cors")
 const CheckStatus = require("./utils/CheckStatus")
 const {logToFile, clearLogFile} = require("./utils/LogToFile")
@@ -11,15 +11,18 @@ const corsOptions = {
     methods: ["GET", "POST", "PUT", "DELETE", "HEAD"],
     allowedHeaders: ["Content-Type"]
 }
-logToFile("Iniciando")
+
 app.use(cors(corsOptions))
 app.use(express.json());
 app.use("/api", route)
 
-db.createTableIfNotExist()
+createTableIfNotExist()
 
 setInterval(CheckStatus, 10000)
-app.listen(PORT, ()=> { 
+app.listen(PORT, (err)=> { 
+    if(err){ 
+        console.log(err)
+    }
     clearLogFile()
     logToFile("Servidor rodando na porta 5000")
 })

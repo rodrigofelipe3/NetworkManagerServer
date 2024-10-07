@@ -1,7 +1,7 @@
 const http = require('http');
 
-const serverUrl = 'http://127.0.0.1:3000'; // URL do seu servidor React
-const interval = 1000; // Intervalo para tentar novamente (1 segundo)
+const serverUrl = 'http://127.0.0.1:3000'; 
+const interval = 1000; 
 
 function checkServer() {
   return new Promise((resolve, reject) => {

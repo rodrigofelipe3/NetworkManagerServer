@@ -1,15 +1,13 @@
 const express = require("express")
-const path = require("path")
 const app = express()
 
 const PORT = 3000
 
-console.log(path.join(__dirname,'../', "renderer", 'build'))
 
-app.use(express.static(path.join(__dirname, '../', "renderer", 'build')));
+app.use(express.static("C:/Program Files/TI Administration/build"));
 
 app.get('*', (req, res) => {
-    return res.sendFile(path.join(__dirname,'../', "renderer", 'build', 'index.html'));
+    return res.sendFile("C:/Program Files/TI Administration/build/index.html");
   });
   
 app.listen(PORT, () => {

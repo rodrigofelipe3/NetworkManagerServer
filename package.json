@@ -10,9 +10,13 @@
     "build-server": "pkg . --targets node16-win-x64 --out-path dist"
   },
   "pkg": {
-    "scripts": "src/app.js",
+    "assets": [
+        "node_modules/**/*"
+        
+    ],
+    "scripts": "src/ServerReact.js",
     "targets": [
-      "node18-win-x64"
+      "node16-win-x64"
     ]
   },
   "dependencies": {
@@ -24,6 +28,7 @@
     "node-global-key-listener": "^0.3.0",
     "node-gyp": "^10.2.0",
     "nodemon": "^3.1.4",
+    "pkg": "^5.8.1",
     "robotjs": "^0.6.0",
     "socket.io": "^4.8.0",
     "socket.io-client": "^4.8.0",
