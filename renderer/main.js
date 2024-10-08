@@ -57,7 +57,7 @@ function createWindow() {
 
 app.whenReady().then(async () => {
 
-  const response = await OpenExpressServer()
+  /*const response = await OpenExpressServer()
   if(response.ok == true) { 
       const response = await OpenReactServer()
       if(response.ok == true) { 
@@ -66,20 +66,21 @@ app.whenReady().then(async () => {
   }else { 
     alert("Erro " + response.error)
   }
-
+*/
+  createWindow()
 });
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
-  exec('taskkill /F /IM server.exe /IM webserver.exe ', (err, stdout, stderr) => {
+ /* exec('taskkill /F /IM server.exe /IM webserver.exe ', (err, stdout, stderr) => {
     if (err) {
       console.error('Erro ao fechar network-manager.exe:', err);
       return;
     }
     console.log('network-manager.exe finalizado com sucesso');
-  });
+  });*/
 });
 
 app.on('activate', () => {

@@ -61,7 +61,7 @@ export const InformationScreen = ({
             buttons: true
         }).then(async (value) => {
             if(value) { 
-                const response = ShutDownNow(ipAdress)
+                const response = await ShutDownNow(ipAdress)
 
                 if (response.ok == true) {
                     swal({
