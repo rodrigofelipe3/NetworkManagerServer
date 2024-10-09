@@ -44,7 +44,8 @@ export const InformationScreen = ({
     handleGetProcess,
     handleGetScreen,
     ipAdress,
-    macAdress
+    macAdress,
+    recharge
 }) => {
 
     const WakeOnLan = { 
@@ -111,18 +112,18 @@ export const InformationScreen = ({
                     <StyledButton id="screen-button" onClick={() => handleGetScreen}>Screen</StyledButton>
                     <StyledButton id="wake-on-button" onClick={()=> handleWakeOnLan()}> <IconEthernet/> Acordar</StyledButton>
                     <StyledButton id="wake-on-button" onClick={()=> handlePowerOff()}> <IconPower/> Desligar</StyledButton>
-                    <FloatButton ip={ipAdress} taskkill={false}>
+                    {/*<FloatButton ip={ipAdress} taskkill={false}>
                         <VerticalIcon />
-                    </FloatButton>
+                    </FloatButton>*/}
                 </div>
                 <div id={"grid-display"}>
                     <div id="systemInformation">
-                        <h1>System Information</h1>
+                        <h1>Informações do Sistema</h1>
                         {data.id !== "" ?
                             data.map((information) =>
                             (<Table
                                 isTaskManager={false}
-                                headers={["Information", "Type"]}
+                                headers={["Tipo", "Descrição"]}
                                 isSystemInfo={true}
                                 information={information}
                             />)

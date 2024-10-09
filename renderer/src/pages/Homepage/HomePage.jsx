@@ -32,6 +32,7 @@ export const HomePage = () => {
         }
     }])
     const [selectedKey, setSelectedKey] = useState("")
+    const [recharge, setRecharge] = useState(null)
     const [data, setData] = useState([{
         id: "",
         host: "",
@@ -185,10 +186,11 @@ export const HomePage = () => {
             
         }finally{ 
             setIsLoading(false)
+            setRecharge(false)
         }
 
-    }, [viewInformation])
-
+    }, [viewInformation, recharge])
+    console.log(recharge)
     return (
         <>
             
@@ -203,6 +205,7 @@ export const HomePage = () => {
                     <ComputerListScreen
                     data={filteredComputers}
                     handleClick={handleClick}
+                    recharge={setRecharge}
                     />
                 )}
                 {viewInformation && (
@@ -215,6 +218,7 @@ export const HomePage = () => {
                         handleGetScreen={handleGetScreen}
                         ipAdress={adressIp}
                         macAdress={macAdress}
+
                     />
                 )}      
             </ContainerJSX>

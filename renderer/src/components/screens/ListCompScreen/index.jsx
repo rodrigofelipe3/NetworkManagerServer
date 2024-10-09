@@ -5,9 +5,11 @@ import { ComputerCard } from "../../ComputerCard";
 
 export const ComputerListScreen = ({
     data,
-    handleClick
+    handleClick,
+    recharge
 }) => {
     const [dataLength, setDataLength] = useState(data.length? data.length : 0)
+    
 
     return (
         <>
@@ -46,13 +48,16 @@ export const ComputerListScreen = ({
             <GridContent>
                     {data.id !== ""? 
                         data.map((pcs) =>
-                            <ComputerCard key={pcs.id ? pcs.id : "1"} onClick={() => handleClick(pcs.id, pcs.ip, pcs.mac_address)}
+                            <ComputerCard 
+                                key={pcs.id ? pcs.id : "1"} 
+                                onClick={() => handleClick(pcs.id, pcs.ip, pcs.mac_address)}
                                 id={pcs.id ? pcs.id : ""}
                                 user={pcs.user? pcs.user: ""}
                                 host={pcs.host ? pcs.host : ""}
                                 ip={pcs.ip ? pcs.ip : ""}
                                 mac_address={pcs.mac_address ? pcs.mac_address : ""}
                                 status={pcs.status ? pcs.status : ""}
+                                recharge={recharge}
                             />
                         ) : <h5>Nenhum Computador Registrado</h5>} 
             </GridContent>

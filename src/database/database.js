@@ -20,6 +20,8 @@ const createTableIfNotExist = () => {
                     user TEXT,
                     mac_address TEXT UNIQUE NOT NULL,
                     network_devices TEXT,
+                    poweroff INTEGER,
+                    poweroffhour TEXT,
                     status TEXT,
                     lasthb DATE
                 )`,
@@ -42,77 +44,86 @@ const RegisterComputerDB = (
   ip,
   mac_adress,
   network_devices,
+  poweroff,
+  poweroffhour,
+  user,
   status,
   lastHB
 ) => {
-  db.serialize(() => {
-    console.log(network_devices);
-    db.get("SELECT * FROM pcs WHERE host = ?", [host], (err, row) => {
-      if (err) {
-        logToFile(
-          "Erro ao verificar se o computador já está registrado: " + err.message
-        );
-        return false;
-      }
+  return new Promise((resolve, reject) => {
+    db.serialize(() => {
 
-      if (row) {
-        // O computador já foi registrado
-        db.run(
-          "UPDATE pcs SET processor = ?, memory = ? , operating_system = ?, arch =?, release =?, ip = ?, mac_address=?, network_devices = ?, status = ?, lasthb = ?  WHERE host = ?",
-          [
-            processor,
-            memory,
-            operating_system,
-            arch,
-            release,
-            ip,
-            mac_adress,
-            network_devices,
-            status,
-            lastHB,
-            host,
-          ],
-          (err) => {
-            if (err) {
-              logToFile("Erro ao atualizar o status: " + err.message);
-              return false;
-            } else {
-              logToFile(
-                `Status do computador ${host} atualizado para ${status}`
-              );
-              return true;
+      db.get("SELECT * FROM pcs WHERE host = ?", [host], (err, row) => {
+        if (err) {
+          logToFile(
+            "Erro ao verificar se o computador já está registrado: " + err.message
+          );
+          return false;
+        }
+
+        if (row) {
+          // O computador já foi registrado
+          db.run(
+            "UPDATE pcs SET processor = ?, memory = ? , operating_system = ?, arch =?, release =?, ip = ?, mac_address=?, network_devices = ?, poweroff = ?, poweroffhour =?, status = ?, lasthb = ?  WHERE host = ?",
+            [
+              processor,
+              memory,
+              operating_system,
+              arch,
+              release,
+              ip,
+              mac_adress,
+              network_devices,
+              poweroff,
+              poweroffhour,
+              status,
+              lastHB,
+              host,
+            ],
+            (err) => {
+              if (err) {
+                logToFile("Erro ao atualizar o status: " + err.message);
+                resolve({ok: false, error: err});
+              } else {
+                logToFile(
+                  `Status do computador ${host} atualizado para ${status}`
+                );
+                resolve({ok: false, msg: "Computador atualizado."});
+              }
             }
-          }
-        );
-      } else {
-        db.run(
-          "INSERT INTO pcs (host, processor, memory, operating_system, arch, release, ip, mac_address, network_devices, status, lasthb) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-          [
-            host,
-            processor,
-            memory,
-            operating_system,
-            arch,
-            release,
-            ip,
-            mac_adress,
-            network_devices,
-            status,
-            lastHB,
-          ],
-          (err) => {
-            if (err) {
-              logToFile("Erro ao inserir dados: " + err.message);
-              return false;
-            } else {
-              logToFile(`Computador ${host} registrado com sucesso.`);
-              return true;
+          );
+        } else {
+          db.run(
+            "INSERT INTO pcs (host, processor, memory, operating_system, arch, release, ip, mac_address, network_devices, poweroff, poweroffhour, status, lasthb) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [
+              host,
+              processor,
+              memory,
+              operating_system,
+              arch,
+              release,
+              ip,
+              mac_adress,
+              network_devices,
+              poweroff,
+              poweroffhour,
+              status,
+              lastHB,
+            ],
+            (err) => {
+              if (err) {
+                logToFile("Erro ao inserir dados: " + err.message);
+                resolve({ ok: false, error: err })
+              } else {
+                logToFile(`Computador ${host} registrado com sucesso.`);
+                resolve({ ok: true, msg: "Computador registrado com sucesso!" });
+              }
             }
-          }
-        );
-      }
+          );
+        }
+      });
     });
-  });
+  })
 };
 
 const GetAllComputer = (callback) => {
@@ -168,19 +179,33 @@ const UpdateStatusToOff = (status, hostname) => {
   );
 };
 
-const DeleteComputerDB = (ip) => { 
-  return new Promise((resolve, reject)=> { 
-    db.run("DELETE FROM pcs WHERE ip = ? ", [ip], (err)=> { 
-      if(err){ 
-          logToFile("Erro ao Deletar " + err)
-          resolve({ok: false, error: err})
-      }else { 
-          logToFile("Computador deletado com sucesso!")
-          resolve({ok: true, msg: "Computador deletado com sucesso!"})
+const DeleteComputerDB = (ip) => {
+  return new Promise((resolve, reject) => {
+    db.run("DELETE FROM pcs WHERE ip = ? ", [ip], (err) => {
+      if (err) {
+        logToFile("Erro ao Deletar " + err)
+        resolve({ ok: false, error: err })
+      } else {
+        logToFile("Computador deletado com sucesso!")
+        resolve({ ok: true, msg: "Computador deletado com sucesso!" })
       }
     })
   })
 }
+
+const addUserDB = (user, ip) => { 
+  return new Promise((resolve, reject)=>{
+    db.run('UPDATE pcs SET user = ? WHERE ip = ?', [user, ip], (err)=> { 
+      if(err){ 
+        logToFile("Erro ao Atualizar o nome do USuário" + err)
+        resolve({ok: false, error: err})
+      }else { 
+        resolve({ok: true, msg: "Usuário atualizado com sucesso!"})
+      }
+    })
+  })
+}
+
 module.exports = {
   createTableIfNotExist,
   RegisterComputerDB,
@@ -188,5 +213,6 @@ module.exports = {
   UpdateStatus,
   UpdateStatusToOff,
   GetComputerByIdDB,
-  DeleteComputerDB
+  DeleteComputerDB,
+  addUserDB
 };

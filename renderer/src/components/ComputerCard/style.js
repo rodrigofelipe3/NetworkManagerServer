@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 
 export const CardBody = styled.div `
-    position: relative;
     color: #d6d6d6;
     margin: 0.500rem;
     background-color: #242424;

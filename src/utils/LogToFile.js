@@ -4,7 +4,7 @@ const path = require('path');
 
 const clearLogFile = () => {
     if (fs.existsSync("./log.txt")) {
-        fs.unlink(logFilePath, (err) => {
+        fs.unlink("./log.txt", (err) => {
             if (err) {
                 console.error('Erro ao apagar o arquivo de log:', err.message);
             } else {

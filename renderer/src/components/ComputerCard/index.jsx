@@ -1,12 +1,14 @@
 import React, {useState} from "react";
 import { CardBody, CardContent } from "./style";
 import { VerticalIcon } from "../screens/ListCompScreen/style";
+import { FloatButton } from "../FloatMenu";
 
 
-export const ComputerCard = ({ id, host, ip, mac_address, status, onClick, user}) => { 
+export const ComputerCard = ({ id, host, ip, mac_address, status, onClick, user, recharge}) => { 
 
     return (
         <>
+        <FloatButton ip={ip} taskkill={false} recharge={recharge}>
            <CardBody key={id} onClick={onClick}>
             <CardContent>
                 <div id="img-content">
@@ -21,6 +23,7 @@ export const ComputerCard = ({ id, host, ip, mac_address, status, onClick, user}
                 </div>  
             </CardContent>
            </CardBody>
+        </FloatButton>
         </>
     )
 }

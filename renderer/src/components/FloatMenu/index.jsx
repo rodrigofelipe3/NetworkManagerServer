@@ -4,17 +4,19 @@ import swal from "sweetalert";
 import { Taskkill } from "../../services/cliente/Taskkill";
 import { CancelShutDown, CreateShutDown } from "../../services/cliente/Shutdown";
 import { DeleteComputer } from "../../services/server/DeleteComputer";
+import { addUser } from "../../services/server/addUser";
 
 
 export const FloatButton = ({
     children,
     pid,
     ip,
-    taskkill
+    taskkill,
+    recharge
 }) => {
     const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
     const [visible, setVisible] = useState(false);
-    const [value, setValue] = useState('18:30');
+    const [value, setValue] = useState('');
 
     const handleTaskkill = async (ip, pid) => {
         const response = await Taskkill(ip, pid)
@@ -49,6 +51,56 @@ export const FloatButton = ({
         setMenuPosition({ x: e.pageX, y: e.pageY });
         setVisible(true);
     };
+    var inputValue;
+    const handleChangeUser = (e) => {
+        inputValue = e.target.value;
+    }
+
+    const handleConnectUser = () => { 
+        swal({
+            title: "Atenção!",
+            text: "Digite o nome do usuário deste computador",
+            icon: "warning",
+            content: {
+                element: "input",
+                attributes: {
+                    placeholder: "Joãozinho",
+                    type: "text",
+                    value: inputValue,
+                    onchange: handleChangeUser
+                }
+            },
+            buttons: [true, true]
+
+        }).then(async (data) => {
+            if (data) {
+                const formData = { 
+                    user: inputValue,
+                    ip: ip
+                }
+                
+        console.log("INput Value: " + inputValue)
+                const response = await addUser(ip, formData)
+                console.log(response)
+                if (response.ok == true) {
+                    recharge(response.ok)
+                    swal({
+                        title: "Feito!",
+                        text: response.msg,
+                        icon: "success",
+                        timer: 2000
+                    })
+                } else {
+                    swal({
+                        title: "Error!",
+                        text: response.error,
+                        icon: "error",
+                        timer: 2000
+                    })
+                }
+            }
+        })
+    }
 
     const handleCancelShutdown = () => {
         swal({
@@ -176,6 +228,7 @@ export const FloatButton = ({
                         <MenuItem onClick={() => handleDeleteComputer()} >Deletar este Computador</MenuItem>
                         <MenuItem onClick={() => handleCancelShutdown()} >Cancelar Shutdown</MenuItem>
                         <MenuItem onClick={() => handleCreateShutDown()} >Programar Shutdown</MenuItem>
+                        <MenuItem onClick={() => handleConnectUser()} >Definir Usuário</MenuItem>
                     </Menu>
                 }
                 {children}

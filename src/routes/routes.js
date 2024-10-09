@@ -1,6 +1,6 @@
 const express = require("express");
 const RegisterComputer = require("../controllers/Register");
-const { GetAllComputer } = require("../database/database");
+const { GetAllComputer, addUserDB } = require("../database/database");
 const HeartBeat = require("../controllers/HeartBeat");
 const { logToFile } = require("../utils/LogToFile");
 const { GetScreen } = require("../controllers/getScreen");
@@ -19,12 +19,14 @@ router.get("/computers", (req, res) => {
   });
 });
 
-router.post("/registerComputer", (req, res) => {
-  const response = RegisterComputer(req, res);
-  if (response == true) {
-    return res.status(200);
-  } else {
-    return res.status(500);
+router.post("/registerComputer", async (req, res) => {
+  const response = await RegisterComputer(req, res);
+  if (response.ok == true) {
+    return res.status(200).json({ok: true, msg: response.msg});
+  } else if (response.ok == false && response.msg) {
+    return res.status(200).json({ok: true, msg: response.msg});
+  }  else {
+    return res.status(500).json({ok: false, error: response.error});
   }
 });
 
@@ -44,36 +46,6 @@ router.post("/heartbeat/:name", async (req, res) => {
   }
 });
 
-router.post("/get/screen/:URL", async (req, res) => {
-  const { URL } = req.params;
-  console.log(URL);
-  const netData = await si.networkInterfaces();
-  let machineIP = "";
-  netData.forEach((iface) => {
-    if (iface.iface == "Ethernet") {
-      machineIP = iface.ip4;
-    }
-  });
-
-  const SERV = machineIP;
-
-  try {
-    const response = await fetch(
-      `http://${URL}:5001/api/share/screen/${SERV}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    GetScreen();
-    return res.status(200);
-  } catch (err) {
-    return logToFile("Erro na rota de GETSCREEN: " + err);
-  }
-});
 
 router.get("/computerbyid/:id", async (req, res) => {
   const id = req.params.id;
@@ -112,4 +84,19 @@ router.post("/wakeonlan", async (req, res)=> {
     return res.status(500).json({ok: false, error: err})
   }
 })
+
+router.post("/adduser", async (req, res)=>{
+    const {user, ip} = req.body
+    try { 
+      const response = await addUserDB(user, ip)
+      if(response.ok == true){ 
+          return res.status(200).json({ok: true, msg: response.msg})
+      }else { 
+        return res.status(200).json({ok: false, msg: response.error})
+      }
+    }catch(err){ 
+      logToFile(err)
+    }
+})
+
 module.exports = router;
