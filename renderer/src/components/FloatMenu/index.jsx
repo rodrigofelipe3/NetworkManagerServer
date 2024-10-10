@@ -5,6 +5,7 @@ import { Taskkill } from "../../services/cliente/Taskkill";
 import { CancelShutDown, CreateShutDown } from "../../services/cliente/Shutdown";
 import { DeleteComputer } from "../../services/server/DeleteComputer";
 import { addUser } from "../../services/server/addUser";
+import { RemoveShutdownDB, UpdatePowerOffDB } from "../../services/server/Shutdown";
 
 
 export const FloatButton = ({
@@ -79,7 +80,6 @@ export const FloatButton = ({
                     ip: ip
                 }
                 
-        console.log("INput Value: " + inputValue)
                 const response = await addUser(ip, formData)
                 console.log(response)
                 if (response.ok == true) {
@@ -111,23 +111,11 @@ export const FloatButton = ({
             buttons: true
         }).then(async (value) => {
             if (value) {
-                const response = await CancelShutDown(ip)
-
-                if (response.ok == true) {
-                    swal({
-                        title: "Feito!",
-                        text: response.msg,
-                        icon: "success",
-                        timer: 2000
-                    })
-                } else {
-                    swal({
-                        title: "Error!",
-                        text: response.error,
-                        icon: "error",
-                        timer: 2000
-                    })
+                const formData = { 
+                    poweroff: 0,
+                    ip: ip,
                 }
+                await RemoveShutdownDB(formData)
             }
 
         })
@@ -163,23 +151,13 @@ export const FloatButton = ({
 
         }).then(async (value) => {
             if (value) {
-                const response = await CreateShutDown(ip, value)
-
-                if (response.ok == true) {
-                    swal({
-                        title: "Feito!",
-                        text: response.msg,
-                        icon: "success",
-                        timer: 2000
-                    })
-                } else {
-                    swal({
-                        title: "Error!",
-                        text: response.error,
-                        icon: "error",
-                        timer: 2000
-                    })
+                const formData = { 
+                    poweroff: 1,
+                    ip: ip,
+                    time: value
                 }
+                await UpdatePowerOffDB(formData)
+
             }
         })
     }
@@ -201,6 +179,8 @@ export const FloatButton = ({
                         icon: "success",
                         timer: 2000
                     })
+
+                    recharge(response.ok)
                 } else {
                     swal({
                         title: "Error!",

@@ -1,6 +1,6 @@
 const express = require("express");
 const RegisterComputer = require("../controllers/Register");
-const { GetAllComputer, addUserDB } = require("../database/database");
+const { GetAllComputer, addUserDB, UpdatePowerOffState } = require("../database/database");
 const HeartBeat = require("../controllers/HeartBeat");
 const { logToFile } = require("../utils/LogToFile");
 const { GetScreen } = require("../controllers/getScreen");
@@ -92,11 +92,29 @@ router.post("/adduser", async (req, res)=>{
       if(response.ok == true){ 
           return res.status(200).json({ok: true, msg: response.msg})
       }else { 
-        return res.status(200).json({ok: false, msg: response.error})
+        return res.status(404).json({ok: false, error: response.error})
       }
     }catch(err){ 
       logToFile(err)
+      return res.status(500).json({ok: false, error: err})
     }
+})
+
+router.put("/updatepoweroff", async (req, res)=> { 
+  const {ip, poweroff} = req.body
+  try { 
+    
+    const response = await UpdatePowerOffState(poweroff, ip)
+    if(response.ok == true) { 
+      return res.status(200).json({ok: true, msg: response.msg})
+    }else { 
+      return res.status(404).json({ok: false, error: response.error})
+    }
+  }catch(err){ 
+    logToFile(err)
+    return res.status(500).json({ok: false, error: err})
+  }
+  
 })
 
 module.exports = router;

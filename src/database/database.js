@@ -3,7 +3,6 @@ const { logToFile } = require("../utils/LogToFile");
 const path = require("path")
 const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("./database.db");
-//const db = new sqlite3.Database('C:/Users/Rodrigo/Documents/Programação/ManagerShutdownNetwork/dist/database.db');
 
 const createTableIfNotExist = () => {
   db.serialize(() => {
@@ -179,6 +178,23 @@ const UpdateStatusToOff = (status, hostname) => {
   );
 };
 
+const UpdatePowerOffState = (poweroff, ip) => { 
+  return new Promise((resolve, reject)=> { 
+    db.run(
+      "UPDATE pcs SET poweroff = ? WHERE ip = ?",
+      [poweroff, ip],
+      (err) => {
+        if (err) {
+          logToFile("Erro ao atualizar o status de desligamento: " + err);
+          resolve({ok: false, error: err})
+        }
+        logToFile("Status Atualizado com Sucesso!");
+        resolve({ok: true, msg: "Status atualizado no banco de dados"})
+      }
+    );
+  })
+}
+
 const DeleteComputerDB = (ip) => {
   return new Promise((resolve, reject) => {
     db.run("DELETE FROM pcs WHERE ip = ? ", [ip], (err) => {
@@ -214,5 +230,6 @@ module.exports = {
   UpdateStatusToOff,
   GetComputerByIdDB,
   DeleteComputerDB,
-  addUserDB
+  addUserDB,
+  UpdatePowerOffState
 };
