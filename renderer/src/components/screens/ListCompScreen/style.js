@@ -26,6 +26,7 @@ export const Console = styled.div `
     width: 15rem;
     height: 7rem;
     display: flex;
+    cursor: pointer;
     text-align: center;
     flex-wrap: wrap;
     background-color: #0056c6;

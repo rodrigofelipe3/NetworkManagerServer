@@ -46,7 +46,7 @@ export const HomePage = () => {
         mac_address: "",
         status: "",
         network_devices: "",
-
+        poweroff: 0,
     },
     ])
     

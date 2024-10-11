@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyledButton } from "../../../pages/Homepage/style";
-import { IconPower, InformationContent } from "./style";
+import { IconPower, IconRestart, InformationContent } from "./style";
 import { Table } from "../../Table";
 import { VerticalIcon } from "../ListCompScreen/style";
 import { FloatButton } from "../../FloatMenu";
@@ -112,6 +112,7 @@ export const InformationScreen = ({
                     <StyledButton id="screen-button" onClick={() => handleGetScreen}>Screen</StyledButton>
                     <StyledButton id="wake-on-button" onClick={()=> handleWakeOnLan()}> <IconEthernet/> Acordar</StyledButton>
                     <StyledButton id="wake-on-button" onClick={()=> handlePowerOff()}> <IconPower/> Desligar</StyledButton>
+                    <StyledButton id="wake-on-button" onClick={()=> handlePowerOff()}> <IconRestart/> Reiniciar</StyledButton>
                     {/*<FloatButton ip={ipAdress} taskkill={false}>
                         <VerticalIcon />
                     </FloatButton>*/}
