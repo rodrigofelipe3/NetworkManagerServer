@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HeaderContent, GridContent, Console, CountUpp } from "./style";
 import { ComputerCard } from "../../ComputerCard";
 
@@ -8,17 +8,21 @@ export const ComputerListScreen = ({
     handleClick,
     recharge
 }) => {
-    const [dataLength, setDataLength] = useState(data.length? data.length : 0)
-    
+    const [Conected, setConected] = useState(data.status == "Conectado"? data.length : 0)
+    const [shutdownProgramed, setShutdownProgramed] = useState(data.poweroff == 1? data.length : 0)
+    const [Disconected, setDisconected] = useState(data.status !== "Conectado"? data.length : 0)
+   
+    console.log(data.poweroff == 1? data.length : 0)
+
 
     return (
         <>
             <HeaderContent>
-                    <Console>
+                    <Console onClick={()=> recharge(true)}> 
                         <h3>CONECTADOS</h3>
                        <CountUpp 
                         start={0}
-                        end={dataLength}
+                        end={Conected}
                         decimals={undefined}
                         decimal={undefined}
                         duration={2}
@@ -28,7 +32,7 @@ export const ComputerListScreen = ({
                         <h3>DESCONECTADOS</h3>
                         <CountUpp 
                         start={0}
-                        end={dataLength}
+                        end={Disconected}
                         decimals={undefined}
                         decimal={undefined}
                         duration={2}
@@ -38,7 +42,7 @@ export const ComputerListScreen = ({
                         <h3>DESLIGAMENTO PROGRAMADO</h3>
                         <CountUpp 
                         start={0}
-                        end={dataLength}
+                        end={shutdownProgramed}
                         decimals={undefined}
                         decimal={undefined}
                         duration={2}

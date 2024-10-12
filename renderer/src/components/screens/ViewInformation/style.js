@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { CgEthernet } from "react-icons/cg";
 import { FaPowerOff } from "react-icons/fa";
+import { RiRestartFill } from "react-icons/ri";
 export const InformationContent = styled.div `
     width: 100%;
     display: flex;
@@ -46,6 +47,12 @@ export const IconEthernet = styled(CgEthernet)`
 `
 
 export const IconPower = styled(FaPowerOff)`
+    padding-right: 0.5rem;
+    font-size: 1rem;
+    color: #fff;
+`
+
+export const IconRestart = styled(RiRestartFill)`
     padding-right: 0.5rem;
     font-size: 1rem;
     color: #fff;
