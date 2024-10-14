@@ -10,9 +10,11 @@ const createTableIfNotExist = () => {
                     host TEXT NOT NULL,
                     processor TEXT NOT NULL,
                     memory INTEGER NOT NULL,
+                    hard_disk TEXT NOT NULL,
                     operating_system TEXT NOT NULL,
                     arch TEXT NOT NULL,
                     release TEXT NOT NULL,
+                    monitors TEXT,
                     ip TEXT UNIQUE NOT NULL,
                     user TEXT,
                     mac_address TEXT UNIQUE NOT NULL,
@@ -35,9 +37,11 @@ const RegisterComputerDB = (
   host,
   processor,
   memory,
+  hard_disk,
   operating_system,
   arch,
   release,
+  monitors,
   ip,
   mac_adress,
   network_devices,
@@ -61,13 +65,15 @@ const RegisterComputerDB = (
         if (row) {
           // O computador já foi registrado
           db.run(
-            "UPDATE pcs SET processor = ?, memory = ? , operating_system = ?, arch =?, release =?, ip = ?, mac_address=?, network_devices = ?, poweroff = ?, poweroffhour =?, status = ?, lasthb = ?  WHERE host = ?",
+            "UPDATE pcs SET processor = ?, memory = ? , hard_disk = ? , operating_system = ?,  arch =?,  release =?, monitors = ? ,ip = ?, mac_address=?, network_devices = ?, poweroff = ?, poweroffhour =?, status = ?, lasthb = ?  WHERE host = ?",
             [
               processor,
               memory,
+              hard_disk,
               operating_system,
               arch,
               release,
+              monitors,
               ip,
               mac_adress,
               network_devices,
@@ -91,14 +97,16 @@ const RegisterComputerDB = (
           );
         } else {
           db.run(
-            "INSERT INTO pcs (host, processor, memory, operating_system, arch, release, ip, mac_address, network_devices, poweroff, poweroffhour, status, lasthb) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO pcs (host, processor, memory, hard_disk, operating_system, arch, release, monitors, ip, mac_address, network_devices, poweroff, poweroffhour, status, lasthb) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
               host,
               processor,
               memory,
+              hard_disk,
               operating_system,
               arch,
               release,
+              monitors,
               ip,
               mac_adress,
               network_devices,

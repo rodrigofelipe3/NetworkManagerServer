@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { HeaderCell, TableBody, TableCell, TableContent, TableHeader, TableRow, TopContent } from "./style";
 import { FloatButton } from "../FloatMenu";
-import { getComputerById } from "../../services/server/GetComputerById";
+import { Header } from "../Header/style";
 
+const teste = [
+    'Realtek PCIe GbE Family Controller',
+    'Killer Wireless-n/a/ac 1535 Wireless Network Adapter'
+  ]
 
 
 export const Table = ({
@@ -39,13 +43,17 @@ export const Table = ({
             host: "",
             processor: "",
             memory: "",
+            hard_disk: "",
             operating_system: "",
             arch: "",
             release: "",
+            monitors: "",
             ip: "", 
             mac_address: "", 
             status: "" ,
-            network_devices: ''
+            network_devices: [""],
+            poweroff: '',
+            poweroffhour: ""
     },
     ipAdress
 }) => {
@@ -123,46 +131,59 @@ export const Table = ({
                     </TableHeader>
                     <TableBody>
                         <TableRow>
-                            <TableCell id="information">Host: </TableCell>
-                            <TableCell id="type">{information.host? information.host : "NULL"}</TableCell>
+                            <TableCell id="information">
+                                Host: <p id="type">{information.host? information.host : "NULL"}</p> 
+                            </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell id="information">Processador: </TableCell>
-                            <TableCell id="type">{information.processor? information.processor : "NULL"}</TableCell>
+                            <TableCell id="information">
+                                Processador: <p id="type">{information.processor? information.processor : "NULL"}</p> 
+                            </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell id="information">Memoria: </TableCell>
-                            <TableCell id="type">{information.memory? bytesToGigabytes(information.memory).toFixed(2) : "0,0"}GB</TableCell>
+                            <TableCell id="information">
+                                Memoria:  <p id="type">{information.memory? bytesToGigabytes(information.memory).toFixed(2) : "0,0"}GB</p>
+                            </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell id="information">Sistema(SO): </TableCell>
-                            <TableCell id="type">{information.operating_system? information.operating_system : "NULL"}</TableCell>
+                            <TableCell id="information">
+                                Sistema(SO): <p id="type">{information.operating_system? information.operating_system : "NULL"}</p>
+                            </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell id="information">Arch: </TableCell>
-                            <TableCell id="type">{information.arch? information.arch : "NULL"}</TableCell>
+                            <TableCell id="information">
+                                Arch:  <p id="type">{information.arch? information.arch : "NULL"}</p>
+                            </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell id="information">Release:</TableCell>
-                            <TableCell id="type">{information.release? information.release : "NULL"}</TableCell>
+                            <TableCell id="information">
+                                Release:  <p id="type">{information.release? information.release : "NULL"}</p>
+                            </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell id="information" >IP: </TableCell>
-                            <TableCell id="type">{information.ip? information.ip : "NULL"}</TableCell>
+                            <TableCell id="information" >
+                                IP:  <p id="type">{information.ip? information.ip : "NULL"}</p>
+                            </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell id="information">MAC: </TableCell>
-                            <TableCell id="type">{information.mac_address? information.mac_address : "NULL"}</TableCell>
+                            <TableCell id="information">
+                                MAC:  <p id="type">{information.mac_address? information.mac_address : "NULL"}</p>
+                            </TableCell>
                         </TableRow>
+                        
                         <TableRow>
-                            <TableCell id="information">Adaptadores de Rede: </TableCell>
-                            <TableCell id="type">{information.network_devices? information.network_devices.replace(", Loopback Pseudo-Interface 1", "") : "NULL"}</TableCell>
+                            <TableCell id="information">
+                                Status: <p id="type">{information.status? information.status : "NULL"}</p>
+                            </TableCell>
                         </TableRow>
-                        <TableRow>
-                            <TableCell id="information">Status: </TableCell>
-                            <TableCell id="type">{information.status? information.status : "NULL"}</TableCell>
-                        </TableRow>
-
+                    </TableBody>
+                    <TableHeader>
+                        <HeaderCell>Adaptadores de Rede</HeaderCell>
+                    </TableHeader>
+                    <TableBody>
+                        {teste.map(devices => <TableRow>
+                            <TableCell>{devices}</TableCell>
+                        </TableRow>)}
                     </TableBody>
                 </TableContent>
             }

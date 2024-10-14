@@ -39,24 +39,26 @@ export const HomePage = () => {
         host: "",
         processor: "",
         memory: "",
+        hard_disk: "",
         operating_system: "",
         arch: "",
         release: "",
+        monitors: "",
         ip: "",
-        user:"", 
         mac_address: "",
-        network_devices: "",
-        poweroff: 0,
         status: "",
+        network_devices: [""],
+        poweroff: '',
+        poweroffhour: ""
     },
     ])
-    
-    const handleGetComputerById = async (id) => { 
+
+    const handleGetComputerById = async (id) => {
         const response = await getComputerById(id)
-        if (response.msg){ 
+        if (response.msg) {
             setData([response.msg])
-            
-        }else { 
+
+        } else {
             swal({
                 title: "Oops...",
                 text: "Error: " + response.error,
@@ -81,26 +83,26 @@ export const HomePage = () => {
             setData(response)
         }
     }
-    const handleGetScreen = async () => { 
-        try { 
+    const handleGetScreen = async () => {
+        try {
             fetch(`http://localhost:5000/api/get/screen/${adressIp}/`, {
                 method: "POST",
-                headers: { 
-                    "Content-Type":"application/json"
+                headers: {
+                    "Content-Type": "application/json"
                 },
             })
-        }catch(error){ 
-            
+        } catch (error) {
+
         }
     }
     const handleGetProcess = async () => {
-        
+
         try {
             const response = await getProcess(adressIp)
             if (response) {
 
                 setInformation([response])
-            }else { 
+            } else {
                 swal({
                     title: "Error",
                     text: "Error: " + response.error,
@@ -112,12 +114,12 @@ export const HomePage = () => {
         }
     }
     const handleGetProcessMemory = async () => {
-        
-        try { 
-            const response =  await getProcessMemory(adressIp)
+
+        try {
+            const response = await getProcessMemory(adressIp)
             if (response) {
                 setInformation([response])
-            }else {
+            } else {
                 swal({
                     title: "Error",
                     text: "Erro: " + response.error,
@@ -125,7 +127,7 @@ export const HomePage = () => {
                     timer: 2000
                 })
             }
-        }catch (error) {
+        } catch (error) {
             swal({
                 title: "Error",
                 text: "Erro: " + error,
@@ -136,24 +138,24 @@ export const HomePage = () => {
     }
     const handleClick = (pcs, ip, mac) => {
 
-        const keyValue = pcs? pcs : "1";
+        const keyValue = pcs ? pcs : "1";
         setAdressip(ip)
         setMacAdress(mac)
         setSelectedKey(keyValue);
         setViewInformation(true);
     };
 
-    const filteredComputers = data.filter(computer => 
-        computer.host.toLowerCase().includes(InputValue.toLowerCase() || InputValue2.toLowerCase()) || 
+    const filteredComputers = data.filter(computer =>
+        computer.host.toLowerCase().includes(InputValue.toLowerCase() || InputValue2.toLowerCase()) ||
         computer.status.toLowerCase().includes(InputValue.toLowerCase() || InputValue2.toLowerCase()) ||
         computer.poweroff === Number(InputValue) || Number(InputValue2)
     );
 
-   
+
     useEffect(() => {
         setIsLoading(true)
         try {
-            if(viewInformation == true){ 
+            if (viewInformation == true) {
                 handleGetComputerById(selectedKey)
                 setInformation([{
                     data: {
@@ -169,7 +171,7 @@ export const HomePage = () => {
                         }]
                     }
                 }])
-            }else if(viewInformation == false){ 
+            } else if (viewInformation == false) {
                 handleGetData()
                 setInformation([{
                     data: {
@@ -186,10 +188,10 @@ export const HomePage = () => {
                     }
                 }])
             }
-           
+
         } catch (err) {
-            
-        }finally{ 
+
+        } finally {
             setIsLoading(false)
             setRecharge(false)
         }
@@ -197,28 +199,28 @@ export const HomePage = () => {
     }, [viewInformation, recharge])
     return (
         <>
-            
-            
+
+
             <ContainerJSX>
-            {isLoading && <LoadingComponent/>}
+                {isLoading && <LoadingComponent />}
                 <CompHeader
                     setInputValue={setInputValue}
                     InputValue={InputValue}
                 />
                 {!viewInformation && (
                     <ComputerListScreen
-                    data={data}
-                    setInputValue={setInputValue2}
-                    filter={filteredComputers}
-                    handleClick={handleClick}
-                    recharge={setRecharge}
+                        data={data}
+                        setInputValue={setInputValue2}
+                        filter={filteredComputers}
+                        handleClick={handleClick}
+                        recharge={setRecharge}
                     />
                 )}
                 {viewInformation && (
-                    <InformationScreen 
+                    <InformationScreen
                         data={data}
                         information={information}
-                        informationScreen={()=> setViewInformation(false)}
+                        informationScreen={() => setViewInformation(false)}
                         handleGetProcess={handleGetProcess}
                         handleGetProcessMemory={handleGetProcessMemory}
                         handleGetScreen={handleGetScreen}
@@ -226,7 +228,7 @@ export const HomePage = () => {
                         macAdress={macAdress}
 
                     />
-                )}      
+                )}
             </ContainerJSX>
         </>
     )

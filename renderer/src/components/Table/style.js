@@ -97,6 +97,7 @@ export const TableRow = styled.tr`
   #task-name {
     text-align: start;
   }
+
 `;
 
 export const TableCell = styled.td`

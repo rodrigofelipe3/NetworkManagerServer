@@ -1,46 +1,36 @@
-const { contextBridge, ipcRenderer } = require('electron');
 const http = require('http');
-const { exec } = require('child_process');
-const path = require('path');
 
+const serverUrl = 'http://127.0.0.1:3000'; 
+const interval = 1000; 
 
-function checkServerStatus() {
+function checkServer() {
   return new Promise((resolve, reject) => {
-    const options = {
-      hostname: '127.0.0.1',
-      port: 3000,
-      path: '/',
-      method: 'GET',
-    };
-
-    const req = http.request(options, (res) => {
+    http.get(serverUrl, (res) => {
       if (res.statusCode === 200) {
-        resolve(true); 
+        resolve(true);
       } else {
-        reject(new Error(`Status: ${res.statusCode}`));
+        reject(new Error('Servidor não está pronto ainda'));
       }
+    }).on('error', () => {
+      reject(new Error('Servidor não está pronto ainda'));
     });
-
-    req.on('error', (e) => {
-      reject(e); 
-    });
-
-    req.end();
   });
 }
 
-
-async function initApp() {
-  try {
-    await checkServerStatus();
-    
-    ipcRenderer.send('server-ready');
-  } catch (error) {
-    console.error('Erro ao conectar ao servidor:', error);
-    setTimeout(initApp, 1000); 
+async function waitForServer() {
+  console.log(`Aguardando o servidor React em ${serverUrl}...`);
+  let serverReady = false;
+  while (!serverReady) {
+    try {
+      await checkServer();
+      serverReady = true;
+    } catch (err) {
+      console.log(err.message);
+      await new Promise(resolve => setTimeout(resolve, interval));
+    }
   }
+  console.log('Servidor React está pronto!');
+  process.exit(0); 
 }
 
-contextBridge.exposeInMainWorld('api', {
-  initApp,
-});
+waitForServer();

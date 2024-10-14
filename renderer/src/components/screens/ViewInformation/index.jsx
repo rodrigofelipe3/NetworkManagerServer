@@ -11,17 +11,22 @@ import { ShutDownNow } from "../../../services/cliente/Shutdown";
 
 export const InformationScreen = ({
     data = [{
+        
         id: "",
         host: "",
         processor: "",
         memory: "",
+        hard_disk: "",
         operating_system: "",
         arch: "",
         release: "",
-        ip: "",
-        mac_address: "",
-        status: "",
-        network_devices: "",
+        monitors: "",
+        ip: "", 
+        mac_address: "", 
+        status: "" ,
+        network_devices: [""],
+        poweroff: '',
+        poweroffhour: ""
 
     },
     ],
@@ -122,7 +127,7 @@ export const InformationScreen = ({
                             data.map((information) =>
                             (<Table
                                 isTaskManager={false}
-                                headers={["Tipo", "Descrição"]}
+                                headers={["Informações do Sistema"]}
                                 isSystemInfo={true}
                                 information={information}
                             />)

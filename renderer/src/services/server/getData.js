@@ -12,7 +12,6 @@ export const GetData = async () => {
     const response = await fetch(URL, options)
     .then((response)=> response.json())
     .then((data)=> { 
-        console.log(data)
         return data
     })
     .catch((err)=> { 
