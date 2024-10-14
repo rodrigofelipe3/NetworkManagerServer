@@ -5,6 +5,7 @@ const HeartBeat = require("../controllers/HeartBeat");
 const { logToFile } = require("../utils/LogToFile");
 const { GetScreen } = require("../controllers/getScreen");
 const router = express.Router();
+const Report = require("../database/report")
 const si = require("systeminformation");
 const { GetComputerById, DeleteComputer } = require("../controllers/Computer");
 const { WakeOnLan } = require("../controllers/WakeOnLan");
@@ -101,10 +102,11 @@ router.post("/adduser", async (req, res)=>{
 })
 
 router.put("/updatepoweroff", async (req, res)=> { 
-  const {ip, poweroff} = req.body
+  
+  const {ip, poweroff, time} = req.body
   try { 
     
-    const response = await UpdatePowerOffState(poweroff, ip)
+    const response = await UpdatePowerOffState(poweroff, time, ip)
     if(response.ok == true) { 
       return res.status(200).json({ok: true, msg: response.msg})
     }else { 
@@ -115,6 +117,19 @@ router.put("/updatepoweroff", async (req, res)=> {
     return res.status(500).json({ok: false, error: err})
   }
   
+})
+
+router.post("/report", async (req, res)=> { 
+  try{ 
+    const response = await Report()
+    if(response.ok == true){ 
+        return res.status(200).json({ok: true, msg: response.msg})
+    }else { 
+      return res.status(404).json({ok: false, error: response.error})
+    }
+  }catch(err){ 
+    return res.status(500).json({ok: false, error: err})
+  }
 })
 
 module.exports = router;

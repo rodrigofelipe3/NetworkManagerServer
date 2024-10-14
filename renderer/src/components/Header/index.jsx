@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Header, IconSearch, IconSettings, Li, Nav, SearchInput, Ul } from "./style";
+import { FloatButton } from "../FloatMenu";
 const logo = require("../../assets/imagens/logo.png");
 
 export const CompHeader = ({ InputValue, setInputValue }) => {
@@ -37,7 +38,7 @@ export const CompHeader = ({ InputValue, setInputValue }) => {
                                     <IconSearch />
                                 </div>
                                 <div id="settings">
-                                    <IconSettings />
+                                    <FloatButton taskkill={false} settings={true}><IconSettings /></FloatButton> 
                                 </div>
                             </div>
                         </Li>

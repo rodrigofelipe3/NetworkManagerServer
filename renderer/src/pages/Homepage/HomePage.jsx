@@ -17,6 +17,7 @@ export const HomePage = () => {
     const [macAdress, setMacAdress] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const [InputValue, setInputValue] = useState("")
+    const [InputValue2, setInputValue2] = useState("")
     const [information, setInformation] = useState([{
         data: {
             system: {
@@ -44,9 +45,9 @@ export const HomePage = () => {
         ip: "",
         user:"", 
         mac_address: "",
-        status: "",
         network_devices: "",
         poweroff: 0,
+        status: "",
     },
     ])
     
@@ -67,7 +68,7 @@ export const HomePage = () => {
 
     const handleGetData = async () => {
         const response = await GetData()
-        
+        console.log(response)
         if (response.error) {
             swal({
                 title: "Oops..",
@@ -143,8 +144,12 @@ export const HomePage = () => {
     };
 
     const filteredComputers = data.filter(computer => 
-        computer.host.toLowerCase().includes(InputValue.toLowerCase())
+        computer.host.toLowerCase().includes(InputValue.toLowerCase() || InputValue2.toLowerCase()) || 
+        computer.status.toLowerCase().includes(InputValue.toLowerCase() || InputValue2.toLowerCase()) ||
+        computer.poweroff === Number(InputValue) || Number(InputValue2)
     );
+
+   
     useEffect(() => {
         setIsLoading(true)
         try {
@@ -190,7 +195,6 @@ export const HomePage = () => {
         }
 
     }, [viewInformation, recharge])
-    console.log(recharge)
     return (
         <>
             
@@ -203,7 +207,9 @@ export const HomePage = () => {
                 />
                 {!viewInformation && (
                     <ComputerListScreen
-                    data={filteredComputers}
+                    data={data}
+                    setInputValue={setInputValue2}
+                    filter={filteredComputers}
                     handleClick={handleClick}
                     recharge={setRecharge}
                     />

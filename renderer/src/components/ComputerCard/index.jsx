@@ -4,11 +4,11 @@ import { VerticalIcon } from "../screens/ListCompScreen/style";
 import { FloatButton } from "../FloatMenu";
 
 
-export const ComputerCard = ({ id, host, ip, mac_address, status, onClick, user, recharge}) => { 
+export const ComputerCard = ({ id, host, ip, mac_address, status, onClick, user, recharge, }) => { 
 
     return (
         <>
-        <FloatButton ip={ip} taskkill={false} recharge={recharge}>
+        <FloatButton ip={ip} taskkill={false} recharge={recharge} >
            <CardBody key={id} onClick={onClick}>
             <CardContent>
                 <div id="img-content">

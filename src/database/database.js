@@ -1,6 +1,4 @@
-const { log } = require("electron-builder");
 const { logToFile } = require("../utils/LogToFile");
-const path = require("path")
 const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("./database.db");
 
@@ -178,14 +176,16 @@ const UpdateStatusToOff = (status, hostname) => {
   );
 };
 
-const UpdatePowerOffState = (poweroff, ip) => { 
+const UpdatePowerOffState = (poweroff, poweroffhour, ip) => { 
+  console.log(poweroff, ip)
   return new Promise((resolve, reject)=> { 
     db.run(
-      "UPDATE pcs SET poweroff = ? WHERE ip = ?",
-      [poweroff, ip],
+      "UPDATE pcs SET poweroff = ?, poweroffhour = ? WHERE ip = ?",
+      [poweroff, poweroffhour, ip],
       (err) => {
         if (err) {
           logToFile("Erro ao atualizar o status de desligamento: " + err);
+          console.log(err)
           resolve({ok: false, error: err})
         }
         logToFile("Status Atualizado com Sucesso!");

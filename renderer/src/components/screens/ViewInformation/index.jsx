@@ -113,9 +113,7 @@ export const InformationScreen = ({
                     <StyledButton id="wake-on-button" onClick={()=> handleWakeOnLan()}> <IconEthernet/> Acordar</StyledButton>
                     <StyledButton id="wake-on-button" onClick={()=> handlePowerOff()}> <IconPower/> Desligar</StyledButton>
                     <StyledButton id="wake-on-button" onClick={()=> handlePowerOff()}> <IconRestart/> Reiniciar</StyledButton>
-                    {/*<FloatButton ip={ipAdress} taskkill={false}>
-                        <VerticalIcon />
-                    </FloatButton>*/}
+
                 </div>
                 <div id={"grid-display"}>
                     <div id="systemInformation">

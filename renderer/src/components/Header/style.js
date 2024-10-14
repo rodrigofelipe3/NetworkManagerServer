@@ -49,16 +49,16 @@ export const Li = styled.li`
 
     #settings {
       cursor: pointer;
+      display:flex;
       padding: 0.5rem;
-      border-radius: 100%;
 
-      :hover {
-        transition: ease 0.3s;
-        padding: 0.5rem;
-        border-radius: 100%;
+      
+    }
+    #settings:hover {
+        padding: 0.500rem;
+        border-radius: 50%;
         background-color: #1b4891;
       }
-    }
 
     #search {
       cursor: pointer;

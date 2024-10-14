@@ -46,7 +46,7 @@ function createWindow() {
     width: 1280,
     height: 720,
     webPreferences: {
-      preload: path.join("C:/Users/Setor Administrativo/Documents/Admin-Server-Network-Manager/renderer", 'preload.js'),
+      preload: './preload.js',
       nodeIntegration: false,
       contextIsolation: true
     }

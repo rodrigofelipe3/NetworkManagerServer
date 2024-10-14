@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Menu, MenuItem } from "./style";
 import swal from "sweetalert";
 import { Taskkill } from "../../services/cliente/Taskkill";
-import { CancelShutDown, CreateShutDown } from "../../services/cliente/Shutdown";
 import { DeleteComputer } from "../../services/server/DeleteComputer";
 import { addUser } from "../../services/server/addUser";
 import { RemoveShutdownDB, UpdatePowerOffDB } from "../../services/server/Shutdown";
+import { MakeReport } from "../../services/server/Report";
 
 
 export const FloatButton = ({
@@ -13,7 +13,8 @@ export const FloatButton = ({
     pid,
     ip,
     taskkill,
-    recharge
+    settings,
+    recharge,
 }) => {
     const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
     const [visible, setVisible] = useState(false);
@@ -81,7 +82,6 @@ export const FloatButton = ({
                 }
                 
                 const response = await addUser(ip, formData)
-                console.log(response)
                 if (response.ok == true) {
                     recharge(response.ok)
                     swal({
@@ -90,6 +90,7 @@ export const FloatButton = ({
                         icon: "success",
                         timer: 2000
                     })
+                    recharge(true)
                 } else {
                     swal({
                         title: "Error!",
@@ -115,11 +116,14 @@ export const FloatButton = ({
                     poweroff: 0,
                     ip: ip,
                 }
-                await RemoveShutdownDB(formData)
+                const response = await RemoveShutdownDB(formData)
+                if(response.ok == true) { 
+                    recharge(response.ok)
+                }
             }
-
         })
     }
+
     const handleOnChange = (e) => {
         let inputValue = e.target.value;
         inputValue = inputValue.replace(/\D/g, '');
@@ -133,6 +137,7 @@ export const FloatButton = ({
         }
         setValue(inputValue);
     }
+
     const handleCreateShutDown = async () => {
         swal({
             title: "Atenção!",
@@ -156,8 +161,8 @@ export const FloatButton = ({
                     ip: ip,
                     time: value
                 }
-                await UpdatePowerOffDB(formData)
-
+                const response = await UpdatePowerOffDB(formData)
+                recharge(response.ok)
             }
         })
     }
@@ -193,22 +198,56 @@ export const FloatButton = ({
         })
     }
 
+    const handleMakeReport = async () => {
+        swal({
+            title: "Atenção!",
+            text: "Tem certeza que deseja gerar Relatório?",
+            icon: "warning",
+            dangerMode: false,
+            buttons: true
+        }).then(async (value) => {
+            if (value === true) {
+                const response = await MakeReport()
 
+                if (response.ok === true) {
+                    swal({
+                        title: "Feito!",
+                        text: response.msg,
+                        icon: "success",
+                        timer: 2000
+                    })
+
+                } else {
+                    swal({
+                        title: "Error!",
+                        text: response.error,
+                        icon: "error",
+                        timer: 2000
+                    })
+                }
+            }
+        })
+    }
     return (
         <>
             <div onContextMenu={handleContextMenu} style={{ width: "100%", display: "flex" }}>
 
-                {taskkill &&
+                {taskkill && !settings &&
                     <Menu top={menuPosition.y} left={menuPosition.x} visible={visible}>
                         <MenuItem onClick={() => handleTaskkill(ip, pid)} >Finalizar tarefa</MenuItem>
                     </Menu>
                 }
-                {!taskkill &&
+                {!taskkill && !settings && 
                     <Menu top={menuPosition.y} left={menuPosition.x} visible={visible}>
                         <MenuItem onClick={() => handleDeleteComputer()} >Deletar este Computador</MenuItem>
                         <MenuItem onClick={() => handleCancelShutdown()} >Cancelar Shutdown</MenuItem>
                         <MenuItem onClick={() => handleCreateShutDown()} >Programar Shutdown</MenuItem>
                         <MenuItem onClick={() => handleConnectUser()} >Definir Usuário</MenuItem>
+                    </Menu>
+                }
+                {!taskkill && settings && 
+                    <Menu top={menuPosition.y} left={menuPosition.x} visible={visible}>
+                        <MenuItem onClick={() => handleMakeReport()} >Relatório de Configurações</MenuItem>
                     </Menu>
                 }
                 {children}

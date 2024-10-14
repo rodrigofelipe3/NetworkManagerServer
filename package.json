@@ -31,6 +31,7 @@
     "socket.io-client": "^4.8.0",
     "sqlite3": "^5.1.7",
     "systeminformation": "^5.23.5",
-    "wake_on_lan": "^1.0.0"
+    "wake_on_lan": "^1.0.0",
+    "xlsx": "^0.18.5"
   }
 }
