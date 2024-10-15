@@ -226,6 +226,7 @@ export const HomePage = () => {
                         handleGetScreen={handleGetScreen}
                         ipAdress={adressIp}
                         macAdress={macAdress}
+                        viewInformation={setViewInformation}
 
                     />
                 )}

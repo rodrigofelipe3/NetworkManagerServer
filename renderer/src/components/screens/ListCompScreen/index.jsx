@@ -21,7 +21,7 @@ export const ComputerListScreen = ({
 
        setConected(data.length !== 0 && status[0] == "Conectado"? data.length : 0)
        setDisconected(data.length !== 0 && status[0] !== "Conectado"? data.length : 0)
-       setShutdownProgramed(data.length !== 0 &&  poweroff[0]== 1? data.length : 0)
+       setShutdownProgramed(data.length !== 0 &&  poweroff[0] == 1? data.length : 0)
         
     }, [data])
 

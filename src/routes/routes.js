@@ -3,10 +3,8 @@ const RegisterComputer = require("../controllers/Register");
 const { GetAllComputer, addUserDB, UpdatePowerOffState } = require("../database/database");
 const HeartBeat = require("../controllers/HeartBeat");
 const { logToFile } = require("../utils/LogToFile");
-const { GetScreen } = require("../controllers/getScreen");
 const router = express.Router();
 const Report = require("../database/report")
-const si = require("systeminformation");
 const { GetComputerById, DeleteComputer } = require("../controllers/Computer");
 const { WakeOnLan } = require("../controllers/WakeOnLan");
 
@@ -19,6 +17,8 @@ router.get("/computers", (req, res) => {
     }
   });
 });
+
+
 
 router.post("/registerComputer", async (req, res) => {
   const response = await RegisterComputer(req, res);

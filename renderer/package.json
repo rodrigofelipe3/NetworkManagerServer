@@ -13,21 +13,23 @@
     "@testing-library/user-event": "^13.5.0",
     "concurrently": "^9.0.1",
     "cross-env": "^7.0.3",
+    "electron-builder": "^25.0.5",
     "react": "^18.3.1",
     "react-countup": "^6.5.3",
     "react-dom": "^18.3.1",
     "react-icons": "^5.3.0",
+    "react-pro-sidebar": "^1.1.0",
     "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
     "react-spinner": "^0.2.7",
     "styled-components": "^6.1.13",
-    "sweetalert": "^2.1.2",
-    "electron-builder": "^25.0.5"
+    "sweetalert": "^2.1.2"
   },
   "devDependencies": {
     "electron": "^32.1.0",
     "electron-builder": "^25.0.5"
   },
+  "proxy": "http://localhost:5000",
   "scripts": {
     "start": "concurrently \"cross-env BROWSER=none react-scripts start\" \"npm run server\" \"npm run wait-react\"",
     "wait-react": "node preload.js && npm run electron",
@@ -44,15 +46,15 @@
       "./preload.js",
       "./node_modules/**/*"
     ],
-    "directories": { 
-      "output" : "C:/Program Files/TI Administration/"
+    "directories": {
+      "output": "C:/Program Files/TI Administration/"
     },
     "extraMetadata": {
       "main": "./main.js"
     },
-    "win": { 
-        "icon": "C:/Program Files/TI Administration/logo.ico",
-        "target": "portable"
+    "win": {
+      "icon": "C:/Program Files/TI Administration/logo.ico",
+      "target": "portable"
     }
   },
   "eslintConfig": {

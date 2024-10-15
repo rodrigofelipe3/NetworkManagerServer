@@ -6,7 +6,6 @@ export const Header = styled.header`
   width: 100%;
   background-color: #0056c6;
   display: flex;
-  margin-bottom: 2rem;
 `;
 
 export const IconSearch = styled(IoSearchOutline)`
