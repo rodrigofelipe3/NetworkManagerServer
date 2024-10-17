@@ -185,7 +185,7 @@ const UpdateStatusToOff = (status, hostname) => {
 };
 
 const UpdatePowerOffState = (poweroff, poweroffhour, ip) => { 
-  console.log(poweroff, ip)
+ 
   return new Promise((resolve, reject)=> { 
     db.run(
       "UPDATE pcs SET poweroff = ?, poweroffhour = ? WHERE ip = ?",

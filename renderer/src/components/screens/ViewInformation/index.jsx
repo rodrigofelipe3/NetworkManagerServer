@@ -2,6 +2,7 @@ import React from "react";
 import { InformationContent } from "./style";
 import { Table } from "../../Table";
 import { SideBar } from "../../Sidebar";
+import LogsViewer from "../../LogViewer";
 
 export const InformationScreen = ({
     data = [{
@@ -54,15 +55,6 @@ export const InformationScreen = ({
             <SideBar collapsed={true}  macAdress={macAdress} ipAdress={ipAdress} viewInformation={viewInformation}/>
             <InformationContent>
                 <div id="manager-buttons">
-                    {/*
-                        <StyledButton id="back-button" onClick={() => informationScreen()}>
-                            Voltar
-                        </StyledButton>
-                        <StyledButton id="screen-button" onClick={() => handleGetScreen}>Screen</StyledButton>
-                        <StyledButton id="wake-on-button" onClick={()=> handleWakeOnLan()}> <IconEthernet/> Acordar</StyledButton>
-                        <StyledButton id="wake-on-button" onClick={()=> handlePowerOff()}> <IconPower/> Desligar</StyledButton>
-                        <StyledButton id="wake-on-button" onClick={()=> handlePowerOff()}> <IconRestart/> Reiniciar</StyledButton>
-                    */}
 
                 </div>
                 <div id={"grid-display"}>
@@ -89,9 +81,9 @@ export const InformationScreen = ({
                         />
                     </div>
                 </div>
-
+                 
             </InformationContent>
-
+            <LogsViewer></LogsViewer>
         </>
     )
 }

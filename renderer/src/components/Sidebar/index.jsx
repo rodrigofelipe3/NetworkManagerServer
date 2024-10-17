@@ -43,9 +43,9 @@ export const SideBar = ({collapsed, ipAdress, macAdress, viewInformation}) => {
         mac: macAdress,
         ip: ipAdress
     }
-    const handleWakeOnLan = () => { 
-        const response = Wake_On_Lan(ipAdress, WakeOnLan)
-        if(response.ok == true){ 
+    const handleWakeOnLan = async () => { 
+        const response = await Wake_On_Lan(WakeOnLan)
+        if(response.ok === true){ 
             swal({ 
                 title: "Feito!",
                 text: response.msg,
@@ -88,7 +88,7 @@ export const SideBar = ({collapsed, ipAdress, macAdress, viewInformation}) => {
 
     return (
         <>
-            <SidebarBody collapsed={collapsed} style={{position: "absolute", border: "none", height: "100vh"}}>
+            <SidebarBody collapsed={collapsed} style={{position: "absolute", border: "none", height: "111vh"}}>
                 <MenuSidebar>
                     <SubMenu icon={<IconReturn/>}>
                         <MenuItemSidebar onClick={()=> viewInformation(false)}>Voltar</MenuItemSidebar>

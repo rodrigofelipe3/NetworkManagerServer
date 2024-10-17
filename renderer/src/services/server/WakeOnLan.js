@@ -1,7 +1,7 @@
 import swal from "sweetalert"
 
-export const Wake_On_Lan = async (ip, data) => { 
-    const URL = `http://${ip}:5000/api/wakeonlan`
+export const Wake_On_Lan = async (data) => { 
+    const URL = `http://127.0.0.1:5000/api/wakeonlan`
     const options = { 
         method: "POST",
         headers: { 
@@ -13,7 +13,6 @@ export const Wake_On_Lan = async (ip, data) => {
     const response = await fetch(URL, options)
     .then((response)=> response.json())
     .then((data)=> {
-
         return data
     })
     .catch((err)=> { 

@@ -13,6 +13,7 @@ router.get("/computers", (req, res) => {
     if (err) {
       return res.status(500).json({ error: "Erro ao consultar dados." });
     } else {
+      console.log(rows)
       return res.json(rows);
     }
   });

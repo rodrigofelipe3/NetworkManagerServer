@@ -8,11 +8,11 @@ import { LuScreenShare } from "react-icons/lu";
 import { GrHostMaintenance } from "react-icons/gr";
 
 export const SidebarBody = styled(Sidebar)`
+   
     .css-dip3t8{
         background-color: #1e2126;
     }
     
-    height: 100%;   
     .css-um1o6k{ 
         display: none;
     }
@@ -43,9 +43,7 @@ export const SidebarBody = styled(Sidebar)`
 
 `
 export const MenuSidebar = styled(Menu)`
-    a:hover{
-        background-color: aqua;
-     }
+    
 `
 
 export const MenuItemSidebar = styled(MenuItem)`

@@ -146,6 +146,12 @@ export const Table = ({
                             </TableCell>
                         </TableRow>
                         <TableRow>
+                            {console.log(information.hard_disk)}
+                            <TableCell id="information">
+                                Hard Disk:  <p id="type">{information.hard_disk? information.hard_disk : "NULL"}</p>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
                             <TableCell id="information">
                                 Sistema(SO): <p id="type">{information.operating_system? information.operating_system : "NULL"}</p>
                             </TableCell>
@@ -158,6 +164,11 @@ export const Table = ({
                         <TableRow>
                             <TableCell id="information">
                                 Release:  <p id="type">{information.release? information.release : "NULL"}</p>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell id="information">
+                                Monitores:  <p id="type">{information.monitors? information.monitors : "NULL"}</p>
                             </TableCell>
                         </TableRow>
                         <TableRow>

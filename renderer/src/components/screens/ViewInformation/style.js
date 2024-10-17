@@ -38,6 +38,7 @@ export const InformationContent = styled.div `
     #wake-on-button{
         margin-left: 1rem;
     }
+    margin-bottom: 1rem;
 `
 
 export const IconEthernet = styled(CgEthernet)`
