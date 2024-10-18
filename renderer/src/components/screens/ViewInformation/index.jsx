@@ -48,7 +48,7 @@ export const InformationScreen = ({
     recharge,
     viewInformation
 }) => {
-
+    
 
     return (
         <>
@@ -83,7 +83,7 @@ export const InformationScreen = ({
                 </div>
                  
             </InformationContent>
-            <LogsViewer></LogsViewer>
+            {/*<LogsViewer></LogsViewer>*/}
         </>
     )
 }

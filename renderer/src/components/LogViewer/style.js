@@ -1,8 +1,9 @@
 import styled from "styled-components";
-
+import { IoMdClose } from "react-icons/io";
 
 export const CmdContent = styled.div`
-    width: 80%;
+    //-webkit-app-region: drag;
+    width: 100%;
     max-width: 1280px;
     margin: 0 auto;
     justify-content: center;
@@ -34,19 +35,40 @@ export const CmdBody = styled.div `
 export const PromptHeader = styled.header `
     width: 100%;
     color: #fff;
-    font-weight: 600;
-    padding: 5px;
-    padding-left: 40px;
+    font-weight: 500;
     background-color: #008cff;
+    justify-content: space-between;
     align-items: center;
     display: flex;
     margin: 0 auto;
+    
+    #titulo-prompt{ 
+        display: flex;
+        align-items: center;
+        margin-left: 1rem;
+    }
 
     p{ 
         padding: 0.500rem;
     }
     img { 
         width: 20px;
+        height: 100%;
+    }
+
+    
+
+`
+export const CloseIcon = styled(IoMdClose)`
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    padding: 0.7rem;
+    font-size: 1.3rem;
+    color: #fff;
+    cursor: pointer;
+
+    &:hover { 
+        background-color: red;
     }
 `
-

@@ -1,6 +1,8 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, nativeTheme, ipcMain } = require('electron');
 const { exec } = require('child_process');
-const path = require('path');
+const path = require('node:path');
+
+let promptWindow;
 
 
 const OpenExpressServer = () => {
@@ -42,17 +44,49 @@ const OpenReactServer = async () => {
 }
 
 function createWindow() {
+  nativeTheme.themeSource = 'dark'
   const win = new BrowserWindow({
     width: 1280,
     height: 720,
+    icon: './src/assets/imagens/logo.ico',
+    resizable: false,
+    autoHideMenuBar: true, //ESCONDE A BARRA DE MENU FIlE etc..,
+    //titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
     webPreferences: {
-      preload: './preload.js',
+      preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
-      contextIsolation: true
+      contextIsolation: true,
     }
   });
 
   win.loadURL("http://localhost:3000/")
+}
+
+const createPrompt = () => {
+  const father = BrowserWindow.getFocusedWindow()
+  if (father) {
+    promptWindow = new BrowserWindow({
+      width: 900,
+      height: 500,
+      resizable: false,
+      autoHideMenuBar: true, //ESCONDE A BARRA DE MENU FIlE etc..,
+      parent: father,
+      //titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
+      title: 'Prompt',
+      icon: './src/assets/imagens/prompt-icon.png',
+      minimizable: false,
+      webPreferences: {
+        preload: path.join(__dirname, 'preload.js'),
+        nodeIntegration: false,
+        contextIsolation: true,
+      }
+    });
+
+    promptWindow.loadURL("http://localhost:3000/prompt")
+    
+    promptWindow.setTitle('Prompt');
+  }
+
 }
 
 app.whenReady().then(async () => {
@@ -68,19 +102,28 @@ app.whenReady().then(async () => {
   }
 */
   createWindow()
-});
+  ipcMain.on('open-prompt', (event, arg) => {
+    createPrompt()
+  })
+  ipcMain.on('close-prompt', (event, arg) => {
+    if (promptWindow) {
+      promptWindow.close(); // Fecha a janela prompt
+      promptWindow = null;  // Remove a referência
+    }
+  });
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
- /* exec('taskkill /F /IM server.exe /IM webserver.exe ', (err, stdout, stderr) => {
-    if (err) {
-      console.error('Erro ao fechar network-manager.exe:', err);
-      return;
-    }
-    console.log('network-manager.exe finalizado com sucesso');
-  });*/
+  /* exec('taskkill /F /IM server.exe /IM webserver.exe ', (err, stdout, stderr) => {
+     if (err) {
+       console.error('Erro ao fechar network-manager.exe:', err);
+       return;
+     }
+     console.log('network-manager.exe finalizado com sucesso');
+   });*/
 });
 
 app.on('activate', () => {

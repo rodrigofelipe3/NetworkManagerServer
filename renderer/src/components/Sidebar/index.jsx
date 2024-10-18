@@ -1,13 +1,22 @@
 import React from "react";
-import { IconEthernet, IconMaintenance, IconPower, IconRestart, IconReturn, IconScreen, MenuItemSidebar, MenuSidebar, SidebarBody } from "./style";
+import { IconEthernet, IconMaintenance, IconPower,  IconReturn, IconScreen, MenuItemSidebar, MenuSidebar, SidebarBody } from "./style";
 import { Wake_On_Lan } from "../../services/server/WakeOnLan";
 import { Restart } from "../../services/cliente/Shutdown";
 import { ShutDownNow } from "../../services/cliente/Shutdown";
 import swal from "sweetalert";
 import { SubMenu } from "react-pro-sidebar";
+import { CheckDisk, CheckHealth, RestoreHealth, ScanHealth, Scannow } from "../../utils/sfcScannow";
+
+
 
 export const SideBar = ({collapsed, ipAdress, macAdress, viewInformation}) => { 
-
+    const openNewWindow = () => {
+        window.api.OpenPrompt(); // Chamando ipcRenderer via contextBridge
+    };
+      const closeNewWindow = () => {
+        window.api.ClosePrompt();
+        viewInformation(false)
+    }
     const handlePowerOff = () => { 
         swal({
             title: "Atenção!",
@@ -86,12 +95,14 @@ export const SideBar = ({collapsed, ipAdress, macAdress, viewInformation}) => {
         }
     }
 
+
+
     return (
         <>
             <SidebarBody collapsed={collapsed} style={{position: "absolute", border: "none", height: "111vh"}}>
                 <MenuSidebar>
                     <SubMenu icon={<IconReturn/>}>
-                        <MenuItemSidebar onClick={()=> viewInformation(false)}>Voltar</MenuItemSidebar>
+                        <MenuItemSidebar onClick={closeNewWindow}>Voltar</MenuItemSidebar>
                     </SubMenu>
                     <SubMenu icon={<IconPower></IconPower>}>
                         <MenuItemSidebar onClick={()=> handlePowerOff()}>Desligar</MenuItemSidebar>
@@ -104,11 +115,11 @@ export const SideBar = ({collapsed, ipAdress, macAdress, viewInformation}) => {
                         <MenuItemSidebar >Receber imagem</MenuItemSidebar>
                     </SubMenu>
                     <SubMenu icon={<IconMaintenance/>}>
-                        <MenuItemSidebar >System Files Check</MenuItemSidebar>
-                        <MenuItemSidebar >DISM /checkhealth</MenuItemSidebar>
-                        <MenuItemSidebar >DISM /scanhealth</MenuItemSidebar>
-                        <MenuItemSidebar >DISM /restorehealth</MenuItemSidebar>
-                        <MenuItemSidebar >Check Disk</MenuItemSidebar>
+                        <MenuItemSidebar onClick={()=> Scannow(ipAdress, { type: "sfc"})}>System Files Check</MenuItemSidebar>
+                        <MenuItemSidebar onClick={()=> CheckHealth(ipAdress, { type: "checkhealth"})} >DISM /checkhealth</MenuItemSidebar>
+                        <MenuItemSidebar onClick={()=> ScanHealth(ipAdress, { type: "scanhealth"})} >DISM /scanhealth</MenuItemSidebar>
+                        <MenuItemSidebar onClick={()=> RestoreHealth(ipAdress, { type: "restorehealth"})} >DISM /restorehealth</MenuItemSidebar>
+                        <MenuItemSidebar onClick={()=> CheckDisk(ipAdress, { type: "chkdsk"})} >Check Disk</MenuItemSidebar>
                     </SubMenu>
                 </MenuSidebar>
             </SidebarBody>

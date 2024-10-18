@@ -12,7 +12,6 @@ export const Taskkill = async (IP, pid) => {
     const response = await fetch(URL, options)
     .then((response)=> response.json())
     .then((data)=> {
-        console.log("taskkill " +  data) 
         return data
     })
     .catch((err)=> { 

@@ -1,1 +1,7 @@
-2024-10-17T18:54:00.968Z - Servidor rodando na porta 5000
+2024-10-18T20:28:28.346Z - Servidor rodando na porta 5000
+2024-10-18T20:28:37.229Z - HeartBeat Recebido com sucesso!
+2024-10-18T20:28:37.230Z - HeartBeat Recebido com sucesso!
+2024-10-18T20:28:47.223Z - HeartBeat Recebido com sucesso!
+2024-10-18T20:28:47.223Z - HeartBeat Recebido com sucesso!
+2024-10-18T20:28:57.233Z - HeartBeat Recebido com sucesso!
+2024-10-18T20:28:57.233Z - HeartBeat Recebido com sucesso!
