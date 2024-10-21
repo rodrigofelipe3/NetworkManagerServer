@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
-import { CmdBody, PromptHeader, CmdContent, CloseIcon } from './style';
+import { CmdBody, PromptHeader, CmdContent } from './style';
 const iconPrompt = require("../../assets/imagens/prompt-icon.png")
 
 
-const LogsViewer = () => {
+const LogsViewer = ({ipAddress}) => {
     const [logs, setLogs] = useState(['']);
    
     // Conecta ao WebSocket do servidor cliente (troque o IP/porta conforme necessário)
-    const { sendMessage, lastMessage, readyState } = useWebSocket('ws://127.0.0.1:5002', {
+    const { sendMessage, lastMessage, readyState } = useWebSocket(`ws://${ipAddress}:5002`, {
         onOpen: () => console.log('Conectado ao servidor cliente via WebSocket.'),
-        onClose: () => console.log('Conexão WebSocket fechada.'),
-        onError: (error) => console.error('Erro na conexão WebSocket:', error),
+        onClose: () => sendMessage('close'),
+        onError: (error) => sendMessage('error') + console.log(error),
         shouldReconnect: () => true, // Reconnect on disconnection
     });
 
@@ -32,8 +32,12 @@ const LogsViewer = () => {
         [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
     }[readyState];
 
-    if(connectionStatus == "Closed") { 
+    if(connectionStatus === "Closed") { 
         console.log(connectionStatus)
+        setLogs([])
+    }else if ( connectionStatus === 'Uninstantiated'){ 
+        setLogs([])
+    }else if ( connectionStatus === 'Closing'){ 
         setLogs([])
     }
     return (

@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { HomePage } from "../pages/Homepage/HomePage";
 import { PromptPage } from "../pages/PromptPage";
+import { useState } from "react";
 
 
 export const Router = () => { 
@@ -9,7 +10,7 @@ export const Router = () => {
             <Routes>
                 <Route exact path="*" element={<HomePage/>}/>
                 <Route exact path="/" element={<HomePage/>}/>
-                <Route exact path="/prompt" element={<PromptPage/>}/>
+                <Route exact path="/prompt/:ip" element={<PromptPage/>}/>
             </Routes>
         </>
     )

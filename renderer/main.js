@@ -46,8 +46,8 @@ const OpenReactServer = async () => {
 function createWindow() {
   nativeTheme.themeSource = 'dark'
   const win = new BrowserWindow({
-    width: 1280,
-    height: 720,
+    width: 1366,
+    height: 768,
     icon: './src/assets/imagens/logo.ico',
     resizable: false,
     //autoHideMenuBar: true, //ESCONDE A BARRA DE MENU FIlE etc..,
@@ -62,7 +62,7 @@ function createWindow() {
   win.loadURL("http://localhost:3000/")
 }
 
-const createPrompt = () => {
+const createPrompt = (url) => {
   const father = BrowserWindow.getFocusedWindow()
   if (father) {
     promptWindow = new BrowserWindow({
@@ -82,7 +82,7 @@ const createPrompt = () => {
       }
     });
 
-    promptWindow.loadURL("http://localhost:3000/prompt")
+    promptWindow.loadURL(`http://localhost:3000/prompt/${url}`)
     
     promptWindow.setTitle('Prompt');
   }
@@ -103,7 +103,7 @@ app.whenReady().then(async () => {
 */
   createWindow()
   ipcMain.on('open-prompt', (event, arg) => {
-    createPrompt()
+    createPrompt(arg)
   })
   ipcMain.on('close-prompt', (event, arg) => {
     if (promptWindow) {

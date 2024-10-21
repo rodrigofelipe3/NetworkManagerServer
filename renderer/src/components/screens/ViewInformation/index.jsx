@@ -2,7 +2,6 @@ import React from "react";
 import { InformationContent } from "./style";
 import { Table } from "../../Table";
 import { SideBar } from "../../Sidebar";
-import LogsViewer from "../../LogViewer";
 
 export const InformationScreen = ({
     data = [{
@@ -39,10 +38,8 @@ export const InformationScreen = ({
             }]
         }
     }],
-    informationScreen,
     handleGetProcessMemory,
     handleGetProcess,
-    handleGetScreen,
     ipAdress,
     macAdress,
     recharge,
@@ -83,7 +80,6 @@ export const InformationScreen = ({
                 </div>
                  
             </InformationContent>
-            {/*<LogsViewer></LogsViewer>*/}
         </>
     )
 }

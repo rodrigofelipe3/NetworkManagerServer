@@ -13,7 +13,6 @@ router.get("/computers", (req, res) => {
     if (err) {
       return res.status(500).json({ error: "Erro ao consultar dados." });
     } else {
-      console.log(rows)
       return res.json(rows);
     }
   });
@@ -22,7 +21,8 @@ router.get("/computers", (req, res) => {
 
 
 router.post("/registerComputer", async (req, res) => {
-  const response = await RegisterComputer(req, res);
+  const status = "Conectado"
+  const response = await RegisterComputer(req, res, status);
   if (response.ok == true) {
     return res.status(200).json({ok: true, msg: response.msg});
   } else if (response.ok == false && response.msg) {
@@ -35,7 +35,7 @@ router.post("/registerComputer", async (req, res) => {
 router.post("/heartbeat/:name", async (req, res) => {
   const name = req.params.name;
   const lastHB = new Date(Date.now());
-  console.log(name);
+  console.log(lastHB);
   try {
     const response = await HeartBeat(name, lastHB);
     if (response.ok == true) {

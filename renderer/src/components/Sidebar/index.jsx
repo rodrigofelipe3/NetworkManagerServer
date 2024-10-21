@@ -5,7 +5,7 @@ import { Restart } from "../../services/cliente/Shutdown";
 import { ShutDownNow } from "../../services/cliente/Shutdown";
 import swal from "sweetalert";
 import { SubMenu } from "react-pro-sidebar";
-import { CheckDisk, CheckHealth, RestoreHealth, ScanHealth, Scannow } from "../../utils/sfcScannow";
+import { CheckDisk, CheckHealth, RestoreHealth, ScanHealth, Scannow } from "../../utils/CmdCommand";
 
 
 

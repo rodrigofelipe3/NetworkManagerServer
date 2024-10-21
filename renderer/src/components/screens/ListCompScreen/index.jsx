@@ -12,16 +12,18 @@ export const ComputerListScreen = ({
 }) => {
     const poweroff = data.map((dados)=> dados.poweroff)
     const status =  data.map((dados)=> dados.status)
-
-    const [Conected, setConected] = useState(data.length !== 0 && status[0] == "Conectado"? data.length : 0)
-    const [shutdownProgramed, setShutdownProgramed] = useState(data.length !== 0 &&  poweroff[0]== 1? data.length : 0)
-    const [Disconected, setDisconected] = useState(data.length !== 0 && status[0] !== "Conectado"? data.length : 0)
-   
+    let StatusConected  = status.filter(data => data === 'Conectado').length
+    let StatusDisconected  = status.filter(data => data === 'Offline').length
+    let PowerOffProgramed = poweroff.filter(data => data === 1).length
+    
+    const [Conected, setConected] = useState()
+    const [shutdownProgramed, setShutdownProgramed] = useState()
+    const [Disconected, setDisconected] = useState()
     useEffect(()=> { 
 
-       setConected(data.length !== 0 && status[0] == "Conectado"? data.length : 0)
-       setDisconected(data.length !== 0 && status[0] !== "Conectado"? data.length : 0)
-       setShutdownProgramed(data.length !== 0 &&  poweroff[0] == 1? data.length : 0)
+       setConected(StatusConected)
+       setDisconected(StatusDisconected)
+       setShutdownProgramed(PowerOffProgramed)
         
     }, [data])
 
@@ -30,7 +32,7 @@ export const ComputerListScreen = ({
     return (
         <>
             <HeaderContent>
-                    <Console onClick={()=> setInputValue("")}> 
+                    <Console onClick={()=> setInputValue("Conectado")}> 
                         <h3>CONECTADOS</h3>
                        <CountUpp 
                         start={0}
@@ -40,7 +42,7 @@ export const ComputerListScreen = ({
                         duration={2}
                        />
                     </Console>
-                    <Console onClick={()=> setInputValue("offline")}>
+                    <Console onClick={()=> setInputValue("Offline")}>
                         <h3>DESCONECTADOS</h3>
                         <CountUpp 
                         start={0}
@@ -50,7 +52,7 @@ export const ComputerListScreen = ({
                         duration={2}
                        />
                     </Console>
-                    <Console>
+                    <Console onClick={()=> setInputValue('1')}>
                         <h3>DESLIGAMENTO PROGRAMADO</h3>
                         <CountUpp 
                         start={0}

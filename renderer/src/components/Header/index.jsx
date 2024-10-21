@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Header, IconSearch, IconSettings, Li, Nav, SearchInput, Ul } from "./style";
+import { Header, IconSearch, IconSettings, IconUpdate, Li, Nav, SearchInput, Ul } from "./style";
 import { FloatButton } from "../FloatMenu";
 const logo = require("../../assets/imagens/logo.png");
 
-export const CompHeader = ({ InputValue, setInputValue }) => {
+export const CompHeader = ({ InputValue, setInputValue, recharge}) => {
     const [isVisible, setIsVisible] = useState(false); 
 
     const handleOnChange = (event) => {
@@ -13,7 +13,7 @@ export const CompHeader = ({ InputValue, setInputValue }) => {
     const toggleSearchInput = () => {
         setIsVisible(prevState => !prevState); 
     };
-
+    let bool = true
     return (
         <>
             <Header>
@@ -36,6 +36,9 @@ export const CompHeader = ({ InputValue, setInputValue }) => {
                               
                                 <div id="search" onClick={toggleSearchInput}>
                                     <IconSearch />
+                                </div>
+                                <div id="update" onClick={()=> recharge(!bool)}>
+                                    <IconUpdate />
                                 </div>
                                 <div id="settings">
                                     <FloatButton taskkill={false} settings={true}><IconSettings /></FloatButton> 

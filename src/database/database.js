@@ -43,14 +43,14 @@ const RegisterComputerDB = (
   release,
   monitors,
   ip,
-  mac_adress,
+  mac_address,
   network_devices,
   poweroff,
   poweroffhour,
-  user,
   status,
   lastHB
 ) => {
+  
   return new Promise((resolve, reject) => {
     db.serialize(() => {
 
@@ -75,7 +75,7 @@ const RegisterComputerDB = (
               release,
               monitors,
               ip,
-              mac_adress,
+              mac_address,
               network_devices,
               poweroff,
               poweroffhour,
@@ -108,12 +108,12 @@ const RegisterComputerDB = (
               release,
               monitors,
               ip,
-              mac_adress,
+              mac_address,
               network_devices,
               poweroff,
               poweroffhour,
               status,
-              lastHB,
+              lastHB
             ],
             (err) => {
               if (err) {
@@ -155,10 +155,11 @@ const GetComputerByIdDB = (id) => {
 };
 
 const UpdateStatus = (status, hostname, lastHB) => {
+  
   return new Promise((resolve, reject) => {
     db.run(
       "UPDATE pcs SET status = ?, lasthb = ? WHERE host = ?",
-      [status, lastHB, hostname[0]],
+      [status, lastHB, hostname],
       (err) => {
         if (err) {
           logToFile("Erro ao atualizar o status: " + err);

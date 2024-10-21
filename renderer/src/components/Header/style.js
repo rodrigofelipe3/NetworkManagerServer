@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { IoSearchOutline } from "react-icons/io5";
 import { IoSettings } from "react-icons/io5";
+import { GrUpdate } from "react-icons/gr";
+
 
 export const Header = styled.header`
   width: 100%;
@@ -16,6 +18,11 @@ export const IconSearch = styled(IoSearchOutline)`
 
 export const IconSettings = styled(IoSettings)`
   width: 1.5rem;
+  height: 1.5rem;
+`;
+
+export const IconUpdate = styled(GrUpdate)`
+  width: 1.3rem;
   height: 1.5rem;
 `;
 
@@ -64,12 +71,22 @@ export const Li = styled.li`
       cursor: pointer;
       padding: 0.5rem;
       border-radius: 100%;
-      :hover {
+    }
+    #search:hover {
         transition: ease 0.3s;
         padding: 0.5rem;
         border-radius: 100%;
         background-color: #1b4891;
-      }
+    }
+
+    #update {
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+    }
+    #update:hover {
+        padding: 0.5rem;
+        background-color: #1b4891;
     }
   }
 `;

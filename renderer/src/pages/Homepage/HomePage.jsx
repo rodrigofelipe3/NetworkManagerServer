@@ -13,7 +13,7 @@ import { CompHeader } from "../../components/Header";
 
 export const HomePage = () => {
     const [viewInformation, setViewInformation] = useState(false)
-    const [adressIp, setAdressip] = useState(null)
+    const [adressIp, setAdressip] = useState()
     const [macAdress, setMacAdress] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const [InputValue, setInputValue] = useState("")
@@ -70,7 +70,6 @@ export const HomePage = () => {
 
     const handleGetData = async () => {
         const response = await GetData()
-        console.log(response)
         if (response.error) {
             swal({
                 title: "Oops..",
@@ -143,7 +142,7 @@ export const HomePage = () => {
 
         const keyValue = pcs ? pcs : "1";
         setAdressip(ip)
-        setMacAdress(mac)
+        setMacAdress(mac)   
         setSelectedKey(keyValue);
         setViewInformation(true);
     };
@@ -158,7 +157,7 @@ export const HomePage = () => {
     useEffect(() => {
         setIsLoading(true)
         try {
-            if (viewInformation == true) {
+            if (viewInformation === true) {
                 handleGetComputerById(selectedKey)
                 setInformation([{
                     data: {
@@ -174,7 +173,7 @@ export const HomePage = () => {
                         }]
                     }
                 }])
-            } else if (viewInformation == false) {
+            } else if (viewInformation === false) {
                 //closeNewWindow()
                 handleGetData()
                 setInformation([{
@@ -204,12 +203,13 @@ export const HomePage = () => {
     return (
         <>
 
-
+            {isLoading && <LoadingComponent />}
             <ContainerJSX>
-                {isLoading && <LoadingComponent />}
+                
                 <CompHeader
                     setInputValue={setInputValue}
                     InputValue={InputValue}
+                    recharge={setRecharge}
                 />
                 {!viewInformation && (
                     <ComputerListScreen

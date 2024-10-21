@@ -75,7 +75,6 @@ export const Table = ({
         setCPUActive(false)
     }
 
-    console.log("CPU IS ACTIVE?: " + isCPUActive)
     return (
         <>
             {isTaskManager && 
@@ -146,7 +145,6 @@ export const Table = ({
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            {console.log(information.hard_disk)}
                             <TableCell id="information">
                                 Hard Disk:  <p id="type">{information.hard_disk? information.hard_disk : "NULL"}</p>
                             </TableCell>

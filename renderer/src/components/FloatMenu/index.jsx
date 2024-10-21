@@ -117,8 +117,12 @@ export const FloatButton = ({
                     ip: ip,
                 }
                 const response = await RemoveShutdownDB(formData)
-                if(response.ok == true) { 
+                if(response.ok === true) { 
                     recharge(response.ok)
+                }else if(response.ok === null || response.ok === undefined){
+
+                }else { 
+
                 }
             }
         })
