@@ -8,7 +8,7 @@ const LogsViewer = () => {
     const [logs, setLogs] = useState(['']);
    
     // Conecta ao WebSocket do servidor cliente (troque o IP/porta conforme necessário)
-    const { sendMessage, lastMessage, readyState } = useWebSocket('ws://10.10.1.45:5002', {
+    const { sendMessage, lastMessage, readyState } = useWebSocket('ws://127.0.0.1:5002', {
         onOpen: () => console.log('Conectado ao servidor cliente via WebSocket.'),
         onClose: () => console.log('Conexão WebSocket fechada.'),
         onError: (error) => console.error('Erro na conexão WebSocket:', error),
@@ -32,6 +32,10 @@ const LogsViewer = () => {
         [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
     }[readyState];
 
+    if(connectionStatus == "Closed") { 
+        console.log(connectionStatus)
+        setLogs([])
+    }
     return (
         <>
         <title>Prompt - {connectionStatus}</title>

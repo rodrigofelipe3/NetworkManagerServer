@@ -101,8 +101,7 @@ export const SideBar = ({collapsed, ipAdress, macAdress, viewInformation}) => {
         <>
             <SidebarBody collapsed={collapsed} style={{position: "absolute", border: "none", height: "111vh"}}>
                 <MenuSidebar>
-                    <SubMenu icon={<IconReturn/>}>
-                        <MenuItemSidebar onClick={closeNewWindow}>Voltar</MenuItemSidebar>
+                    <SubMenu icon={<IconReturn/>} onClick={closeNewWindow}>
                     </SubMenu>
                     <SubMenu icon={<IconPower></IconPower>}>
                         <MenuItemSidebar onClick={()=> handlePowerOff()}>Desligar</MenuItemSidebar>

@@ -15,7 +15,7 @@ export const Scannow = async (IP, data) => {
         body: JSON.stringify(data)
     }
     
-    const response = await fetch(URL, options)
+    await fetch(URL, options)
     .then((response)=> response.json())
     .then((data)=> {
        if(data.ok == true){ 
@@ -23,7 +23,7 @@ export const Scannow = async (IP, data) => {
        }else { 
         return swal({
             title: "Error",
-            text: response.error,
+            text: data.error,
             icon: "error",
             buttons: true
         })

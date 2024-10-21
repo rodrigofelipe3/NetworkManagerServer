@@ -50,7 +50,7 @@ function createWindow() {
     height: 720,
     icon: './src/assets/imagens/logo.ico',
     resizable: false,
-    autoHideMenuBar: true, //ESCONDE A BARRA DE MENU FIlE etc..,
+    //autoHideMenuBar: true, //ESCONDE A BARRA DE MENU FIlE etc..,
     //titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),

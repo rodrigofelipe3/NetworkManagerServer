@@ -1,21 +1,32 @@
-const WebSocket = require('ws');
+const { spawn } = require('child_process');
+const sudo = require('sudo-prompt');
 
-// Cria o servidor WebSocket na porta 5000
-const wss = new WebSocket.Server({ port: 5000 });
+// Configurações do sudo
+const options = {
+  name: 'SFC Scanner',
+};
 
-wss.on('connection', (ws) => {
-  console.log('Cliente conectado.');
+// Comando a ser executado
+const command = 'dism';
+const args = ['/online', '/cleanup-image', '/checkhealth'];
 
-  ws.on('message', (message) => {
-    console.log(`Mensagem recebida: ${message}`);
+// Função para executar o SFC e capturar a saída em tempo real
+function runSFC() {
+  // Executa o comando com privilégios de administrador
+  sudo.exec(command + ' ' + args.join(' '), options, (error, stdout, stderr) => {
+    if (error) {
+      console.error('Erro ao executar o comando:', error);
+      return;
+    }
+
+    // Exibe a saída padrão
+    console.log(stdout.toString('utf-8'));
+    // Exibe a saída de erro, se houver
+    if (stderr) {
+      console.error(stderr);
+    }
   });
+}
 
-  ws.on('close', () => {
-    console.log('Cliente desconectado.');
-  });
-
-  // Enviar uma mensagem para o cliente de teste
-  ws.send(JSON.stringify('Bem-vindo ao servidor WebSocket!'));
-});
-
-console.log('Servidor WebSocket rodando na porta 5000');
+// Executa o SFC
+runSFC();
