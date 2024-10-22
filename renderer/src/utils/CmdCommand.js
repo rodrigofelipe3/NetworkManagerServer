@@ -3,7 +3,7 @@ import swal from "sweetalert"
 
 
 export const Scannow = async (IP, data) => {
-
+    console.log(IP)
     const URL = `http://${IP}:5001/api/cmdcommand/`
     const options = {
         method: "POST",

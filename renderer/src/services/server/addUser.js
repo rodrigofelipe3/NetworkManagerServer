@@ -1,7 +1,7 @@
 import swal from "sweetalert"
 
-export const addUser = async (ip, data) => { 
-    const URL = `http://${ip}:5000/api/adduser`
+export const addUser = async ( data) => { 
+    const URL = `http://127.0.0.1:5000/api/adduser`
     const options = { 
         method: "POST",
         headers: { 

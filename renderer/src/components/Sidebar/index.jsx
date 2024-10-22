@@ -9,10 +9,8 @@ import { CheckDisk, CheckHealth, RestoreHealth, ScanHealth, Scannow } from "../.
 
 
 
-export const SideBar = ({collapsed, ipAdress, macAdress, viewInformation}) => { 
-    const openNewWindow = () => {
-        window.api.OpenPrompt(); // Chamando ipcRenderer via contextBridge
-    };
+export const SideBar = ({collapsed, ipAddress, macAddress, viewInformation}) => { 
+   
       const closeNewWindow = () => {
         window.api.ClosePrompt();
         viewInformation(false)
@@ -26,7 +24,7 @@ export const SideBar = ({collapsed, ipAdress, macAdress, viewInformation}) => {
             buttons: true
         }).then(async (value) => {
             if(value) { 
-                const response = await ShutDownNow(ipAdress)
+                const response = await ShutDownNow(ipAddress)
 
                 if (response.ok == true) {
                     swal({
@@ -49,8 +47,8 @@ export const SideBar = ({collapsed, ipAdress, macAdress, viewInformation}) => {
         })
     }
     const WakeOnLan = { 
-        mac: macAdress,
-        ip: ipAdress
+        mac: macAddress,
+        ip: ipAddress
     }
     const handleWakeOnLan = async () => { 
         const response = await Wake_On_Lan(WakeOnLan)
@@ -75,7 +73,7 @@ export const SideBar = ({collapsed, ipAdress, macAdress, viewInformation}) => {
 
 
     const handleRestart = () => { 
-        const response = Restart(ipAdress)
+        const response = Restart(ipAddress)
         if(response.ok == true){ 
             swal({ 
                 title: "Feito!", 
@@ -114,11 +112,11 @@ export const SideBar = ({collapsed, ipAdress, macAdress, viewInformation}) => {
                         <MenuItemSidebar >Receber imagem</MenuItemSidebar>
                     </SubMenu>
                     <SubMenu icon={<IconMaintenance/>}>
-                        <MenuItemSidebar onClick={()=> Scannow(ipAdress, { type: "sfc"})}>System Files Check</MenuItemSidebar>
-                        <MenuItemSidebar onClick={()=> CheckHealth(ipAdress, { type: "checkhealth"})} >DISM /checkhealth</MenuItemSidebar>
-                        <MenuItemSidebar onClick={()=> ScanHealth(ipAdress, { type: "scanhealth"})} >DISM /scanhealth</MenuItemSidebar>
-                        <MenuItemSidebar onClick={()=> RestoreHealth(ipAdress, { type: "restorehealth"})} >DISM /restorehealth</MenuItemSidebar>
-                        <MenuItemSidebar onClick={()=> CheckDisk(ipAdress, { type: "chkdsk"})} >Check Disk</MenuItemSidebar>
+                        <MenuItemSidebar onClick={()=> Scannow(ipAddress, { type: "sfc"})}>System Files Check</MenuItemSidebar>
+                        <MenuItemSidebar onClick={()=> CheckHealth(ipAddress, { type: "checkhealth"})} >DISM /checkhealth</MenuItemSidebar>
+                        <MenuItemSidebar onClick={()=> ScanHealth(ipAddress, { type: "scanhealth"})} >DISM /scanhealth</MenuItemSidebar>
+                        <MenuItemSidebar onClick={()=> RestoreHealth(ipAddress, { type: "restorehealth"})} >DISM /restorehealth</MenuItemSidebar>
+                        <MenuItemSidebar onClick={()=> CheckDisk(ipAddress, { type: "chkdsk"})} >Check Disk</MenuItemSidebar>
                     </SubMenu>
                 </MenuSidebar>
             </SidebarBody>

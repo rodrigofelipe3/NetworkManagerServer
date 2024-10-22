@@ -81,7 +81,7 @@ export const FloatButton = ({
                     ip: ip
                 }
                 
-                const response = await addUser(ip, formData)
+                const response = await addUser(formData)
                 if (response.ok == true) {
                     recharge(response.ok)
                     swal({

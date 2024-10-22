@@ -63,14 +63,12 @@ function createWindow() {
 }
 
 const createPrompt = (url) => {
-  const father = BrowserWindow.getFocusedWindow()
-  if (father) {
+  
     promptWindow = new BrowserWindow({
       width: 900,
       height: 500,
       resizable: false,
       autoHideMenuBar: true, //ESCONDE A BARRA DE MENU FIlE etc..,
-      parent: father,
       //titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
       title: 'Prompt',
       icon: './src/assets/imagens/prompt-icon.png',
@@ -85,7 +83,7 @@ const createPrompt = (url) => {
     promptWindow.loadURL(`http://localhost:3000/prompt/${url}`)
     
     promptWindow.setTitle('Prompt');
-  }
+  
 
 }
 
@@ -106,9 +104,11 @@ app.whenReady().then(async () => {
     createPrompt(arg)
   })
   ipcMain.on('close-prompt', (event, arg) => {
-    if (promptWindow) {
+    if (promptWindow === true) {
       promptWindow.close(); // Fecha a janela prompt
       promptWindow = null;  // Remove a referência
+    }else { 
+
     }
   });
 })

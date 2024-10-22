@@ -29,7 +29,7 @@ const Report = () => {
   return new Promise((resolve, reject) => {
     db.serialize(() => {
       db.all(
-        `SELECT host, processor, memory, operating_system, arch, user, poweroffhour FROM pcs`,
+        `SELECT host, processor, memory, hard_disk, operating_system, arch, monitors, user, poweroffhour FROM pcs`,
         (err, rows) => {
           if (err) {
             logToFile(err.message);
@@ -40,10 +40,10 @@ const Report = () => {
             Usuario: row.user,
             Processador: row.processor,
             Memoria: bytesToGigabytes(row.memory).toFixed(2) + "GB",
-            SSD: 0,
+            SSD: row.hard_disk,
             SO: row.operating_system,
             Arch: row.arch,
-            Monitores: 0,
+            Monitores: row.monitors,
             Hr_Desl: row.poweroffhour,
           }));
 

@@ -135,9 +135,7 @@ export const HomePage = () => {
             })
         }
     }
-    const closeNewWindow = () => {
-        window.api.ClosePrompt();
-    }
+  
     const handleClick = (pcs, ip, mac) => {
 
         const keyValue = pcs ? pcs : "1";
@@ -174,7 +172,6 @@ export const HomePage = () => {
                     }
                 }])
             } else if (viewInformation === false) {
-                //closeNewWindow()
                 handleGetData()
                 setInformation([{
                     data: {

@@ -13,7 +13,10 @@ export const CompHeader = ({ InputValue, setInputValue, recharge}) => {
     const toggleSearchInput = () => {
         setIsVisible(prevState => !prevState); 
     };
-    let bool = true
+
+    const handleSetRecharge = (event) => { 
+        recharge(event.target.value == null? true : true)
+    }
     return (
         <>
             <Header>
@@ -37,7 +40,7 @@ export const CompHeader = ({ InputValue, setInputValue, recharge}) => {
                                 <div id="search" onClick={toggleSearchInput}>
                                     <IconSearch />
                                 </div>
-                                <div id="update" onClick={()=> recharge(!bool)}>
+                                <div id="update" onClickCapture={handleSetRecharge}>
                                     <IconUpdate />
                                 </div>
                                 <div id="settings">
