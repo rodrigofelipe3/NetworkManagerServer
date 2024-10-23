@@ -80,12 +80,14 @@ export const Li = styled.li`
     }
 
     #update {
+      width: 1.5rem;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
       cursor: pointer;
       padding: 0.5rem;
-      border-radius: 50%;
+      border-radius: 100%;
     }
     #update:hover {
-        padding: 0.5rem;
         background-color: #1b4891;
     }
   }

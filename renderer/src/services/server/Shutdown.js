@@ -48,6 +48,8 @@ export const RemoveShutdownDB = async (data = { poweroff: "", ip: "" }) => {
           });
           resolve({ ok: false });
         });
+    }else if(response1.ok == null || response1.ok == undefined) {
+
     } else {
       swal({
         title: "Error",

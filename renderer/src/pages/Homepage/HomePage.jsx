@@ -33,7 +33,7 @@ export const HomePage = () => {
         }
     }])
     const [selectedKey, setSelectedKey] = useState("")
-    const [recharge, setRecharge] = useState(null)
+    const [recharge, setRecharge] = useState(false)
     const [data, setData] = useState([{
         id: "",
         host: "",
@@ -151,7 +151,6 @@ export const HomePage = () => {
         computer.poweroff === Number(InputValue) || Number(InputValue2)
     );
 
-
     useEffect(() => {
         setIsLoading(true)
         try {
@@ -228,7 +227,6 @@ export const HomePage = () => {
                         ipAdress={adressIp}
                         macAdress={macAdress}
                         viewInformation={setViewInformation}
-
                     />
                 )}
             </ContainerJSX>

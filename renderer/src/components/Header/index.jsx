@@ -14,8 +14,8 @@ export const CompHeader = ({ InputValue, setInputValue, recharge}) => {
         setIsVisible(prevState => !prevState); 
     };
 
-    const handleSetRecharge = (event) => { 
-        recharge(event.target.value == null? true : true)
+    const handleSetRecharge = () => { 
+        recharge(true)
     }
     return (
         <>
