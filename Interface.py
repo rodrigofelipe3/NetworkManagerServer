@@ -1,6 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import pyautogui
+import json
 import socket
 import struct
 from io import BytesIO
@@ -10,13 +11,45 @@ from pynput import mouse
 root = tk.Tk()
 root.title('Visualizador de Captura de Tela - Servidor')
 
-def on_click(x, y, button, pressed):
-    if pressed:
-        print(f'Clique em {x}, {y} com {button}')
+# Variáveis para armazenar o estado do mouse
+mouse_position = (0, 0)
+left_button_pressed = False
+right_button_pressed = False
+scroll_direction = None
 
-# Criar um Listener para o mouse
-with mouse.Listener(on_click=on_click) as listener:
-    listener.join()
+def enviar_dados(data):
+    mensagem = json.dumps(data).encode('utf-8')
+    conn.sendall(mensagem)
+# Função chamada ao mover o mouse
+def on_move(x, y):
+    data = {"tipo": "move", "posicao": (x, y)}
+    enviar_dados(data)
+    print(f"Mouse moved to {x, y}")
+
+# Função chamada ao clicar
+def on_click(x, y, button, pressed):
+    data = {
+        "tipo": "click",
+        "botao": str(button),
+        "pressionado": pressed,
+        "posicao": (x, y)
+    }
+    enviar_dados(data)
+    estado = "pressed" if pressed else "released"
+    print(f"{button} button {estado} at {x, y}")
+
+# Função chamada ao usar o scroll
+def on_scroll(x, y, dx, dy):
+    direction = "up" if dy > 0 else "down"
+    data = {"tipo": "scroll", "direcao": direction, "posicao": (x, y)}
+    enviar_dados(data)
+    print(f"Scrolled {direction} at ({x}, {y})")
+
+# Função principal para iniciar o monitoramento do mouse
+def monitor_mouse():
+    with mouse.Listener(on_move=on_move, on_click=on_click, on_scroll=on_scroll) as listener:
+        listener.join()
+
 # Variável de controle para a captura de tela
 captura_ativa = False
 conn = None  # Variável de conexão global
@@ -31,6 +64,8 @@ def atualizar_tela(data):
     # Atualizar o Label com a nova imagem
     label_img.config(image=img_tk)
     label_img.image = img_tk
+    
+    
 
 # Função para exibir o status de "Aguardando conexão"
 def mostrar_status_aguardando():
@@ -49,6 +84,7 @@ def iniciar_servidor():
 
     # Iniciar uma thread para receber dados
     threading.Thread(target=receber_dados, daemon=True).start()
+    threading.Thread(target=monitor_mouse, daemon=True).start()
 
 # Função para receber dados do cliente e atualizar a tela
 def receber_dados():
@@ -56,7 +92,7 @@ def receber_dados():
     try:
         # Configuração do socket
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server_socket.bind(('localhost', 5000))
+        server_socket.bind(('0.0.0.0', 5000))
         server_socket.listen(1)
         print("Aguardando conexão do cliente...")
         conn, _ = server_socket.accept()
