@@ -10,6 +10,7 @@ from PIL import Image, ImageTk
 from pynput import mouse, keyboard
 import time
 
+
 # Variáveis globais
 current_x, current_y = 0, 0
 mouse_button = None
@@ -38,6 +39,10 @@ def start_server():
         keyboard_button['state'] = "normal"
     if mouse_button["state"] != "normal":
         mouse_button['state'] = "normal"
+    if stop_button['state'] == "disabled":
+        stop_button['state'] = 'normal'
+        if start_button['state'] == 'normal':
+            start_button['state'] = 'disabled'
     running = True
     threading.Thread(target=receive_screen, daemon=True).start()
 
@@ -45,16 +50,23 @@ def stop_server():
     global running, mouse_button, keyboard_button
     if keyboard_button["state"] != "disable":
         keyboard_button['state'] = "disable"
+        if keyboard_button['text'] == "Desativar Controle do Teclado":
+            toggle_keyboard_control()
+
     if mouse_button["state"] != "disable":
         mouse_button['state'] = "disable"
+        if mouse_button['text'] == 'Desativar Controle do Mouse':
+            toggle_mouse_control()
+    if start_button['state'] == 'disabled':
+            start_button['state'] = 'normal'
+            if stop_button['state'] == "normal":
+                stop_button['state'] = 'disabled'
     running = False
     clear_screen()
 
 def clear_screen():
     global current_frame
     current_frame = None
-    current_frame = None
-    lmain.config(image='')
     lmain.config(image='')
 
 def toggle_mouse_control():
@@ -274,28 +286,31 @@ def show_error(msg):
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Servidor de Compartilhamento de Tela")
-
+    root.state('zoomed')# Definir a janela como maximizada ao iniciar
+    root.geometry(f"{root.winfo_screenwidth()}x{root.winfo_screenheight()}") # Obtendo a largura e altura da tela para configurar a geometria
     control_frame = tk.Frame(root)
     control_frame.pack()
+    play_icon = ImageTk.PhotoImage(file='C:/Users/Setor Administrativo/Documents/Admin-Server-Network-Manager/renderer/src/assets/imagens/play_icon.png')
+    stop_icon = ImageTk.PhotoImage(file='C:/Users/Setor Administrativo/Documents/Admin-Server-Network-Manager/renderer/src/assets/imagens/stop_icon.png')
+    mouse_icon = ImageTk.PhotoImage(file='C:/Users/Setor Administrativo/Documents/Admin-Server-Network-Manager/renderer/src/assets/imagens/mouse_icon.png')
+    keyboard_icon = ImageTk.PhotoImage(file='C:/Users/Setor Administrativo/Documents/Admin-Server-Network-Manager/renderer/src/assets/imagens/keyboard_icon.png')
 
-    start_button = tk.Button(control_frame, text="Iniciar Servidor", command=start_server)
-    start_button.pack(side=tk.LEFT, padx=5)
+    mouse_button = tk.Button(control_frame, text="Ativar Controle do Mouse", image=mouse_icon, command=toggle_mouse_control, state=["disable"], width=20, height=20)
+    mouse_button.pack(side=tk.LEFT, pady=20)
 
-    stop_button = tk.Button(control_frame, text="Parar Servidor", command=stop_server)
-    stop_button.pack(side=tk.LEFT, padx=5)
+    keyboard_button = tk.Button(control_frame, text="Ativar Controle do Teclado", image=keyboard_icon,command=toggle_keyboard_control, state=["disable"], width=20, height=20)
+    keyboard_button.pack(side=tk.LEFT, pady=20)
+    start_button = tk.Button(control_frame, text="Iniciar Servidor", image=play_icon, command=start_server, width=20, height=20)
+    start_button.pack(side=tk.LEFT, pady=20)
 
-    mouse_button = tk.Button(control_frame, text="Ativar Controle do Mouse", command=toggle_mouse_control, state=["disable"])
-    mouse_button.pack(side=tk.LEFT, padx=5)
-
-    keyboard_button = tk.Button(control_frame, text="Ativar Controle do Teclado", command=toggle_keyboard_control, state=["disable"])
-    keyboard_button.pack(side=tk.LEFT, padx=5)
-
-    status_label = tk.Label(root, text="Servidor parado.", fg="blue")
+    stop_button = tk.Button(control_frame, text="Parar Servidor", image=stop_icon,  command=stop_server, state='disabled', width=20, height=20)
+    stop_button.pack(side=tk.LEFT, pady=20)
+    status_label = tk.Label(root, text="Servidor parado.", fg="blue" )
     status_label.pack(pady=5)
 
     screen_buttons_frame = tk.Frame(root)
     screen_buttons_frame.pack()
-
+    
     lmain = tk.Label(root)
     lmain.pack()
 
