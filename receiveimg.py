@@ -35,6 +35,8 @@ keyboard_control_active = False
 
 def start_server():
     global running, mouse_button, keyboard_button
+    if status_label['text'] == 'Servidor Parado.':
+        update_status('Aguardando conexão do cliente...')
     if keyboard_button["state"] != "normal":
         keyboard_button['state'] = "normal"
     if mouse_button["state"] != "normal":
@@ -48,7 +50,10 @@ def start_server():
 
 def stop_server():
     global running, mouse_button, keyboard_button
+    if status_label['text'] == "Aguardando conexão do cliente...":
+        update_status('Servidor Parado.')
     if keyboard_button["state"] != "disable":
+
         keyboard_button['state'] = "disable"
         if keyboard_button['text'] == "Desativar Controle do Teclado":
             toggle_keyboard_control()
@@ -63,6 +68,7 @@ def stop_server():
                 stop_button['state'] = 'disabled'
     running = False
     clear_screen()
+    
 
 def clear_screen():
     global current_frame
@@ -72,7 +78,7 @@ def clear_screen():
 def toggle_mouse_control():
     """Ativa ou desativa o controle do mouse."""
     global mouse_control_active, mouse_listener
-
+    
     mouse_control_active = not mouse_control_active
     mouse_button.config(text="Desativar Controle do Mouse" if mouse_control_active else "Ativar Controle do Mouse")
 
@@ -149,7 +155,7 @@ def on_scroll(x, y, dx, dy):
 def send_mouse_position():
     """Envia as coordenadas do mouse, tipo de clique e rolagem apenas se o controle do mouse estiver ativo."""
     global conn, current_x, current_y, click_type, scroll_pos, last_scroll_pos, button_held
-
+    
     if client_screen_info and conn and mouse_control_active:
         client_width, client_height = client_screen_info[2], client_screen_info[3]
         window_width, window_height = lmain.winfo_width(), lmain.winfo_height()
@@ -249,16 +255,18 @@ def create_screen_buttons(num_screens, conn):
     for widget in screen_buttons_frame.winfo_children():
         widget.destroy()
 
+    # Adiciona os botões de tela ao lado do botão "Parar Servidor"
     for i in range(num_screens):
         btn = tk.Button(screen_buttons_frame, text=f"Tela {i + 1}", command=lambda i=i: change_screen(i, conn))
-        btn.pack(side=tk.LEFT, padx=5)
+        # Organiza os botões ao lado do stop_button na mesma linha (linha 0, colunas 1, 2, 3, etc.)
+        btn.grid(row=0, column=i + 1, padx=5, pady=5)  # Começa a colocar os botões na coluna 1 para não sobrepor o stop_button
 
 def change_screen(screen_number, conn):
     global selected_screen
     selected_screen = screen_number
     try:
         if conn:
-            conn.sendall(struct.pack("!I", screen_number))
+            conn.sendall(str.encode(f'screen: {screen_number}'))
             update_status(f"Tela {screen_number + 1} selecionada.")
             print(f'Tela {screen_number + 1} selecionada.')
         else:
@@ -269,12 +277,47 @@ def change_screen(screen_number, conn):
 def update_frame():
     global current_frame
     if current_frame is not None:
-        img = cv2.cvtColor(current_frame, cv2.COLOR_BGR2RGB)
-        img = Image.fromarray(img)
-        imgtk = ImageTk.PhotoImage(image=img)
+        # Obtém a resolução da tela (não da janela)
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+
+        # Calcula a altura máxima permitida (90% da altura da tela)
+        max_height = int(screen_height * 0.9)
+
+        # Obtém as dimensões da imagem
+        img_height, img_width = current_frame.shape[:2]
+
+        # Calcula a nova altura e largura mantendo a proporção
+        if img_height > max_height:
+            # Redimensiona a imagem para que a altura seja 90% da altura da tela
+            scale_factor = max_height / img_height
+            new_height = max_height
+            new_width = int(img_width * scale_factor)
+        else:
+            # Se a imagem já está dentro do limite, usa suas dimensões originais
+            new_height = img_height
+            new_width = img_width
+
+        # Redimensiona a imagem
+        resized_img = cv2.resize(current_frame, (new_width, new_height))
+
+        # Converte a imagem para o formato RGB para exibição com o PIL
+        img_rgb = cv2.cvtColor(resized_img, cv2.COLOR_BGR2RGB)
+        img_pil = Image.fromarray(img_rgb)
+        imgtk = ImageTk.PhotoImage(image=img_pil)
+
+        # Atualiza o rótulo com a nova imagem
         lmain.imgtk = imgtk
         lmain.configure(image=imgtk)
+
     lmain.after(1, update_frame)
+
+def minimize_child_window(event=None):
+    if root.state() == 'iconic' or not root.focus_displayof():
+        com_root.withdraw()  # Oculta a janela filha
+
+def maximize_child_window(event=None):
+    com_root.deiconify()  # Torna a janela filha visível
 
 def update_status(msg):
     status_label.config(text=msg)
@@ -282,39 +325,65 @@ def update_status(msg):
 def show_error(msg):
     messagebox.showerror("Erro", msg)
 
-
 if __name__ == "__main__":
+    largura_janela = 600
+    altura_janela = 75
     root = tk.Tk()
     root.title("Servidor de Compartilhamento de Tela")
-    root.state('zoomed')# Definir a janela como maximizada ao iniciar
-    root.geometry(f"{root.winfo_screenwidth()}x{root.winfo_screenheight()}") # Obtendo a largura e altura da tela para configurar a geometria
-    control_frame = tk.Frame(root)
-    control_frame.pack()
-    play_icon = ImageTk.PhotoImage(file='C:/Users/Setor Administrativo/Documents/Admin-Server-Network-Manager/renderer/src/assets/imagens/play_icon.png')
+    root.state('zoomed')  # Define a janela como maximizada ao iniciar
+    root.geometry(f"{root.winfo_screenwidth()}x{root.winfo_screenheight()}")
+    
+    pos_x = (root.winfo_screenwidth() - largura_janela) // 2
+    pos_y = 25  # Posição vertical arbitrária
+    
+    # Cria a janela filha
+    com_root = tk.Toplevel(root)
+    com_root.overrideredirect(True)
+    com_root.geometry(f'{largura_janela}x{altura_janela}+{pos_x}+{pos_y}')
+    com_root.configure(bg="#e2e2e2")
+    com_root.lift()
+    com_root.attributes("-topmost", True)
+
+    # Define o controle da janela principal
+    control_frame = tk.Frame(com_root)
+    control_frame.grid(row=0, column=0, padx=10, pady=10)
+
+    # Definindo os ícones dos botões
+    play_icon = ImageTk.PhotoImage(file='C:/Users/Setor Administrativo/Documents/Admin-Server-Network-Manager/renderer/src/assets/imagens/play_icon-removebg-preview.png')
     stop_icon = ImageTk.PhotoImage(file='C:/Users/Setor Administrativo/Documents/Admin-Server-Network-Manager/renderer/src/assets/imagens/stop_icon.png')
     mouse_icon = ImageTk.PhotoImage(file='C:/Users/Setor Administrativo/Documents/Admin-Server-Network-Manager/renderer/src/assets/imagens/mouse_icon.png')
-    keyboard_icon = ImageTk.PhotoImage(file='C:/Users/Setor Administrativo/Documents/Admin-Server-Network-Manager/renderer/src/assets/imagens/keyboard_icon.png')
+    keyboard_icon = ImageTk.PhotoImage(file='C:/Users/Setor Administrativo/Documents/Admin-Server-Network-Manager/renderer/src/assets/imagens/keyboard_icon-removebg-preview.png')
 
-    mouse_button = tk.Button(control_frame, text="Ativar Controle do Mouse", image=mouse_icon, command=toggle_mouse_control, state=["disable"], width=20, height=20)
-    mouse_button.pack(side=tk.LEFT, pady=20)
+    # Colocando os botões de controle
+    mouse_button = tk.Button(control_frame, bg="lightgrey", image=mouse_icon, command=toggle_mouse_control, state="disabled", width=50, height=50)
+    mouse_button.grid(row=0, column=0, padx=5, pady=5)
 
-    keyboard_button = tk.Button(control_frame, text="Ativar Controle do Teclado", image=keyboard_icon,command=toggle_keyboard_control, state=["disable"], width=20, height=20)
-    keyboard_button.pack(side=tk.LEFT, pady=20)
-    start_button = tk.Button(control_frame, text="Iniciar Servidor", image=play_icon, command=start_server, width=20, height=20)
-    start_button.pack(side=tk.LEFT, pady=20)
+    keyboard_button = tk.Button(control_frame, image=keyboard_icon, command=toggle_keyboard_control, state="disabled", width=50, height=50)
+    keyboard_button.grid(row=0, column=1, padx=5, pady=5)
 
-    stop_button = tk.Button(control_frame, text="Parar Servidor", image=stop_icon,  command=stop_server, state='disabled', width=20, height=20)
-    stop_button.pack(side=tk.LEFT, pady=20)
-    status_label = tk.Label(root, text="Servidor parado.", fg="blue" )
-    status_label.pack(pady=5)
+    start_button = tk.Button(control_frame, image=play_icon, command=start_server, width=50, height=50)
+    start_button.grid(row=0, column=2, padx=5, pady=5)
 
+    stop_button = tk.Button(control_frame, image=stop_icon, command=stop_server, state='disabled', width=50, height=50)
+    stop_button.grid(row=0, column=3, padx=5, pady=5)
+
+    # Status Label
+    status_label = tk.Label(root, text="Servidor parado.", fg="blue")
+    status_label.grid(row=1, column=0, padx=10, pady=5)
+
+    # Frame para botões de telas
     screen_buttons_frame = tk.Frame(root)
-    screen_buttons_frame.pack()
-    
+    screen_buttons_frame.grid(row=0, column=4, padx=10, pady=5)
+
+    # Label principal para outros elementos
     lmain = tk.Label(root)
-    lmain.pack()
-
+    lmain.grid(row=1, column=0, padx=10, pady=5)
+    # Eventos para minimizar/restaurar a janela filha
+    root.bind('<Unmap>', minimize_child_window)  # Minimiza a janela filha ao minimizar a principal
+    root.bind('<Map>', maximize_child_window)     # Restaura a janela filha ao restaurar a principal
+    root.bind('<Leave>', minimize_child_window)   # Minimiza a janela filha ao sair da aplicação
+    root.bind('<Enter>', maximize_child_window)   # Restaura a janela filha ao entrar na aplicação
     lmain.bind('<Motion>', on_mouse_move)
-
+    # Inicia o frame de atualização
     update_frame()
     root.mainloop()
