@@ -6,6 +6,7 @@ const cors = require("cors")
 const CheckStatus = require("./utils/CheckStatus")
 const {logToFile, clearLogFile} = require("./utils/LogToFile")
 const path = require('path')
+const checkShutdownTime = require("./utils/scheduleShutdown")
 const PORT = 5000
 
 /*const PORT2 = 3000
@@ -33,8 +34,8 @@ app.use(express.json());
 app.use("/api", route)
 
 createTableIfNotExist()
-
-setInterval(CheckStatus, 10000)
+setInterval(checkShutdownTime, 30000)
+setInterval(CheckStatus, 30000)
 app.listen(PORT, (err)=> { 
     if(err){ 
         console.log(err)

@@ -1,1 +1,1 @@
-2024-11-13T14:35:56.632Z - Servidor rodando na porta 5000
+2024-12-06T19:04:16.410Z - Servidor rodando na porta 5000

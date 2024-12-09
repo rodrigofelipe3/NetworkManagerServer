@@ -114,6 +114,7 @@ export const FloatButton = ({
             if (value) {
                 const formData = { 
                     poweroff: 0,
+                    poweroffhour: 'none',
                     ip: ip,
                 }
                 const response = await RemoveShutdownDB(formData)
@@ -162,8 +163,8 @@ export const FloatButton = ({
             if (value) {
                 const formData = { 
                     poweroff: 1,
-                    ip: ip,
-                    time: value
+                    poweroffhour: value,
+                    ip: ip
                 }
                 const response = await UpdatePowerOffDB(formData)
                 recharge(response.ok)

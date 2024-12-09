@@ -21,6 +21,7 @@ const createTableIfNotExist = () => {
                     network_devices TEXT,
                     poweroff INTEGER,
                     poweroffhour TEXT,
+                    powerstatus BOOLEAN,
                     status TEXT,
                     lasthb DATE
                 )`,
@@ -47,6 +48,7 @@ const RegisterComputerDB = (
   network_devices,
   poweroff,
   poweroffhour,
+  powerstatus,
   status,
   lastHB
 ) => {
@@ -65,7 +67,7 @@ const RegisterComputerDB = (
         if (row) {
           // O computador já foi registrado
           db.run(
-            "UPDATE pcs SET processor = ?, memory = ? , hard_disk = ? , operating_system = ?,  arch =?,  release =?, monitors = ? ,ip = ?, mac_address=?, network_devices = ?, poweroff = ?, poweroffhour =?, status = ?, lasthb = ?  WHERE host = ?",
+            "UPDATE pcs SET processor = ?, memory = ? , hard_disk = ? , operating_system = ?,  arch =?,  release =?, monitors = ? ,ip = ?, mac_address=?, network_devices = ?, poweroff = ?, poweroffhour =?, powerstatus = ?, status = ?, lasthb = ?  WHERE host = ?",
             [
               processor,
               memory,
@@ -79,6 +81,7 @@ const RegisterComputerDB = (
               network_devices,
               poweroff,
               poweroffhour,
+              powerstatus,
               status,
               lastHB,
               host,
@@ -97,7 +100,7 @@ const RegisterComputerDB = (
           );
         } else {
           db.run(
-            "INSERT INTO pcs (host, processor, memory, hard_disk, operating_system, arch, release, monitors, ip, mac_address, network_devices, poweroff, poweroffhour, status, lasthb) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO pcs (host, processor, memory, hard_disk, operating_system, arch, release, monitors, ip, mac_address, network_devices, poweroff, poweroffhour, powerstatus, status, lasthb) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
               host,
               processor,
@@ -112,6 +115,7 @@ const RegisterComputerDB = (
               network_devices,
               poweroff,
               poweroffhour,
+              powerstatus,
               status,
               lastHB
             ],
@@ -165,7 +169,6 @@ const UpdateStatus = (status, hostname, lastHB) => {
           logToFile("Erro ao atualizar o status: " + err);
           resolve(false);
         }
-        logToFile("HeartBeat Recebido com sucesso!");
         resolve(true);
       }
     );
@@ -180,13 +183,25 @@ const UpdateStatusToOff = (status, hostname) => {
       if (err) {
         logToFile("Erro ao atualizar o status: " + err);
       }
-      logToFile("Status Atualizado com Sucesso!");
+    }
+  );
+};
+
+const UpdateOnPowerOff = (id, powerstatus) => {
+  db.run(
+    "UPDATE pcs SET powerstatus = ? WHERE id = ?",
+    [powerstatus, id],
+    (err) => {
+      if (err) {
+        logToFile("Erro ao atualizar o status: " + err);
+      }
+      console.log('Update powerstatus successful')
     }
   );
 };
 
 const UpdatePowerOffState = (poweroff, poweroffhour, ip) => { 
- 
+ console.log(poweroffhour)
   return new Promise((resolve, reject)=> { 
     db.run(
       "UPDATE pcs SET poweroff = ?, poweroffhour = ? WHERE ip = ?",
@@ -194,7 +209,6 @@ const UpdatePowerOffState = (poweroff, poweroffhour, ip) => {
       (err) => {
         if (err) {
           logToFile("Erro ao atualizar o status de desligamento: " + err);
-          console.log(err)
           resolve({ok: false, error: err})
         }
         logToFile("Status Atualizado com Sucesso!");
@@ -203,6 +217,25 @@ const UpdatePowerOffState = (poweroff, poweroffhour, ip) => {
     );
   })
 }
+
+const UpdatePowerOfHours = (ip, time) => { 
+  console.log(ip)
+  return new Promise((resolve, reject) => {
+    db.run(
+      "UPDATE pcs SET poweroffhour = ? WHERE ip = ?",
+      [time, ip],
+      (err) => {
+        if (err) {
+          logToFile("Erro ao atualizar o status de desligamento: " + err);
+          return reject(err);
+        }
+        console.log("Shutdown cancelado com sucesso!");
+        resolve();
+      }
+    );
+  });
+};
+
 
 const DeleteComputerDB = (ip) => {
   return new Promise((resolve, reject) => {
@@ -240,5 +273,7 @@ module.exports = {
   GetComputerByIdDB,
   DeleteComputerDB,
   addUserDB,
-  UpdatePowerOffState
+  UpdatePowerOffState,
+  UpdateOnPowerOff,
+  UpdatePowerOfHours
 };

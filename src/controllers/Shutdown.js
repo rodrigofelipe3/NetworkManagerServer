@@ -8,7 +8,6 @@ const sendShutdownRequest = async () => {
     });
 
     const data = await response.json();
-    logToFile('Requisição de shutdown enviada com sucesso:', data);
   } catch (error) {
     logToFile('Erro ao enviar a requisição de shutdown:', error.message);
   }

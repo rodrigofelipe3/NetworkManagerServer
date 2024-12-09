@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import { CardBody, CardContent } from "./style";
-import { VerticalIcon } from "../screens/ListCompScreen/style";
 import { FloatButton } from "../FloatMenu";
 
 

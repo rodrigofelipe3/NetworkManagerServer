@@ -10,7 +10,7 @@ const WakeOnLan = (mac, ip) => {
         resolve({ok: false, error: err})
       } else {
         
-        resolve({ ok: true, msg: "Wake on Lan enviado com sucesso!" });
+        resolve({ ok: true, msg: "Wake o Lan enviado com sucesso!" });
       }
     });
   });
