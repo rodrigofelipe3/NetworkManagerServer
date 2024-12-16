@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Menu, MenuItem, Sidebar } from "react-pro-sidebar"
+import { Menu, MenuItem, Sidebar, SubMenu } from "react-pro-sidebar"
 import { CgEthernet } from "react-icons/cg";
 import { FaPowerOff } from "react-icons/fa";
 import { RiRestartFill } from "react-icons/ri";
@@ -41,14 +41,39 @@ export const SidebarBody = styled(Sidebar)`
         background-color: #1e2126;
     }
 
+    
+    .css-16jesut{ 
+        display: block;
+    }
+
 `
 export const MenuSidebar = styled(Menu)`
     
 `
 
+export const SubMenuSidebar = styled(SubMenu)`
+    background-color: #25292d;
+    color: #fff;
+    &:hover { 
+        background-color: #1e2126;
+    }
+    .css-jn69v9{ 
+        
+        margin-left: 10px;
+    }
+    .ps-menuitem-root>a:hover{ 
+        background-color: #1e2126;
+    }
+`
+
 export const MenuItemSidebar = styled(MenuItem)`
     background-color: #25292d;
     color: #fff;
+
+    &:hover{ 
+        background-color: #1e2126;
+    }
+
 `
 
 
@@ -87,4 +112,22 @@ export const IconMaintenance = styled(GrHostMaintenance)`
     font-size: 1rem;
     color: #fff;
 
+`
+
+export const ModalUserInput = styled.input `
+    padding: 15px;
+    border: solid #000 1px;
+    border-radius: 5px;
+    width: 80%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+`
+
+export const ModalPassInput = styled.input `
+    padding: 15px;
+    border: solid #000 1px;
+    border-radius: 5px;
+    width: 80%;
+    margin-bottom: 10px;
+    margin-top: 10px;
 `

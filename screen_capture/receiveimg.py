@@ -169,19 +169,16 @@ def send_mouse_position():
             client_x = int(current_x * client_width / window_width)
             client_y = int(current_y * client_height / window_height)
             
-            print('Antes do if: ', selected_screen)
             # Ajustar as coordenadas do mouse para a segunda tela (ou telas subsequentes)
             if selected_screen > 0:
-                client_x += x  # Adicionar o deslocamento horizontal da tela selecionada
+                client_x += width_total  # Adicionar o deslocamento horizontal da tela selecionada
 
-            # Limitar as coordenadas para permanecer dentro da área da tela
+                # Limitar as coordenadas para permanecer dentro da área da tela
                 client_x = min(max(client_x, 0), client_width - 1)
                 client_y = min(max(client_y, 0), client_height - 1)
 
                 # Enviar as coordenadas apenas se o botão do mouse não estiver sendo pressionado
                 if not button_held:
-                    print('Depois do if: ', selected_screen)
-                    print('Depois do if: ', client_x)
                     mouse_position_string = f"mouse: x:{client_x} y:{client_y}"
                     try:
                         conn.sendall(mouse_position_string.encode('utf-8'))

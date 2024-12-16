@@ -6,21 +6,7 @@ export const LoadingComponent = () => {
     return (
         <>
             <LoadingContainer>
-                <h3>LOADING</h3>
-                <h3>LOADING</h3>
-                <h3>LOADING</h3>
-                <h3>LOADING</h3>
-                <h3>LOADING</h3>
-                <h3>LOADING</h3>
-                <h3>LOADING</h3>
-                <h3>LOADING</h3>
-                <h3>LOADING</h3>
-                <h3>LOADING</h3><h3>LOADING</h3>
-
-                <h3>LOADING</h3>
-                <h3>LOADING</h3><h3>LOADING</h3>
-                <h3>LOADING</h3>
-                
+               <CircleLoader/>
             </LoadingContainer>
 
         </>

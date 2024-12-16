@@ -1,47 +1,7 @@
 const { app, BrowserWindow, nativeTheme, ipcMain } = require('electron');
-const { exec } = require('child_process');
 const path = require('node:path');
 
 let promptWindow;
-
-
-const OpenExpressServer = () => {
-
-  const filePath = 'C:/Program Files/TI Administration/Server/server.exe';
-  return new Promise((resolve, reject) => {
-    const command = `powershell -Command "Start-Process -FilePath '${filePath}' -Verb RunAs -WindowStyle Hidden `;
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Erro: ${error.message}`);
-        resolve({ ok: false, error: error });
-      }
-      if (stderr) {
-        console.error(`Stderr: ${stderr}`);
-        resolve({ ok: false, error: stderr });
-      }
-      resolve({ ok: true, msg: "Servidor express iniciado" });
-    });
-  })
-}
-
-const OpenReactServer = async () => {
-
-  const filePath = 'C:/Program Files/TI Administration/build/webserver.exe';
-  return new Promise((resolve, reject) => {
-    const command = `powershell -Command "Start-Process -FilePath '${filePath}' -Verb RunAs -WindowStyle Hidden `;
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Erro: ${error.message}`);
-        resolve({ ok: false, error: error });
-      }
-      if (stderr) {
-        console.error(`Stderr: ${stderr}`);
-        resolve({ ok: false, error: stderr });
-      }
-      resolve({ ok: true, msg: "Servidor express iniciado" });
-    });
-  })
-}
 
 function createWindow() {
   nativeTheme.themeSource = 'dark'

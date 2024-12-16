@@ -142,7 +142,6 @@ router.post("/report", async (req, res) => {
 router.post('/updates', async (req, res)=> { 
   const config = await GetClientVersion()
   const version = JSON.parse(config)
-  console.log(version)
     try { 
       return res.status(200).json({ok: true, version: version.version, filepath: version.filepath, instalationpath: version.instalationpath})
     }catch(err){ 

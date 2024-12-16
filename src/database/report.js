@@ -94,7 +94,6 @@ const Report = () => {
           const filePath = `./src/reports/${tableName}.xlsx`;
           xlsx.writeFile(workbook, filePath);
 
-          logToFile(`Dados exportados com sucesso para: ${filePath}`);
           resolve({ ok: true, msg: "Relatório Gerado com sucesso!" });
         }
       );

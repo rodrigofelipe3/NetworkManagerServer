@@ -124,7 +124,6 @@ const RegisterComputerDB = (
                 logToFile("Erro ao inserir dados: " + err.message);
                 resolve({ ok: false, error: err })
               } else {
-                logToFile(`Computador ${host} registrado com sucesso.`);
                 resolve({ ok: true, msg: "Computador registrado com sucesso!" });
               }
             }
@@ -244,7 +243,6 @@ const DeleteComputerDB = (ip) => {
         logToFile("Erro ao Deletar " + err)
         resolve({ ok: false, error: err })
       } else {
-        logToFile("Computador deletado com sucesso!")
         resolve({ ok: true, msg: "Computador deletado com sucesso!" })
       }
     })

@@ -21,7 +21,6 @@ const DeleteComputer = async (ip, res) => {
     try { 
         const response = await DeleteComputerDB(ip)
         if(response.ok == true){
-            logToFile(response.msg)
             return res.status(200).json(response)
         }else { 
             logToFile(response.error)
