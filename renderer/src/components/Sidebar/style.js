@@ -8,7 +8,7 @@ import { LuScreenShare } from "react-icons/lu";
 import { GrHostMaintenance } from "react-icons/gr";
 
 export const SidebarBody = styled(Sidebar)`
-   
+    height: ${({height})=> height}px;
     .css-dip3t8{
         background-color: #1e2126;
     }
@@ -118,6 +118,7 @@ export const ModalUserInput = styled.input `
     padding: 15px;
     border: solid #000 1px;
     border-radius: 5px;
+    font-size: 1.3rem;
     width: 80%;
     margin-bottom: 10px;
     margin-top: 10px;
@@ -128,6 +129,7 @@ export const ModalPassInput = styled.input `
     border: solid #000 1px;
     border-radius: 5px;
     width: 80%;
+    font-size: 1.3rem;
     margin-bottom: 10px;
     margin-top: 10px;
 `

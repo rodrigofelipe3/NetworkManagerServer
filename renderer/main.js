@@ -1,90 +1,93 @@
 const { app, BrowserWindow, nativeTheme, ipcMain } = require('electron');
 const path = require('node:path');
+const axios = require('axios');
 
-let promptWindow;
+let mainWindow;
+let loadWindow;
 
 function createWindow() {
-  nativeTheme.themeSource = 'dark'
-  const win = new BrowserWindow({
+  nativeTheme.themeSource = 'dark';
+  mainWindow = new BrowserWindow({
     width: 1366,
     height: 768,
     icon: './src/assets/imagens/logo.ico',
     resizable: false,
-    //autoHideMenuBar: true, //ESCONDE A BARRA DE MENU FIlE etc..,
-    //titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
+    autoHideMenuBar: true, // Esconde a barra de menu File etc.
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
-    }
+    },
   });
 
-  win.loadURL("http://localhost:3000/")
+  mainWindow.loadURL('http://localhost:3000/');
 }
 
-const createPrompt = (url) => {
-  const father = BrowserWindow.getFocusedWindow()
-  if(father) { 
-    promptWindow = new BrowserWindow({
-      width: 900,
-      height: 500,
-      resizable: false,
-      autoHideMenuBar: true, //ESCONDE A BARRA DE MENU FIlE etc..,
-      //titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
-      parent: father,
-      title: 'Prompt',
-      icon: './src/assets/imagens/prompt-icon.png',
-      minimizable: false,
-      webPreferences: {
-        preload: path.join(__dirname, 'preload.js'),
-        nodeIntegration: false,
-        contextIsolation: true,
+const createLoading = () => {
+  loadWindow = new BrowserWindow({
+    width: 400,
+    height: 300,
+    resizable: false,
+    autoHideMenuBar: true,
+    frame: false, // Remove a barra superior
+    title: 'Loading',
+    icon: './src/assets/imagens/loading-icon.png',
+    minimizable: false,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: false,
+      contextIsolation: true,
+    },
+  });
+
+  loadWindow.loadFile('./build/loading.html'); // Certifique-se de ter o arquivo de loading.
+  loadWindow.setTitle('Loading');
+};
+
+// Função para verificar o servidor
+const waitForServer = async () => {
+  const MAX_ATTEMPTS = 10; // Número máximo de tentativas
+  const INTERVAL = 1000; // Intervalo entre tentativas (1s)
+
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    try {
+      const response = await axios.get('http://localhost:3000');
+      if (response.status === 200) {
+        return true; // Servidor está ativo
       }
-    });
-
-    promptWindow.loadURL(`http://localhost:3000/prompt/${url}`)
-    
-    promptWindow.setTitle('Prompt');
+    } catch (error) {
+      console.log(`Tentativa ${attempt} falhou. Servidor não disponível.`);
+    }
+    await new Promise((resolve) => setTimeout(resolve, INTERVAL));
   }
-}
+
+  return false; // Servidor não respondeu
+};
 
 app.whenReady().then(async () => {
+  createLoading(); // Mostra a tela de loading inicialmente
 
-  /*const response = await OpenExpressServer()
-  if(response.ok == true) { 
-      const response = await OpenReactServer()
-      if(response.ok == true) { 
-          createWindow();
-      }
-  }else { 
-    alert("Erro " + response.error)
-  }
-*/
-  createWindow()
-  ipcMain.on('open-prompt', (event, arg) => {
-    createPrompt(arg)
-  })
-  ipcMain.on('close-prompt', (event, arg) => {
-    if (promptWindow === true) {
-      promptWindow.close(); // Fecha a janela prompt
-      promptWindow = null;  // Remove a referência
-    }else { 
-
+  const serverReady = await waitForServer();
+  if (serverReady) {
+    if (loadWindow) {
+      loadWindow.close(); // Fecha a janela de loading
+      loadWindow = null;
     }
-  });
-})
+    createWindow(); // Cria a janela principal
+  } else {
+    console.log('Servidor não respondeu após múltiplas tentativas.');
+    if (loadWindow) {
+      loadWindow.close();
+      loadWindow = null;
+    }
+    app.quit(); // Fecha o aplicativo se o servidor não iniciar
+  }
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
-  /* exec('taskkill /F /IM server.exe /IM webserver.exe ', (err, stdout, stderr) => {
-     if (err) {
-       console.error('Erro ao fechar network-manager.exe:', err);
-       return;
-     }
-     console.log('network-manager.exe finalizado com sucesso');
-   });*/
 });
 
 app.on('activate', () => {

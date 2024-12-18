@@ -3,19 +3,19 @@ import styled from "styled-components";
 
 export const ModalContainer = styled.div `
     position: absolute;
-    top: 12%;
+    top:0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: ${({ width }) => width}px;
+    height: ${({ height }) => height}px;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
 `
 
 export const ModalBody = styled.div `
     position: absolute;
     left: 25%;
-    top: 35%;
+    top: 25%;
     width: 50%;
-    height: 53%;
+    //height: 50%;
     background-color: #fff;
     z-index: 10000;
     overflow: hidden;
@@ -50,7 +50,7 @@ export const ModalBottom = styled.footer`
 `
 
 export const ModalOkButton = styled.button `
-    padding: 13px;
+    padding: 1rem;
     margin-left: 10px;
     margin-right: 10px;
     background-color: #0056c6;
@@ -58,17 +58,18 @@ export const ModalOkButton = styled.button `
     font-weight: 700;
     border: none;
     color: #fff;
-
+    cursor: pointer;
     &:hover{  
         background-color: #124aa5;
     }
 `
 
 export const ModalCancelButton = styled.button `
-    padding: 13px;
+    padding: 1rem;
     margin-left: 10px;
     margin-right: 10px;
     font-weight: 700;
+    cursor: pointer;
     background-color: #a8a8a8;
     border-radius: 5px;
     border: none;

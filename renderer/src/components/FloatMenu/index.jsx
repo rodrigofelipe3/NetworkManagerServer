@@ -160,6 +160,7 @@ export const FloatButton = ({
             buttons: [true, true]
 
         }).then(async (value) => {
+            console.log(value)
             if (value) {
                 const formData = { 
                     poweroff: 1,

@@ -65,9 +65,10 @@ export const RemoveShutdownDB = async (data = { poweroff: "", ip: "" }) => {
 };
 
 export const UpdatePowerOffDB = async (
-  data = { poweroff: "", ip: "", time: "" }
+  data = { poweroff: "", poweroffhour: "",  ip: ""}
 ) => {
-  const response1 = await CreateShutDown(data.ip, data.time);
+  console.log(data)
+  const response1 = await CreateShutDown(data.ip, data.poweroffhour);
 
   return new Promise(async (resolve, reject) => {
     if (response1.ok == true) {

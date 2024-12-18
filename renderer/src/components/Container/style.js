@@ -7,4 +7,5 @@ export const Container = styled.div `
     scrollbar-width: none;
     background-color: #373737;
     padding-bottom: 5%;
+    overflow: scroll;
 `

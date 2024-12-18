@@ -4,5 +4,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('api', {
   OpenPrompt: (url)=> ipcRenderer.send("open-prompt", url),
   ClosePrompt: ()=> ipcRenderer.send('close-prompt'),
-  sendURL: (url) => ipcRenderer.send('set-url', url)
+  sendURL: (url) => ipcRenderer.send('set-url', url),
+  OpenLoading: ()=> ipcRenderer.send('open-loading'),
+  CloseLoading: ()=> ipcRenderer.send('close-loading')
 });

@@ -49,7 +49,7 @@ export const InformationScreen = ({
 
     return (
         <>
-            <SideBar collapsed={true}  macAddress={macAdress} ipAddress={ipAdress} viewInformation={viewInformation}/>
+            <SideBar collapsed={true} macAddress={macAdress} ipAddress={ipAdress} viewInformation={viewInformation}/>
             <InformationContent>
                 <div id="manager-buttons">
 

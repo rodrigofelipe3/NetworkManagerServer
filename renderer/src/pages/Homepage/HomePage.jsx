@@ -216,17 +216,17 @@ export const HomePage = () => {
                         recharge={setRecharge}
                     />
                 )}
-                {viewInformation && (
-                    <InformationScreen
-                        data={data}
-                        information={information}
-                        informationScreen={() => setViewInformation(false)}
-                        handleGetProcess={handleGetProcess}
-                        handleGetProcessMemory={handleGetProcessMemory}
-                        handleGetScreen={handleGetScreen}
-                        ipAdress={adressIp}
-                        macAdress={macAdress}
-                        viewInformation={setViewInformation}
+                { viewInformation && (
+                  <InformationScreen
+                    data={data}
+                    information={information}
+                    informationScreen={() => setViewInformation(false)}
+                    handleGetProcess={handleGetProcess}
+                    handleGetProcessMemory={handleGetProcessMemory}
+                    handleGetScreen={handleGetScreen}
+                    ipAdress={adressIp}
+                    macAdress={macAdress}
+                    viewInformation={setViewInformation}
                     />
                 )}
             </ContainerJSX>

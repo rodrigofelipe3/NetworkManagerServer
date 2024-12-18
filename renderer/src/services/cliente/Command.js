@@ -1,7 +1,7 @@
 import swal from "sweetalert"
 
 export const CmdKey = async (IP, data) => { 
-    const URL = `http://${IP}:5001/api/commands`
+    const URL = `http://${IP}:5001/api/cmdcommand`
     const options = { 
         method: "POST",
         headers: { 

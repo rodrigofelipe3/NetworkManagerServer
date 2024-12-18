@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { IconEthernet, IconMaintenance, IconPower, IconReturn, IconScreen, MenuItemSidebar, MenuSidebar, ModalPassInput, ModalUserInput, SidebarBody, SubMenuSidebar } from "./style";
 import { Wake_On_Lan } from "../../services/server/WakeOnLan";
 import { Restart } from "../../services/cliente/Shutdown";
@@ -13,10 +13,42 @@ import { Modal } from "../Modal";
 
 export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) => {
 
+    const [isModalView, setIsModalView] = useState(false)
+    const [isModalViewDelete, setIsModalViewDelete] = useState(false)
+    const [input, setInput] = useState({hostname: '' ,userinput: '', userpassword: '', target: ''})
+
+    const [SideBarSize, setSidebarSize] = useState({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    
+      // Função para atualizar o tamanho do modal
+      const updateSideBarSize = () => {
+        setSidebarSize({
+          width: document.body.clientWidth,
+          height: document.body.clientHeight,
+        });
+      };
+    
+      useEffect(() => {
+        // Atualiza o tamanho inicial do modal
+        updateSideBarSize();
+    
+        // Adiciona o evento resize para redimensionamento em tempo real
+        window.addEventListener("resize", updateSideBarSize);
+    
+        // Remove o evento ao desmontar o componente
+        return () => window.removeEventListener("resize", updateSideBarSize);
+      }, []);
+
     const closeNewWindow = () => {
         window.api.ClosePrompt();
         viewInformation(false)
     }
+
+    const openNewWindow = () => {
+        window.api.OpenPrompt(ipAddress); // Chamando ipcRenderer via contextBridge
+    };
     const handlePowerOff = () => {
         swal({
             title: "Atenção!",
@@ -52,6 +84,14 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
         mac: macAddress,
         ip: ipAddress
     }
+
+    const handleOnChange = (event) => { 
+        const {name, value} = event.target
+        setInput((prevdata)=> ({ 
+            ...prevdata,
+            [name]:value
+        }))
+    }
     const handleWakeOnLan = async () => {
         const response = await Wake_On_Lan(WakeOnLan)
         if (response.ok === true) {
@@ -72,8 +112,25 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
             })
         }
     }
+    const handleSetModalDelete = () => { 
+        setIsModalView(false)
+        setIsModalViewDelete(true)
+        
+    }
+    const handleOnClickAdd = () => { 
+        CmdKey(ipAddress, {type: 'cmdkey', command: `/add:${input.hostname} /user:${input.userinput} /pass:${input.userpassword}` })
+        setIsModalView(false)
+        openNewWindow()
+    }
 
+    const handleOnClickDelete = () => { 
+        CmdKey(ipAddress, {type: 'cmdkey', command: `cmdkey /delete:${input.target}`})
+    }
 
+    const handleListCmdKey = () => { 
+        CmdKey(ipAddress, {type: 'cmdkey', command: '/list'})
+        openNewWindow()
+    }
     const handleRestart = () => {
         const response = Restart(ipAddress)
         if (response.ok == true) {
@@ -95,21 +152,31 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
         }
     }
 
-
-
     return (
         <>
-            <Modal title={'Usuário e senha'} children={
+            {isModalView && 
+            (<Modal view={setIsModalView} title={'Credenciais de Segurança'} onClick={handleOnClickAdd} children={
                 <>
-                    <div style={{display: "flex", flexWrap: 'wrap'}}>
-                        <label htmlFor="userinput" style={{width: "100%"}}>Usuário</label>
-                        <ModalUserInput type="text" name="userinput" placeholder="Nome do Usuário" />
-                        <label htmlFor="userpassword" style={{width: "100%"}}>Senha</label>
-                        <ModalPassInput type="password" name="userpassword" placeholder="Digite a senha" />
+                    <div style={{display: "flex", flexWrap: 'wrap', height: '300px', marginBottom: '75px'}}>
+                        <label htmlFor="hostname" style={{width: "100%", fontSize: '12px'}}>Nome da máquina sem "\\"</label>
+                        <ModalUserInput type="text" name="hostname" placeholder="SERVIDOR" onChange={handleOnChange}/>
+                        <label htmlFor="userinput" style={{width: "100%", fontSize: '12px'}}>Usuário</label>
+                        <ModalUserInput type="text" name="userinput" placeholder="Nome do Usuário" onChange={handleOnChange}/>
+                        <label htmlFor="userpassword" style={{width: "100%", fontSize: '12px'}}>Senha</label>
+                        <ModalPassInput type="password" name="userpassword" placeholder="Digite a senha" onChange={handleOnChange}/>
                     </div>
                 </>
-            }></Modal>
-            <SidebarBody collapsed={collapsed} style={{ position: "absolute", border: "none", height: "100%" }}>
+            }></Modal>)}
+            {isModalViewDelete && ( 
+                <Modal view={setIsModalViewDelete} title={'Deletar credenciais de usuário'} onClick={handleOnClickDelete} children={
+                <>
+                    <div style={{height: '200px'}}>
+                        <label htmlFor="target" style={{width: "100%", fontSize: '12px'}}>Utilize o CMDKEY "/list" para listar as conexões existentes</label>
+                        <ModalUserInput  type="text" placeholder="TERMSRV/Servidor" name="target" onChange={handleOnChange} />
+                    </div>
+                </>}/>
+            )}
+            <SidebarBody height={SideBarSize.height} collapsed={collapsed} style={{ position: "absolute", border: "none", height: `${SideBarSize.height - 843}px`}}>
                 <MenuSidebar>
                     <SubMenu icon={<IconReturn />} onClick={closeNewWindow}>
                     </SubMenu>
@@ -125,11 +192,11 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
                     </SubMenu>
                     <SubMenu icon={<IconMaintenance />}>
                         <MenuItemSidebar onClick={() => Scannow(ipAddress, { type: "sfc" })}>System Files Check</MenuItemSidebar>
-                        <MenuItemSidebar onClick={() => CheckDisk(ipAddress, { type: "chkdsk" })} >Check Disk</MenuItemSidebar>
+                        <MenuItemSidebar onClick={() => CheckDisk(ipAddress, { type: "chkdsk" })} >CheckDisk</MenuItemSidebar>
                         <SubMenuSidebar label={'CmdKey'} style={{ display: 'block', alignContent: 'center' }}>
-                            <MenuItemSidebar onClick={CmdKey(ipAddress, { command: '/list' })}>/list</MenuItemSidebar>
-                            <MenuItemSidebar onClick={CmdKey(ipAddress, { command: '/list' })}>/add</MenuItemSidebar>
-                            <MenuItemSidebar onClick={CmdKey(ipAddress, { command: '/list' })}>/delete</MenuItemSidebar>
+                            <MenuItemSidebar onClick={()=> handleListCmdKey()}>/list</MenuItemSidebar>
+                            <MenuItemSidebar onClick={()=> setIsModalView(true)}>/add</MenuItemSidebar>
+                            <MenuItemSidebar onClick={handleSetModalDelete}>/delete</MenuItemSidebar>
                         </SubMenuSidebar>
                         <SubMenuSidebar label={'DISM'} style={{ width: '100%', display: 'block', alignContent: 'center' }}>
                             <MenuItemSidebar onClick={() => CheckHealth(ipAddress, { type: "checkhealth" })} >/checkhealth</MenuItemSidebar>
