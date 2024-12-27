@@ -31,6 +31,22 @@ export const TopContent = styled.div`
   #mem-usage:hover {
     background-color: #0056C6;
   }
+
+  #Content-CPU { 
+    display: flex;
+    align-items: center;
+    border: solid 2px #fff;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 0.8rem;
+  }
+
+  #div-cpu-percent { 
+    margin-right: 2rem;
+    h2{ 
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
 `;
 
 export const TableContent = styled.table`

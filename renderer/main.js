@@ -3,6 +3,7 @@ const path = require('node:path');
 const axios = require('axios');
 
 let mainWindow;
+let promptWindow;
 let loadWindow;
 
 function createWindow() {
@@ -44,16 +45,43 @@ const createLoading = () => {
   loadWindow.setTitle('Loading');
 };
 
-// Função para verificar o servidor
+const createPrompt = (url) => {
+  const father = BrowserWindow.getFocusedWindow()
+  if (father) {
+  
+    promptWindow = new BrowserWindow({
+      width: 900,
+      height: 500,
+      resizable: false,
+      autoHideMenuBar: true, //ESCONDE A BARRA DE MENU FIlE etc..,
+      parent: father,
+      //titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
+      title: 'Prompt',
+      icon: './src/assets/imagens/prompt-icon.png',
+      minimizable: false,
+      webPreferences: {
+        preload: path.join(__dirname, 'preload.js'),
+        nodeIntegration: false,
+        contextIsolation: true,
+      }
+    });
+
+    promptWindow.loadURL(`http://localhost:3000/prompt/${url}`)
+
+    promptWindow.setTitle('Prompt');
+  }
+  
+}
+
 const waitForServer = async () => {
-  const MAX_ATTEMPTS = 10; // Número máximo de tentativas
-  const INTERVAL = 1000; // Intervalo entre tentativas (1s)
+  const MAX_ATTEMPTS = 20; 
+  const INTERVAL = 1300; 
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     try {
       const response = await axios.get('http://localhost:3000');
       if (response.status === 200) {
-        return true; // Servidor está ativo
+        return true; 
       }
     } catch (error) {
       console.log(`Tentativa ${attempt} falhou. Servidor não disponível.`);
@@ -61,27 +89,37 @@ const waitForServer = async () => {
     await new Promise((resolve) => setTimeout(resolve, INTERVAL));
   }
 
-  return false; // Servidor não respondeu
+  return false; 
 };
 
 app.whenReady().then(async () => {
-  createLoading(); // Mostra a tela de loading inicialmente
+  createLoading(); 
 
   const serverReady = await waitForServer();
   if (serverReady) {
     if (loadWindow) {
-      loadWindow.close(); // Fecha a janela de loading
+      loadWindow.close(); 
       loadWindow = null;
     }
-    createWindow(); // Cria a janela principal
+    createWindow(); 
   } else {
     console.log('Servidor não respondeu após múltiplas tentativas.');
     if (loadWindow) {
       loadWindow.close();
       loadWindow = null;
     }
-    app.quit(); // Fecha o aplicativo se o servidor não iniciar
+    app.quit(); 
   }
+  ipcMain.on('open-prompt', (event, arg) => {
+    createPrompt(arg)
+  })
+  ipcMain.on('close-prompt', (event, arg) => {
+    if (promptWindow) {
+    if (promptWindow === true) {
+      promptWindow.close(); 
+      promptWindow = null; 
+    }
+  }});
 });
 
 app.on('window-all-closed', () => {

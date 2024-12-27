@@ -33,11 +33,7 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
       useEffect(() => {
         // Atualiza o tamanho inicial do modal
         updateSideBarSize();
-    
-        // Adiciona o evento resize para redimensionamento em tempo real
         window.addEventListener("resize", updateSideBarSize);
-    
-        // Remove o evento ao desmontar o componente
         return () => window.removeEventListener("resize", updateSideBarSize);
       }, []);
 
@@ -47,7 +43,7 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
     }
 
     const openNewWindow = () => {
-        window.api.OpenPrompt(ipAddress); // Chamando ipcRenderer via contextBridge
+        window.api.OpenPrompt(ipAddress); 
     };
     const handlePowerOff = () => {
         swal({

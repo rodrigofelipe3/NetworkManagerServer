@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { InformationContent } from "./style";
 import { Table } from "../../Table";
 import { SideBar } from "../../Sidebar";
+import { CmdKey } from "../../../services/cliente/Command";
 
 export const InformationScreen = ({
     data = [{
@@ -46,6 +47,13 @@ export const InformationScreen = ({
     viewInformation
 }) => {
     
+    useEffect(()=> { 
+        const options = { 
+            type: "information",
+        }
+        CmdKey(ipAdress, options)
+
+    })
 
     return (
         <>
