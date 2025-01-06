@@ -9,6 +9,7 @@ import swal from "sweetalert"
 import { InformationScreen } from "../../components/screens/ViewInformation";
 import { ComputerListScreen } from "../../components/screens/ListCompScreen";
 import { CompHeader } from "../../components/Header";
+import { CmdKey } from "../../services/cliente/Command";
 
 
 export const HomePage = () => {
@@ -52,7 +53,6 @@ export const HomePage = () => {
         poweroffhour: ""
     },
     ])
-
     const handleGetComputerById = async (id) => {
         const response = await getComputerById(id)
         if (response.msg) {
@@ -143,6 +143,10 @@ export const HomePage = () => {
         setMacAdress(mac)   
         setSelectedKey(keyValue);
         setViewInformation(true);
+        const options = {
+            type: "information",
+        }
+        CmdKey(adressIp, options)
     };
 
     const filteredComputers = data.filter(computer =>

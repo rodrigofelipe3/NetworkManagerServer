@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { HeaderCell, TableBody, TableCell, TableContent, TableHeader, TableRow, TopContent } from "./style";
 import { FloatButton } from "../FloatMenu";
-import { Header } from "../Header/style";
 import Chart from "../Chart";
-import useWebSocket, {ReadyState} from "react-use-websocket";
-import { CmdKey } from "../../services/cliente/Command";
+import useWebSocket, { ReadyState } from "react-use-websocket";
+import { useWebSocketContext } from "../../utils/WebSocketProvider";
 
 const teste = [
     'Realtek PCIe GbE Family Controller',
@@ -58,59 +57,38 @@ export const Table = ({
         poweroff: '',
         poweroffhour: ""
     },
-    ipAdress
+    ipAdress,
 }) => {
+
     
-    const [isCPUActive, setCPUActive] = useState(false)
-    const [isMemActive, setMemActive] = useState(false)
-    const [logs, setLogs] = useState('')
-    const {sendMessage, lastMessage, readyState} = useWebSocket(`ws://${ipAdress}:443`, { 
-        onOpen: () => console.log('Conectado ao servidor cliente via WebSocket.'),
-        onClose: () => {
-            console.log('Conexão encerrada.');
-            sendMessage('close');
-        },
-        onError: (error) => {
-            console.log('Erro:', error);
-            sendMessage('error');
-        },
-        shouldReconnect: () => false, 
-    })
+    const { lastMessage, readyState } = useWebSocketContext()
+    const [formatedMessage, setFormatedMessage] = useState('')
+    const [systemInfo, setSystemInfo] = useState({
+        usage: 0,
+        memper: 0,
+        usedMemory: 0,
+        totalMemory: 0,
+        freeMem: 0,
+    });
+    useEffect(() => {
+        if (lastMessage?.data) {
+            const [ usage, memper, usedMemory, totalMemory, freeMem] = lastMessage?.data.match(/[\d.]+/g).map(Number);
+            
+            setSystemInfo({
+                usage,
+                memper,
+                usedMemory,
+                totalMemory,
+                freeMem,
+            });
+        }
+
+    }, [lastMessage])
+
     const bytesToGigabytes = (bytes) => {
         const gigabytes = bytes / (1024 ** 3);
         return gigabytes;
     }
-
-    const handleClickCPU = (ip) => {
-        onClickCPU(ip)
-        setCPUActive(true)
-        setMemActive(false)
-    }
-    const handleClickMEM = (ip) => {
-        onClickMem(ip)
-        setMemActive(!isMemActive)
-        setCPUActive(false)
-    }
-
-    useEffect(()=> { 
-        
-        if(lastMessage?.data) { 
-            setLogs((prevData)=> prevData + lastMessage.data)
-        }
-        console.log(lastMessage)
-        return ()=> { 
-            sendMessage('close')
-        }
-    }, [lastMessage])
-    
-    const connectionStatus = {
-        [ReadyState.CONNECTING]: 'Connecting',
-        [ReadyState.OPEN]: 'Open',
-        [ReadyState.CLOSING]: 'Closing',
-        [ReadyState.CLOSED]: 'Closed',
-        [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
-    }[readyState];
-
     return (
         <>
             {isTaskManager &&
@@ -119,36 +97,27 @@ export const Table = ({
                     <div id='Content-CPU'>
                         <div id="div-cpu-percent">
                             <h2>CPU</h2>
-                            <h2>0.00%</h2>
+                            <h2>{systemInfo.usage}%</h2>
                         </div>
                         <div id="div-chart">
-                            <Chart/>
+                            <Chart value={systemInfo.usage} />
                         </div>
                     </div>
-                    {/*<div id="cpu-usage" onClick={() => handleClickCPU(information.ip)} visible={isCPUActive}>
-                        <h4>USO DA CPU</h4>
-                        <h2>{data ? data.map((information) => information.data.system.cpuUsage ? information.data.system.cpuUsage : "") : ""}%</h2>
-
-                    </div>
-                    <div id="mem-usage" onClick={() => handleClickMEM(information.ip)} isActive={isMemActive}>
-                        <h4>USO DA MEM</h4>
-                        <h2>{data ? data.map((information) => information.data.system.memoryUsage ? information.data.system.memoryUsage : "0,0") : ""}%</h2>
-                    </div>*/}
 
                 </TopContent>
             }
             {isTaskManager &&
-                
+
                 <TableContent>
                     <TableHeader>
                         {headers.map((th) =>
-                            <HeaderCell>{th}</HeaderCell>
+                            <HeaderCell >{th}</HeaderCell>
                         )}
                     </TableHeader>
 
                     <TableBody>
                         {data ? data.map((information) => information ?
-                            information.data.processes.map((process, index) => process.name != "System Idle Process" && process.name != "Memory Compression" ? (
+                            information.data.processes.map((process, index) => process.name !== "System Idle Process" && process.name !== "Memory Compression" ? (
 
                                 <TableRow id="task-row" >
                                     <TableCell id="task-name" key={index}>{process.name}</TableCell>
@@ -169,7 +138,7 @@ export const Table = ({
                 <TableContent>
                     <TableHeader>
                         {headers.map((th) =>
-                            <HeaderCell>{th}</HeaderCell>
+                            <HeaderCell style={{ fontSize: '1.5rem' }}>{th}</HeaderCell>
                         )}
                     </TableHeader>
                     <TableBody>

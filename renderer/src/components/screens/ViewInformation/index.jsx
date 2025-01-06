@@ -1,12 +1,15 @@
-import React, { useEffect } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { InformationContent } from "./style";
 import { Table } from "../../Table";
 import { SideBar } from "../../Sidebar";
-import { CmdKey } from "../../../services/cliente/Command";
+import useWebSocket, { ReadyState } from "react-use-websocket";
+import { SwitchLabels } from "../../Switch";
+import { WebSocketProvider } from "../../../utils/WebSocketProvider";
+
 
 export const InformationScreen = ({
     data = [{
-        
+
         id: "",
         host: "",
         processor: "",
@@ -16,9 +19,9 @@ export const InformationScreen = ({
         arch: "",
         release: "",
         monitors: "",
-        ip: "", 
-        mac_address: "", 
-        status: "" ,
+        ip: "",
+        mac_address: "",
+        status: "",
         network_devices: [""],
         poweroff: '',
         poweroffhour: ""
@@ -44,27 +47,45 @@ export const InformationScreen = ({
     ipAdress,
     macAdress,
     recharge,
-    viewInformation
+    viewInformation,
 }) => {
-    
-    useEffect(()=> { 
-        const options = { 
-            type: "information",
-        }
-        CmdKey(ipAdress, options)
 
+    const [isChecked, setIsChecked] = useState(null)
+    const [logs, setLogs] = useState('')
+
+    /*const { sendMessage, lastMessage, readyState } = useWebSocket(`ws://${ipAdress}:443`, {
+        onOpen: () => console.log('Conectado ao servidor cliente via WebSocket.'),
+        onClose: () => {
+            console.log('Conexão encerrada.');
+            sendMessage('close');
+        },
+        onError: (error) => {
+            console.log('Erro:', error);
+            sendMessage('error');
+        },
+        shouldReconnect: () => true,
     })
+
+
+    const connectionStatus = {
+        [ReadyState.CONNECTING]: 'Connecting',
+        [ReadyState.OPEN]: 'Open',
+        [ReadyState.CLOSING]: 'Closing',
+        [ReadyState.CLOSED]: 'Closed',
+        [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
+    }[readyState];*/
+
+
 
     return (
         <>
-            <SideBar collapsed={true} macAddress={macAdress} ipAddress={ipAdress} viewInformation={viewInformation}/>
-            <InformationContent>
+            <SideBar collapsed={true} macAddress={macAdress} ipAddress={ipAdress} viewInformation={viewInformation} />
+            <WebSocketProvider ipAddress={ipAdress}>
+                <InformationContent>
                 <div id="manager-buttons">
-
                 </div>
                 <div id={"grid-display"}>
                     <div id="systemInformation">
-                        <h1>Informações do Sistema</h1>
                         {data.id !== "" ?
                             data.map((information) =>
                             (<Table
@@ -76,6 +97,14 @@ export const InformationScreen = ({
                             ) : <h1>Nenhum dado encontrado!</h1>}
                     </div>
                     <div id="ManagerTask">
+                        <div id="SwitchButton">
+                            
+                        {/*<SwitchLabels
+                            ipAdress={ipAdress}
+                            Checked={setIsChecked}
+                        />*/}
+                            
+                        </div>
                         <Table
                             onClickMem={handleGetProcessMemory}
                             onClickCPU={handleGetProcess}
@@ -86,8 +115,9 @@ export const InformationScreen = ({
                         />
                     </div>
                 </div>
-                 
+
             </InformationContent>
+            </WebSocketProvider>
         </>
     )
 }

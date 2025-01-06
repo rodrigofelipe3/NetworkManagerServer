@@ -23,7 +23,12 @@ export const InformationContent = styled.div `
             padding: 1rem;
         }
     }
-
+    #SwitchButton{ 
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+    }
     #manager-buttons{ 
         display: flex;
         width: 80%;
