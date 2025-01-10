@@ -60,8 +60,8 @@ export const Table = ({
     ipAdress,
 }) => {
 
-    
-    const { lastMessage, readyState } = useWebSocketContext()
+
+    const { lastMessage, readyState, sendMessage } = useWebSocketContext()
     const [formatedMessage, setFormatedMessage] = useState('')
     const [systemInfo, setSystemInfo] = useState({
         usage: 0,
@@ -70,10 +70,21 @@ export const Table = ({
         totalMemory: 0,
         freeMem: 0,
     });
+
+    const connectionStatus = {
+        [ReadyState.CONNECTING]: 'Connecting',
+        [ReadyState.OPEN]: 'Open',
+        [ReadyState.CLOSING]: 'Closing',
+        [ReadyState.CLOSED]: 'Closed',
+        [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
+    }[readyState];
+
+    if (connectionStatus == 'Connecting') sendMessage(JSON.stringify({ type: 'authenticate', userId: String(ipAdress) }))
+
     useEffect(() => {
         if (lastMessage?.data) {
-            const [ usage, memper, usedMemory, totalMemory, freeMem] = lastMessage?.data.match(/[\d.]+/g).map(Number);
-            
+            const [usage, memper, usedMemory, totalMemory, freeMem] = lastMessage?.data.match(/[\d.]+/g).map(Number);
+
             setSystemInfo({
                 usage,
                 memper,
@@ -94,17 +105,29 @@ export const Table = ({
             {isTaskManager &&
 
                 <TopContent>
-                    <div id='Content-CPU'>
-                        <div id="div-cpu-percent">
-                            <h2>CPU</h2>
-                            <h2>{systemInfo.usage}%</h2>
+                        <div id='Content-CPU'>
+                            <div id="div-cpu-percent">
+                                <h2>CPU</h2>
+                                <h2>{systemInfo.usage}%</h2>
+                            </div>
+                            <div id="div-chart">
+                                <Chart value={systemInfo.usage} />
+                            </div>
                         </div>
-                        <div id="div-chart">
-                            <Chart value={systemInfo.usage} />
+                        <div id='Content-Memory'>
+                            <div id="div-memory-percent">
+                                <h2 style={{marginBottom: '0'}}>RAM</h2>
+                                <h2 style={{marginTop: '0'}}>{systemInfo.memper? systemInfo.memper : 0}%</h2>
+                                <h3>FREE RAM</h3>
+                                <h2 style={{marginTop: '0'}}>{systemInfo.freeMem? systemInfo.freeMem : 0}GB</h2>
+                            </div>
+                            <div id="div-chart">
+                                <Chart value={systemInfo.memper? parseInt(systemInfo.memper) : 0} />
+                            </div>
                         </div>
-                    </div>
-
                 </TopContent>
+
+
             }
             {isTaskManager &&
 

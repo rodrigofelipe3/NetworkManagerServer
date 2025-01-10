@@ -8,7 +8,7 @@ import { LuScreenShare } from "react-icons/lu";
 import { GrHostMaintenance } from "react-icons/gr";
 
 export const SidebarBody = styled(Sidebar)`
-    height: ${({height})=> height}px;
+    height: 100dvh;
     .css-dip3t8{
         background-color: #1e2126;
     }

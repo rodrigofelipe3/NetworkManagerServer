@@ -172,7 +172,7 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
                     </div>
                 </>}/>
             )}
-            <SidebarBody height={SideBarSize.height} collapsed={collapsed} style={{ position: "absolute", border: "none", height: `${SideBarSize.height - 843}px`}}>
+            <SidebarBody collapsed={collapsed} style={{ position: "absolute", border: "none"}}>
                 <MenuSidebar>
                     <SubMenu icon={<IconReturn />} onClick={closeNewWindow}>
                     </SubMenu>
@@ -183,9 +183,9 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
                     <SubMenu icon={<IconEthernet></IconEthernet>}>
                         <MenuItemSidebar onClick={() => handleWakeOnLan()}>Wake on Lan</MenuItemSidebar>
                     </SubMenu>
-                    <SubMenu icon={<IconScreen />}>
+                    {/*<SubMenu icon={<IconScreen />}>
                         <MenuItemSidebar >Receber imagem</MenuItemSidebar>
-                    </SubMenu>
+                    </SubMenu>*/}
                     <SubMenu icon={<IconMaintenance />}>
                         <MenuItemSidebar onClick={() => Scannow(ipAddress, { type: "sfc" })}>System Files Check</MenuItemSidebar>
                         <MenuItemSidebar onClick={() => CheckDisk(ipAddress, { type: "chkdsk" })} >CheckDisk</MenuItemSidebar>

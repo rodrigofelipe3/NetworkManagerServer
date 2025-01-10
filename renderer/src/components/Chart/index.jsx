@@ -16,7 +16,7 @@ export default function Chart({value}) {
       border: 'none',
     },
     [`& .${gaugeClasses.referenceArc}`]: {
-      fill: '#fff',
+      fill: '#494949',
       border: 'none',
     },
 

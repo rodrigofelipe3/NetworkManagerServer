@@ -17,6 +17,8 @@ export const WebSocketProvider = ({ children, ipAddress}) => {
         shouldReconnect: () => true,
     });
 
+    
+
     return (
         <WebSocketContext.Provider value={{ sendMessage, lastMessage, readyState }}>
             {children}

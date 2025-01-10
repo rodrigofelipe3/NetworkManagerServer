@@ -9,38 +9,32 @@ export const TopContent = styled.div`
   margin-bottom: 1rem;
   color: #fff;
 
-  #cpu-usage {
-    cursor: pointer;
-    width: 67%;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    background-image:  ${({ visible }) => (visible ? "linear-gradient(to top, #0056C6, #4C91FF)" : 'none')};
-  }
-
-  #cpu-usage:hover {
-    background-color: #0056C6;
-  }
-  #mem-usage {
-    cursor: pointer;
-    width: 67%;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    background-image:  ${props => props.isActive? "linear-gradient(to top, #0056C6, #4C91FF)" : "none" }
-    
-  }
-  #mem-usage:hover {
-    background-color: #0056C6;
-  }
 
   #Content-CPU { 
     display: flex;
     align-items: center;
-    border: solid 2px #fff;
+    border: solid 2px #797979;
     padding: 0.5rem 1rem 0.5rem 1rem;
+    margin-right: 1rem;
     border-radius: 0.8rem;
   }
 
   #div-cpu-percent { 
+    margin-right: 2rem;
+    h2{ 
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+  #Content-Memory { 
+    display: flex;
+    align-items: center;
+    border: solid 2px #797979;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 0.8rem;
+  }
+
+  #div-memory-percent { 
     margin-right: 2rem;
     h2{ 
       margin-top: 1rem;
