@@ -9,8 +9,10 @@ import { GrHostMaintenance } from "react-icons/gr";
 
 export const SidebarBody = styled(Sidebar)`
     height: 100dvh;
+
     .css-dip3t8{
         background-color: #1e2126;
+        border-radius: 0 0 50px 0;
     }
     
     .css-um1o6k{ 

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { CgEthernet } from "react-icons/cg";
 import { FaPowerOff } from "react-icons/fa";
 import { RiRestartFill } from "react-icons/ri";
+
 export const InformationContent = styled.div `
     width: 100%;
     display: flex;
@@ -13,27 +14,27 @@ export const InformationContent = styled.div `
     }
     #grid-display { 
         width: 100%;
-        justify-content: space-around;
         display: grid;
         grid-template-columns: auto auto;
     }
 
-    #systeminformation { 
+    #DisplayGrid { 
+        width: 100%;
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+    #systemInformation { 
+        padding: 5%;
+        margin-left: 15%;
         h1 { 
             padding: 1rem;
         }
     }
-    #SwitchButton{ 
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        padding: 10px;
-    }
-    #manager-buttons{ 
-        display: flex;
-        width: 80%;
-        justify-content: start;
-        margin: 0 auto;
+    
+    #ManagerTask { 
+        margin-top: 5%;
+        margin-right: 3%;
+        margin-left: 2%;
     }
 
     #back-button{ 

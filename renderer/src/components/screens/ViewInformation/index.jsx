@@ -1,9 +1,7 @@
-import React, { createContext, useEffect, useState } from "react";
+import React from "react";
 import { InformationContent } from "./style";
 import { Table } from "../../Table";
 import { SideBar } from "../../Sidebar";
-import useWebSocket, { ReadyState } from "react-use-websocket";
-import { SwitchLabels } from "../../Switch";
 import { WebSocketProvider } from "../../../utils/WebSocketProvider";
 
 
@@ -50,73 +48,36 @@ export const InformationScreen = ({
     viewInformation,
 }) => {
 
-    const [isChecked, setIsChecked] = useState(null)
-    const [logs, setLogs] = useState('')
-
-    /*const { sendMessage, lastMessage, readyState } = useWebSocket(`ws://${ipAdress}:443`, {
-        onOpen: () => console.log('Conectado ao servidor cliente via WebSocket.'),
-        onClose: () => {
-            console.log('Conexão encerrada.');
-            sendMessage('close');
-        },
-        onError: (error) => {
-            console.log('Erro:', error);
-            sendMessage('error');
-        },
-        shouldReconnect: () => true,
-    })
-
-
-    const connectionStatus = {
-        [ReadyState.CONNECTING]: 'Connecting',
-        [ReadyState.OPEN]: 'Open',
-        [ReadyState.CLOSING]: 'Closing',
-        [ReadyState.CLOSED]: 'Closed',
-        [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
-    }[readyState];*/
-
-
 
     return (
         <>
             <SideBar collapsed={true} macAddress={macAdress} ipAddress={ipAdress} viewInformation={viewInformation} />
             <WebSocketProvider ipAddress={ipAdress}>
                 <InformationContent>
-                <div id="manager-buttons">
-                </div>
-                <div id={"grid-display"}>
-                    <div id="systemInformation">
-                        {data.id !== "" ?
-                            data.map((information) =>
-                            (<Table
-                                isTaskManager={false}
-                                headers={["Informações do Sistema"]}
-                                isSystemInfo={true}
-                                information={information}
-                            />)
-                            ) : <h1>Nenhum dado encontrado!</h1>}
-                    </div>
-                    <div id="ManagerTask">
-                        <div id="SwitchButton">
-                            
-                        {/*<SwitchLabels
-                            ipAdress={ipAdress}
-                            Checked={setIsChecked}
-                        />*/}
-                            
+                    <div id={"grid-display"}>
+                        <div id="systemInformation">
+                            {data.id !== "" ?
+                                data.map((information) =>
+                                (<Table
+                                    isTaskManager={false}
+                                    headers={["Informações do Sistema"]}
+                                    isSystemInfo={true}
+                                    information={information}
+                                />)
+                                ) : <h1>Nenhum dado encontrado!</h1>}
                         </div>
-                        <Table
-                            onClickMem={handleGetProcessMemory}
-                            onClickCPU={handleGetProcess}
-                            isTaskManager={true}
-                            headers={["Nome", "CPU", "Memory", "PID"]}
-                            data={information}
-                            ipAdress={ipAdress}
-                        />
+                        <div id="ManagerTask">
+                            <Table
+                                
+                                isTaskManager={true}
+                                headers={["Nome", "Memory", "PID"]}
+                                data={information}
+                                ipAdress={ipAdress}
+                            />
+                        </div>
                     </div>
-                </div>
 
-            </InformationContent>
+                </InformationContent>
             </WebSocketProvider>
         </>
     )

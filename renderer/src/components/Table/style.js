@@ -1,9 +1,11 @@
 import styled from "styled-components";
-
+import { FaStopCircle } from "react-icons/fa";
+import { FaCirclePlay } from "react-icons/fa6";
 export const TopContent = styled.div`
   width: 100%;
-  display: grid;
-  grid-template-columns: auto auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   overflow: hidden;
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -39,6 +41,17 @@ export const TopContent = styled.div`
     h2{ 
       margin-top: 1rem;
       margin-bottom: 1rem;
+    }
+  }
+  #StopButton { 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    h3 { 
+      margin-right: 1rem;
+      margin-bottom: 0.5rem;
+
     }
   }
 `;
@@ -115,3 +128,27 @@ export const TableCell = styled.td`
   margin-left: 1rem;
   margin-right: 1rem;
 `;
+
+export const StopButton = styled(FaStopCircle)`
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #a82525;
+  margin-bottom: 1rem;
+  cursor: pointer;
+
+  &:hover { 
+    color: #7f0000;
+  }
+`
+
+export const StartButton = styled(FaCirclePlay)`
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #00ce25;
+  margin-bottom: 1rem;
+  cursor: pointer;
+
+  &:hover { 
+    color: #007715;
+  }
+`

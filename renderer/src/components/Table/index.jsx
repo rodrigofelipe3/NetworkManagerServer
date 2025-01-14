@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { HeaderCell, TableBody, TableCell, TableContent, TableHeader, TableRow, TopContent } from "./style";
+import { HeaderCell, StartButton, StopButton, StopSocketButton, TableBody, TableCell, TableContent, TableHeader, TableRow, TopContent } from "./style";
 import { FloatButton } from "../FloatMenu";
 import Chart from "../Chart";
-import useWebSocket, { ReadyState } from "react-use-websocket";
+import { ReadyState } from "react-use-websocket";
 import { useWebSocketContext } from "../../utils/WebSocketProvider";
+import { CmdKey } from "../../services/cliente/Command";
 
 const teste = [
     'Realtek PCIe GbE Family Controller',
@@ -62,14 +63,14 @@ export const Table = ({
 
 
     const { lastMessage, readyState, sendMessage } = useWebSocketContext()
-    const [formatedMessage, setFormatedMessage] = useState('')
     const [systemInfo, setSystemInfo] = useState({
         usage: 0,
         memper: 0,
-        usedMemory: 0,
-        totalMemory: 0,
-        freeMem: 0,
+        usedmemory: 0,
+        totalmemory: 0,
+        freemem: 0,
     });
+    const [Processos, setProcessos] = useState([{Name: '', Id: '', Memory_MB: ''}])
 
     const connectionStatus = {
         [ReadyState.CONNECTING]: 'Connecting',
@@ -83,19 +84,39 @@ export const Table = ({
 
     useEffect(() => {
         if (lastMessage?.data) {
-            const [usage, memper, usedMemory, totalMemory, freeMem] = lastMessage?.data.match(/[\d.]+/g).map(Number);
-
-            setSystemInfo({
-                usage,
-                memper,
-                usedMemory,
-                totalMemory,
-                freeMem,
-            });
+            
+            handleConvertData(lastMessage?.data)
         }
+
 
     }, [lastMessage])
 
+    const handleConvertData = (data) => { 
+        const [initialData, processesData] = data.split(/,processes:/);
+
+            // Criar um objeto com os valores iniciais
+            const initialDataObject = Object.fromEntries(
+                initialData.split(',').map(item => {
+                    const [key, value] = item.split(':');
+                    return [key, parseFloat(value)];
+                })
+            );
+
+            // Analisar a parte de "processes" como JSON
+            const processes = JSON.parse(processesData);
+            setProcessos(processes)
+            // Desestruturar os valores em variáveis individuais
+            const { usage, memper, usedmemory, totalmemory, freemem } = initialDataObject;
+            console.log(usedmemory, totalmemory, freemem)
+            setSystemInfo({
+                usage,
+                memper,
+                usedmemory,
+                totalmemory,
+                freemem,
+            });
+            
+    }
     const bytesToGigabytes = (bytes) => {
         const gigabytes = bytes / (1024 ** 3);
         return gigabytes;
@@ -105,6 +126,18 @@ export const Table = ({
             {isTaskManager &&
 
                 <TopContent>
+                    {connectionStatus == "Open" ? (
+                        <div id="StopButton">
+                            <h3>Parar: </h3>
+                            <StopButton onClick={() => sendMessage('close')} />
+                        </div>
+                    ) : (
+                        <div id="StopButton">
+                            <h3>Iniciar: </h3>
+                            <StartButton onClick={() => CmdKey(ipAdress, { type: 'information' })} />
+                        </div>
+                    )}
+                    <div id="DisplayGrid">
                         <div id='Content-CPU'>
                             <div id="div-cpu-percent">
                                 <h2>CPU</h2>
@@ -116,15 +149,17 @@ export const Table = ({
                         </div>
                         <div id='Content-Memory'>
                             <div id="div-memory-percent">
-                                <h2 style={{marginBottom: '0'}}>RAM</h2>
-                                <h2 style={{marginTop: '0'}}>{systemInfo.memper? systemInfo.memper : 0}%</h2>
+                                <h2 style={{ marginBottom: '0' }}>RAM</h2>
+                                <h2 style={{ marginTop: '0' }}>{systemInfo.memper ? systemInfo.memper : 0}%</h2>
                                 <h3>FREE RAM</h3>
-                                <h2 style={{marginTop: '0'}}>{systemInfo.freeMem? systemInfo.freeMem : 0}GB</h2>
+                                <h2 style={{ marginTop: '0' }}>{systemInfo.freemem ? systemInfo.freemem : 0}GB</h2>
                             </div>
                             <div id="div-chart">
-                                <Chart value={systemInfo.memper? parseInt(systemInfo.memper) : 0} />
+                                <Chart value={systemInfo.memper ? parseInt(systemInfo.memper) : 0} />
                             </div>
                         </div>
+                    </div>
+
                 </TopContent>
 
 
@@ -140,13 +175,12 @@ export const Table = ({
 
                     <TableBody>
                         {data ? data.map((information) => information ?
-                            information.data.processes.map((process, index) => process.name !== "System Idle Process" && process.name !== "Memory Compression" ? (
+                            Processos.map((process, index) => process.Name !== "System Idle Process" && process.Name !== "Memory Compression" ? (
 
                                 <TableRow id="task-row" >
-                                    <TableCell id="task-name" key={index}>{process.name}</TableCell>
-                                    <TableCell key={index}>{process.cpu}%</TableCell>
-                                    <TableCell key={index}>{process.memory}MB</TableCell>
-                                    <FloatButton taskkill={true} ip={ipAdress} pid={process.pid}><TableCell key={index}>{process.pid}</TableCell></FloatButton>
+                                    <TableCell id="task-name" key={index}>{process.Name}</TableCell>
+                                    <TableCell key={index}>{process.Memory_MB}MB</TableCell>
+                                    <FloatButton taskkill={true} ip={ipAdress} pid={process.Id}><TableCell key={index}>{process.Id}</TableCell></FloatButton>
                                 </TableRow>
                             ) : undefined
                             ) : undefined) : undefined}
