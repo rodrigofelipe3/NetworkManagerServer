@@ -8,6 +8,7 @@
   },
   "private": true,
   "dependencies": {
+    "@mui/icons-material": "^6.4.0",
     "@mui/material": "^6.3.0",
     "@mui/x-charts": "^7.23.2",
     "@testing-library/jest-dom": "^5.17.0",

@@ -10,6 +10,7 @@ import { InformationScreen } from "../../components/screens/ViewInformation";
 import { ComputerListScreen } from "../../components/screens/ListCompScreen";
 import { CompHeader } from "../../components/Header";
 import { CmdKey } from "../../services/cliente/Command";
+import AlertComponent from "../../components/Alert";
 
 
 export const HomePage = () => {
@@ -19,6 +20,7 @@ export const HomePage = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [InputValue, setInputValue] = useState("")
     const [InputValue2, setInputValue2] = useState("")
+    const [connectionErr, setConnectionErr] = useState(null)
     const [information, setInformation] = useState([{
         data: {
             system: {
@@ -136,7 +138,7 @@ export const HomePage = () => {
         }
     }
   
-    const handleClick = (pcs, ip, mac) => {
+    const handleClick = async (pcs, ip, mac) => {
 
         const keyValue = pcs ? pcs : "1";
         setAdressip(ip)
@@ -146,7 +148,11 @@ export const HomePage = () => {
         const options = {
             type: "information",
         }
-        CmdKey(adressIp, options)
+        const response = await CmdKey(adressIp, options)
+        console.log(response)
+        if (response?.ok == false) { 
+            setConnectionErr(true)
+        }
     };
 
     const filteredComputers = data.filter(computer =>
@@ -225,9 +231,6 @@ export const HomePage = () => {
                     data={data}
                     information={information}
                     informationScreen={() => setViewInformation(false)}
-                    handleGetProcess={handleGetProcess}
-                    handleGetProcessMemory={handleGetProcessMemory}
-                    handleGetScreen={handleGetScreen}
                     ipAdress={adressIp}
                     macAdress={macAdress}
                     viewInformation={setViewInformation}

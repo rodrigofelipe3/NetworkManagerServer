@@ -3,8 +3,8 @@ import useWebSocket from 'react-use-websocket';
 
 const WebSocketContext = createContext(null);
 
-export const WebSocketProvider = ({ children, ipAddress}) => {
-    const { sendMessage, lastMessage, readyState, connect, disconnect } = useWebSocket(`ws://${ipAddress}:443`, {
+export const WebSocketProvider = ({ children, ipAddress, connectionError}) => {
+    const { sendMessage, lastMessage, readyState } = useWebSocket(`ws://${ipAddress}:443`, {
         onOpen: () => console.log('Conectado ao servidor cliente via WebSocket.'),
         onClose: () => {
             console.log('Conexão encerrada.');
@@ -12,6 +12,7 @@ export const WebSocketProvider = ({ children, ipAddress}) => {
         },
         onError: (error) => {
             console.log('Erro:', error);
+            connectionError(true);
             sendMessage('error');
         },
         shouldReconnect: () => false,
@@ -20,7 +21,7 @@ export const WebSocketProvider = ({ children, ipAddress}) => {
     
 
     return (
-        <WebSocketContext.Provider value={{ sendMessage, lastMessage, readyState, connect, disconnect }}>
+        <WebSocketContext.Provider value={{ sendMessage, lastMessage, readyState}}>
             {children}
         </WebSocketContext.Provider>
     );

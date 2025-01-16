@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { HeaderCell, StartButton, StopButton, StopSocketButton, TableBody, TableCell, TableContent, TableHeader, TableRow, TopContent } from "./style";
+import { HeaderCell, StartButton, StopButton,  TableBody, TableCell, TableContent, TableHeader, TableRow, TopContent } from "./style";
 import { FloatButton } from "../FloatMenu";
 import Chart from "../Chart";
 import { ReadyState } from "react-use-websocket";
 import { useWebSocketContext } from "../../utils/WebSocketProvider";
-import { CmdKey } from "../../services/cliente/Command";
 
 const teste = [
     'Realtek PCIe GbE Family Controller',
@@ -13,9 +12,8 @@ const teste = [
 
 
 export const Table = ({
+    setShouldReconnect,
     headers,
-    onClickCPU,
-    onClickMem,
     data = [{
         data: {
             system: {
@@ -70,6 +68,7 @@ export const Table = ({
         totalmemory: 0,
         freemem: 0,
     });
+
     const [Processos, setProcessos] = useState([{Name: '', Id: '', Memory_MB: ''}])
 
     const connectionStatus = {
@@ -80,7 +79,7 @@ export const Table = ({
         [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
     }[readyState];
 
-    if (connectionStatus == 'Connecting') sendMessage(JSON.stringify({ type: 'authenticate', userId: String(ipAdress) }))
+    
 
     useEffect(() => {
         if (lastMessage?.data) {
@@ -88,13 +87,12 @@ export const Table = ({
             handleConvertData(lastMessage?.data)
         }
 
-
-    }, [lastMessage])
+        if (connectionStatus == 'Connecting') sendMessage(JSON.stringify({ type: 'authenticate', userId: String(ipAdress) }))
+    }, [lastMessage, ])
 
     const handleConvertData = (data) => { 
         const [initialData, processesData] = data.split(/,processes:/);
 
-            // Criar um objeto com os valores iniciais
             const initialDataObject = Object.fromEntries(
                 initialData.split(',').map(item => {
                     const [key, value] = item.split(':');
@@ -102,12 +100,9 @@ export const Table = ({
                 })
             );
 
-            // Analisar a parte de "processes" como JSON
             const processes = JSON.parse(processesData);
             setProcessos(processes)
-            // Desestruturar os valores em variáveis individuais
             const { usage, memper, usedmemory, totalmemory, freemem } = initialDataObject;
-            console.log(usedmemory, totalmemory, freemem)
             setSystemInfo({
                 usage,
                 memper,
@@ -117,6 +112,7 @@ export const Table = ({
             });
             
     }
+
     const bytesToGigabytes = (bytes) => {
         const gigabytes = bytes / (1024 ** 3);
         return gigabytes;
@@ -131,12 +127,7 @@ export const Table = ({
                             <h3>Parar: </h3>
                             <StopButton onClick={() => sendMessage('close')} />
                         </div>
-                    ) : (
-                        <div id="StopButton">
-                            <h3>Iniciar: </h3>
-                            <StartButton onClick={() => CmdKey(ipAdress, { type: 'information' })} />
-                        </div>
-                    )}
+                    ) : undefined}
                     <div id="DisplayGrid">
                         <div id='Content-CPU'>
                             <div id="div-cpu-percent">
@@ -260,7 +251,6 @@ export const Table = ({
                         <HeaderCell>Adaptadores de Rede</HeaderCell>
                     </TableHeader>
                     <TableBody>
-                        {console.log(information.network_devices)}
                         {teste.map(devices => <TableRow>
                             <TableCell>{devices}</TableCell>
                         </TableRow>)}

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { InformationContent } from "./style";
 import { Table } from "../../Table";
 import { SideBar } from "../../Sidebar";
 import { WebSocketProvider } from "../../../utils/WebSocketProvider";
+import AlertComponent from "../../Alert";
 
 
 export const InformationScreen = ({
@@ -40,20 +41,19 @@ export const InformationScreen = ({
             }]
         }
     }],
-    handleGetProcessMemory,
-    handleGetProcess,
     ipAdress,
     macAdress,
-    recharge,
     viewInformation,
 }) => {
-
+    const [connectionError, setConnectionError] = useState(false)
 
     return (
         <>
+            
             <SideBar collapsed={true} macAddress={macAdress} ipAddress={ipAdress} viewInformation={viewInformation} />
-            <WebSocketProvider ipAddress={ipAdress}>
+            <WebSocketProvider ipAddress={ipAdress} connectionError={setConnectionError}>
                 <InformationContent>
+                    {connectionError && <AlertComponent msg={'Erro ao receber métricas com o Computador Cliente'} opened={connectionError} setConnectionErr={setConnectionError}/> }
                     <div id={"grid-display"}>
                         <div id="systemInformation">
                             {data.id !== "" ?
@@ -68,7 +68,6 @@ export const InformationScreen = ({
                         </div>
                         <div id="ManagerTask">
                             <Table
-                                
                                 isTaskManager={true}
                                 headers={["Nome", "Memory", "PID"]}
                                 data={information}
