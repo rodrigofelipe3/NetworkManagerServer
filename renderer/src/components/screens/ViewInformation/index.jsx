@@ -46,6 +46,13 @@ export const InformationScreen = ({
     viewInformation,
 }) => {
     const [connectionError, setConnectionError] = useState(false)
+    const [Recharge, setRecharge] = useState(null)
+
+    useEffect(()=> { 
+        if(data) { 
+            setRecharge(true)
+        }
+    }, [])
 
     return (
         <>
@@ -53,7 +60,7 @@ export const InformationScreen = ({
             <SideBar collapsed={true} macAddress={macAdress} ipAddress={ipAdress} viewInformation={viewInformation} />
             <WebSocketProvider ipAddress={ipAdress} connectionError={setConnectionError}>
                 <InformationContent>
-                    {connectionError && <AlertComponent msg={'Erro ao receber métricas com o Computador Cliente'} opened={connectionError} setConnectionErr={setConnectionError}/> }
+                    {connectionError && <AlertComponent msg={'Erro ao estabelecer métricas com o Computador Cliente'} opened={connectionError} setConnectionErr={setConnectionError}/> }
                     <div id={"grid-display"}>
                         <div id="systemInformation">
                             {data.id !== "" ?
@@ -68,6 +75,7 @@ export const InformationScreen = ({
                         </div>
                         <div id="ManagerTask">
                             <Table
+                                Recharge={Recharge}
                                 isTaskManager={true}
                                 headers={["Nome", "Memory", "PID"]}
                                 data={information}

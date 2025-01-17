@@ -1,1 +1,2 @@
-2025-01-16T20:27:01.073Z - Servidor rodando na porta 5000
+2025-01-17T19:50:22.611Z - Servidor rodando na porta 5000
+2025-01-17T19:50:36.114Z - Status do computador RODRIGO atualizado para Conectado

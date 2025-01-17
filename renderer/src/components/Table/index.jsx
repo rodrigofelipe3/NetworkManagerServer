@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { HeaderCell, StartButton, StopButton,  TableBody, TableCell, TableContent, TableHeader, TableRow, TopContent } from "./style";
+import { HeaderCell,  StopButton, TableBody, TableCell, TableContent, TableHeader, TableRow, TopContent } from "./style";
 import { FloatButton } from "../FloatMenu";
 import Chart from "../Chart";
 import { ReadyState } from "react-use-websocket";
@@ -12,7 +12,7 @@ const teste = [
 
 
 export const Table = ({
-    setShouldReconnect,
+    Recharge,
     headers,
     data = [{
         data: {
@@ -52,7 +52,7 @@ export const Table = ({
         ip: "",
         mac_address: "",
         status: "",
-        network_devices: [""],
+        network_devices: [''],
         poweroff: '',
         poweroffhour: ""
     },
@@ -69,8 +69,8 @@ export const Table = ({
         freemem: 0,
     });
 
-    const [Processos, setProcessos] = useState([{Name: '', Id: '', Memory_MB: ''}])
-
+    const [Processos, setProcessos] = useState([{ Name: '', Id: '', Memory_MB: '' }])
+    const [networkDevices, setNetworkDevices] = useState([]);
     const connectionStatus = {
         [ReadyState.CONNECTING]: 'Connecting',
         [ReadyState.OPEN]: 'Open',
@@ -79,38 +79,58 @@ export const Table = ({
         [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
     }[readyState];
 
-    
+
 
     useEffect(() => {
         if (lastMessage?.data) {
-            
+
             handleConvertData(lastMessage?.data)
         }
-
         if (connectionStatus == 'Connecting') sendMessage(JSON.stringify({ type: 'authenticate', userId: String(ipAdress) }))
-    }, [lastMessage, ])
+            if (information ) {
+                try {
+                    // Converte a string JSON para um objeto (se necessário)
+                    
+                    const parsedNetworkAdapters = JSON.parse(information.network_adapters);
+                    // Filtra os dispositivos de rede para incluir apenas "Ethernet" e "Wi-Fi"
+                    const filteredDevices = parsedNetworkAdapters
+                        .filter((device) =>
+                            device.NetConnectionID &&
+                            (device.NetConnectionID === 'Ethernet' || device.NetConnectionID === 'Wi-Fi')
+                        )
+                        .map((device) => device.Name);
+                        
+                    setNetworkDevices(filteredDevices);
 
-    const handleConvertData = (data) => { 
+                   
+                } catch (error) {
+                    console.error('Erro ao converter a string em JSON:', error);
+                }
+            }
+            console.log(networkDevices)
+    }, [lastMessage, Recharge])
+
+    const handleConvertData = (data) => {
         const [initialData, processesData] = data.split(/,processes:/);
 
-            const initialDataObject = Object.fromEntries(
-                initialData.split(',').map(item => {
-                    const [key, value] = item.split(':');
-                    return [key, parseFloat(value)];
-                })
-            );
+        const initialDataObject = Object.fromEntries(
+            initialData.split(',').map(item => {
+                const [key, value] = item.split(':');
+                return [key, parseFloat(value)];
+            })
+        );
 
-            const processes = JSON.parse(processesData);
-            setProcessos(processes)
-            const { usage, memper, usedmemory, totalmemory, freemem } = initialDataObject;
-            setSystemInfo({
-                usage,
-                memper,
-                usedmemory,
-                totalmemory,
-                freemem,
-            });
-            
+        const processes = JSON.parse(processesData);
+        setProcessos(processes)
+        const { usage, memper, usedmemory, totalmemory, freemem } = initialDataObject;
+        setSystemInfo({
+            usage,
+            memper,
+            usedmemory,
+            totalmemory,
+            freemem,
+        });
+
     }
 
     const bytesToGigabytes = (bytes) => {
@@ -251,9 +271,17 @@ export const Table = ({
                         <HeaderCell>Adaptadores de Rede</HeaderCell>
                     </TableHeader>
                     <TableBody>
-                        {teste.map(devices => <TableRow>
-                            <TableCell>{devices}</TableCell>
-                        </TableRow>)}
+                    {networkDevices.length > 0 ? (
+                                networkDevices.map((device, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{device}</TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell>Nenhum adaptador de rede encontrado</TableCell>
+                                </TableRow>
+                            )}
                     </TableBody>
                 </TableContent>
             }

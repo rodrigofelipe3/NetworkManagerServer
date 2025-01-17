@@ -17,9 +17,9 @@ const RegisterComputer = async (req, res, status)=> {
         logToFile("Não foi enviado o MAC")
         return
     }
-
+    
     try{
-        const response = await RegisterComputerDB(host , processor, memory, String(hard_disk), operating_system, arch, release, String(monitors), ip, mac_address, JSON.stringify(network_devices), poweroff, poweroffhour, powerstatus, status, lastHB)  
+        const response = await RegisterComputerDB(host , processor, memory, String(hard_disk), operating_system, arch, release, String(monitors), ip, mac_address, network_devices, poweroff, poweroffhour, powerstatus, status, lastHB)  
         return response
     }catch (err){ 
         logToFile("Erro ao registrar " + err)
