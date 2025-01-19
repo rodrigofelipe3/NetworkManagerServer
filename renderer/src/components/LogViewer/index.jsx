@@ -2,25 +2,36 @@ import React, { useState, useEffect } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { CmdBody, CmdContent } from './style';
 
+
 const LogsViewer = React.memo(({ ipAddress }) => {
     const [logs, setLogs] = useState(''); // Armazena a saída completa como string
-    const { sendMessage, lastMessage, readyState } = useWebSocket(`ws://${ipAddress}:5002`, {
-        onOpen: () => console.log('Conectado ao servidor cliente via WebSocket.'),
+    const [PortConnection, setPortConnection] = useState(0)
+    const { sendMessage, lastMessage, readyState } = useWebSocket(`ws://${ipAddress}`, {
+        onOpen: () => {if (ipAddress) {
+            const Port = ipAddress.split(':')
+            console.log(Port)
+            setPortConnection(Port[1])
+            
+        }
+        console.log(PortConnection)},
         onClose: () => {
             console.log('Conexão encerrada.');
             sendMessage('close');
         },
         onError: (error) => {
             console.log('Erro:', error);
-            sendMessage('error');
         },
-        shouldReconnect: () => false, 
+        shouldReconnect: () => false,
     });
 
     // Atualiza os logs ao receber novas mensagens
     useEffect(() => {
         if (lastMessage?.data) {
             setLogs((prevLogs) => prevLogs + lastMessage.data + '\n'); // Adiciona nova mensagem com quebra de linha
+        }
+        
+        return () => {
+            sendMessage('close')
         }
     }, [lastMessage]);
 
@@ -36,13 +47,16 @@ const LogsViewer = React.memo(({ ipAddress }) => {
     return (
         <CmdContent>
             <CmdBody>
-                <p>
-                    Computador Conectado: {ipAddress} - Socket Connection Status: {connectionStatus}
-                </p>
-                {/* Exibe os logs preservando a formatação original */}
-                <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
-                    {logs}
-                </pre>
+                {PortConnection != 444 && (
+                    <>
+                        <p>
+                            Computador Conectado: {ipAddress} - Socket Connection Status: {connectionStatus}
+                        </p>
+                        <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
+                            {logs}
+                        </pre>
+                    </>
+                    )}
             </CmdBody>
         </CmdContent>
     );

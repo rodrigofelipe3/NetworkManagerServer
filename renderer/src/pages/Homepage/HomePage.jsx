@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ContainerJSX } from "../../components/Container";
 import { GetData } from "../../services/server/getData";
-import { getProcess } from "../../services/cliente/getProcess";
-import { getProcessMemory } from "../../services/cliente/GetProcessMemory";
 import { getComputerById } from "../../services/server/GetComputerById";
 import { LoadingComponent } from "../../components/IsLoading";
 import swal from "sweetalert"
@@ -10,7 +8,6 @@ import { InformationScreen } from "../../components/screens/ViewInformation";
 import { ComputerListScreen } from "../../components/screens/ListCompScreen";
 import { CompHeader } from "../../components/Header";
 import { CmdKey } from "../../services/cliente/Command";
-import AlertComponent from "../../components/Alert";
 
 
 export const HomePage = () => {
@@ -21,20 +18,6 @@ export const HomePage = () => {
     const [InputValue, setInputValue] = useState("")
     const [InputValue2, setInputValue2] = useState("")
     const [connectionErr, setConnectionErr] = useState(null)
-    const [information, setInformation] = useState([{
-        data: {
-            system: {
-                cpuUsage: "0.0",
-                memoryUsage: "0.0"
-            },
-            processes: [{
-                name: "",
-                cpu: "",
-                memory: "",
-                pid: 1
-            }]
-        }
-    }])
     const [selectedKey, setSelectedKey] = useState("")
     const [recharge, setRecharge] = useState(false)
     const [data, setData] = useState([{
@@ -55,20 +38,24 @@ export const HomePage = () => {
         poweroffhour: ""
     },
     ])
-    const handleGetComputerById = async (id) => {
-        const response = await getComputerById(id)
-        if (response.msg) {
-            setData([response.msg])
-
-        } else {
-            swal({
-                title: "Oops...",
-                text: "Error: " + response.error,
-                icon: "error",
-                timer: 2000
-            })
-        }
-    }
+    const [dataById, setDataById] = useState([{
+        id: "",
+        host: "",
+        processor: "",
+        memory: "",
+        hard_disk: "",
+        operating_system: "",
+        arch: "",
+        release: "",
+        monitors: "",
+        ip: "",
+        mac_address: "",
+        status: "",
+        network_devices: [""],
+        poweroff: '',
+        poweroffhour: ""
+    },
+    ])
 
     const handleGetData = async () => {
         const response = await GetData()
@@ -84,60 +71,8 @@ export const HomePage = () => {
             setData(response)
         }
     }
-    const handleGetScreen = async () => {
-        try {
-            fetch(`http://localhost:5000/api/get/screen/${adressIp}/`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            })
-        } catch (error) {
-
-        }
-    }
-    const handleGetProcess = async () => {
-
-        try {
-            const response = await getProcess(adressIp)
-            if (response) {
-
-                setInformation([response])
-            } else {
-                swal({
-                    title: "Error",
-                    text: "Error: " + response.error,
-                    icon: "error",
-                    timer: 2000
-                })
-            }
-        } catch (err) {
-        }
-    }
-    const handleGetProcessMemory = async () => {
-
-        try {
-            const response = await getProcessMemory(adressIp)
-            if (response) {
-                setInformation([response])
-            } else {
-                swal({
-                    title: "Error",
-                    text: "Erro: " + response.error,
-                    icon: "error",
-                    timer: 2000
-                })
-            }
-        } catch (error) {
-            swal({
-                title: "Error",
-                text: "Erro: " + error,
-                icon: "error",
-                timer: 2000
-            })
-        }
-    }
-  
+    
+    
     const handleClick = async (pcs, ip, mac) => {
 
         const keyValue = pcs ? pcs : "1";
@@ -164,38 +99,9 @@ export const HomePage = () => {
     useEffect(() => {
         setIsLoading(true)
         try {
-            if (viewInformation === true) {
-                handleGetComputerById(selectedKey)
-                setInformation([{
-                    data: {
-                        system: {
-                            cpuUsage: "0.0",
-                            memoryUsage: "0.0"
-                        },
-                        processes: [{
-                            name: "",
-                            cpu: "",
-                            memory: "",
-                            pid: 1
-                        }]
-                    }
-                }])
-            } else if (viewInformation === false) {
+             if (viewInformation === false) {
                 handleGetData()
-                setInformation([{
-                    data: {
-                        system: {
-                            cpuUsage: "0.0",
-                            memoryUsage: "0.0"
-                        },
-                        processes: [{
-                            name: "",
-                            cpu: "",
-                            memory: "",
-                            pid: 1
-                        }]
-                    }
-                }])
+                
             }
 
         } catch (err) {
@@ -208,10 +114,8 @@ export const HomePage = () => {
     }, [viewInformation, recharge])
     return (
         <>
-
-            {isLoading && <LoadingComponent />}
             <ContainerJSX>
-                
+            {isLoading && <LoadingComponent />}
                 <CompHeader
                     setInputValue={setInputValue}
                     InputValue={InputValue}
@@ -228,9 +132,8 @@ export const HomePage = () => {
                 )}
                 { viewInformation && (
                   <InformationScreen
-                    data={data}
-                    information={information}
-                    informationScreen={() => setViewInformation(false)}
+                    selectedKey ={selectedKey}
+                    data={dataById}
                     ipAdress={adressIp}
                     macAdress={macAdress}
                     viewInformation={setViewInformation}

@@ -169,11 +169,11 @@ export const CheckDisk = async (IP, data) => {
         .then((response) => response.json())
         .then((data) => {
             if (data.ok == true) {
-                const openNewWindow = () => {
+                /*const openNewWindow = () => {
                     window.api.OpenPrompt(IP); // Chamando ipcRenderer via contextBridge
                 };
             
-                openNewWindow()
+                openNewWindow()*/
             } else {
                 return swal({
                     title: "Error",

@@ -4,9 +4,12 @@ import { Table } from "../../Table";
 import { SideBar } from "../../Sidebar";
 import { WebSocketProvider } from "../../../utils/WebSocketProvider";
 import AlertComponent from "../../Alert";
-
+import { LoadingComponent } from "../../IsLoading";
+import { getComputerById } from "../../../services/server/GetComputerById";
+import swal from "sweetalert";
 
 export const InformationScreen = ({
+    selectedKey,
     data = [{
 
         id: "",
@@ -27,65 +30,91 @@ export const InformationScreen = ({
 
     },
     ],
-    information = [{
-        data: {
-            system: {
-                cpuUsage: "0.0",
-                memoryUsage: "0.0"
-            },
-            processes: [{
-                name: "",
-                cpu: "",
-                memory: "",
-                pid: 1
-            }]
-        }
-    }],
     ipAdress,
     macAdress,
     viewInformation,
 }) => {
     const [connectionError, setConnectionError] = useState(false)
-    const [Recharge, setRecharge] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
+    const [dataById, setDataById] = useState([{
 
-    useEffect(()=> { 
-        if(data) { 
-            setRecharge(true)
+        id: "",
+        host: "",
+        processor: "",
+        memory: "",
+        hard_disk: "",
+        operating_system: "",
+        arch: "",
+        release: "",
+        monitors: "",
+        ip: "",
+        mac_address: "",
+        status: "",
+        network_devices: [""],
+        poweroff: '',
+        poweroffhour: ""
+
+    },
+    ],)
+    const handleGetComputerById = async (id) => {
+        const response = await getComputerById(id)
+        if (response.msg) {
+            
+            setDataById(response.msg)
+        } else {
+            swal({
+                title: "Oops...",
+                text: "Error: " + response.error,
+                icon: "error",
+                timer: 2000
+            })
+        }
+    }
+
+    useEffect(() => {
+        setIsLoading(true)
+        try {
+            handleGetComputerById(selectedKey)
+        } catch (e) {
+            console.error(e)
+        }finally{ 
+            setIsLoading(false)
         }
     }, [])
 
     return (
         <>
-            
-            <SideBar collapsed={true} macAddress={macAdress} ipAddress={ipAdress} viewInformation={viewInformation} />
-            <WebSocketProvider ipAddress={ipAdress} connectionError={setConnectionError}>
-                <InformationContent>
-                    {connectionError && <AlertComponent msg={'Erro ao estabelecer métricas com o Computador Cliente'} opened={connectionError} setConnectionErr={setConnectionError}/> }
-                    <div id={"grid-display"}>
-                        <div id="systemInformation">
-                            {data.id !== "" ?
-                                data.map((information) =>
-                                (<Table
-                                    isTaskManager={false}
-                                    headers={["Informações do Sistema"]}
-                                    isSystemInfo={true}
-                                    information={information}
-                                />)
-                                ) : <h1>Nenhum dado encontrado!</h1>}
-                        </div>
-                        <div id="ManagerTask">
-                            <Table
-                                Recharge={Recharge}
-                                isTaskManager={true}
-                                headers={["Nome", "Memory", "PID"]}
-                                data={information}
-                                ipAdress={ipAdress}
-                            />
-                        </div>
-                    </div>
+            {isLoading && <LoadingComponent />}
+            {!isLoading &&
+                <>
+                    <SideBar collapsed={true} macAddress={macAdress} ipAddress={ipAdress} viewInformation={viewInformation} />
+                    <WebSocketProvider ipAddress={ipAdress} connectionError={setConnectionError}>
+                        <InformationContent>
+                            {connectionError && <AlertComponent msg={'Erro ao estabelecer métricas com o Computador Cliente'} opened={connectionError} setConnectionErr={setConnectionError} />}
+                            <div id={"grid-display"}>
+                                <div id="systemInformation">
+                                    {dataById.id !== "" ?                                       (<Table
+                                                isTaskManager={false}
+                                                headers={["Informações do Sistema"]}
+                                                isSystemInfo={true}
+                                                information={dataById}
+                                            />) 
+                                        : <h1>Nenhum dado encontrado!</h1>}
+                                </div>
+                                <div id="ManagerTask">
+                                    <Table
+                                        isTaskManager={true}
+                                        headers={["Nome", "Memory", "PID"]}
+                                        ipAdress={ipAdress}
+                                    />
+                                </div>
+                            </div>
 
-                </InformationContent>
-            </WebSocketProvider>
+                        </InformationContent>
+                    </WebSocketProvider>
+                </>
+            }
+
         </>
     )
 }

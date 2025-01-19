@@ -1,45 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { HeaderCell,  StopButton, TableBody, TableCell, TableContent, TableHeader, TableRow, TopContent } from "./style";
+import { HeaderCell, StopButton, TableBody, TableCell, TableContent, TableHeader, TableRow, TopContent } from "./style";
 import { FloatButton } from "../FloatMenu";
 import Chart from "../Chart";
 import { ReadyState } from "react-use-websocket";
 import { useWebSocketContext } from "../../utils/WebSocketProvider";
 
-const teste = [
-    'Realtek PCIe GbE Family Controller',
-    'Killer Wireless-n/a/ac 1535 Wireless Network Adapter'
-]
-
 
 export const Table = ({
-    Recharge,
     headers,
-    data = [{
-        data: {
-            system: {
-                cpuUsage: "0.00",
-                memoryUsage: "0.00"
-            },
-            processes: [
-                {
-                    name: "",
-                    cpu: "",
-                    memory: "",
-                    pid: 0
-                },
-                {
-                    name: "",
-                    cpu: "",
-                    memory: "",
-                    pid: 1
-                },
-            ]
-        }
-    }],
     isTaskManager,
     isSystemInfo,
     information = {
-
         id: "",
         host: "",
         processor: "",
@@ -59,7 +30,6 @@ export const Table = ({
     ipAdress,
 }) => {
 
-
     const { lastMessage, readyState, sendMessage } = useWebSocketContext()
     const [systemInfo, setSystemInfo] = useState({
         usage: 0,
@@ -70,7 +40,6 @@ export const Table = ({
     });
 
     const [Processos, setProcessos] = useState([{ Name: '', Id: '', Memory_MB: '' }])
-    const [networkDevices, setNetworkDevices] = useState([]);
     const connectionStatus = {
         [ReadyState.CONNECTING]: 'Connecting',
         [ReadyState.OPEN]: 'Open',
@@ -79,36 +48,25 @@ export const Table = ({
         [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
     }[readyState];
 
-
-
     useEffect(() => {
         if (lastMessage?.data) {
 
             handleConvertData(lastMessage?.data)
         }
         if (connectionStatus == 'Connecting') sendMessage(JSON.stringify({ type: 'authenticate', userId: String(ipAdress) }))
-            if (information ) {
-                try {
-                    // Converte a string JSON para um objeto (se necessário)
-                    
-                    const parsedNetworkAdapters = JSON.parse(information.network_adapters);
-                    // Filtra os dispositivos de rede para incluir apenas "Ethernet" e "Wi-Fi"
-                    const filteredDevices = parsedNetworkAdapters
-                        .filter((device) =>
-                            device.NetConnectionID &&
-                            (device.NetConnectionID === 'Ethernet' || device.NetConnectionID === 'Wi-Fi')
-                        )
-                        .map((device) => device.Name);
-                        
-                    setNetworkDevices(filteredDevices);
+    }, [lastMessage])
 
-                   
-                } catch (error) {
-                    console.error('Erro ao converter a string em JSON:', error);
-                }
-            }
-            console.log(networkDevices)
-    }, [lastMessage, Recharge])
+    const handleConvertJSON = () => { 
+        try {
+            // Converte a string JSON para um objeto (se necessário)
+            const Data = information.network_devices
+            const parsedJson = JSON.parse(Data)
+            return parsedJson.map(devices => devices.map(devices2=> <TableRow style={{paddingTop: '5px', paddingBottom: '10px'}}>{devices2}</TableRow>))
+
+        } catch (error) {
+            console.error('Erro ao converter a string em JSON:', error);
+        }
+    }
 
     const handleConvertData = (data) => {
         const [initialData, processesData] = data.split(/,processes:/);
@@ -133,10 +91,7 @@ export const Table = ({
 
     }
 
-    const bytesToGigabytes = (bytes) => {
-        const gigabytes = bytes / (1024 ** 3);
-        return gigabytes;
-    }
+
     return (
         <>
             {isTaskManager &&
@@ -144,7 +99,7 @@ export const Table = ({
                 <TopContent>
                     {connectionStatus == "Open" ? (
                         <div id="StopButton">
-                            <h3>Parar: </h3>
+                            <h3>Parar Métricas: </h3>
                             <StopButton onClick={() => sendMessage('close')} />
                         </div>
                     ) : undefined}
@@ -185,16 +140,15 @@ export const Table = ({
                     </TableHeader>
 
                     <TableBody>
-                        {data ? data.map((information) => information ?
-                            Processos.map((process, index) => process.Name !== "System Idle Process" && process.Name !== "Memory Compression" ? (
+                        {Processos.map((process, index) => process.Name !== "System Idle Process" && process.Name !== "Memory Compression" ? (
 
                                 <TableRow id="task-row" >
-                                    <TableCell id="task-name" key={index}>{process.Name}</TableCell>
-                                    <TableCell key={index}>{process.Memory_MB}MB</TableCell>
-                                    <FloatButton taskkill={true} ip={ipAdress} pid={process.Id}><TableCell key={index}>{process.Id}</TableCell></FloatButton>
+                                    <TableCell id="task-name" key={index}><FloatButton taskkill={true} ip={ipAdress} pid={process.Id}>{process.Name}</FloatButton></TableCell>
+                                   <TableCell key={index}> {process.Memory_MB}MB</TableCell>
+                                    <TableCell key={index}>{process.Id}</TableCell>
                                 </TableRow>
                             ) : undefined
-                            ) : undefined) : undefined}
+                            ) }
                     </TableBody>
 
 
@@ -222,7 +176,7 @@ export const Table = ({
                         </TableRow>
                         <TableRow>
                             <TableCell id="information">
-                                Memoria:  <p id="type">{information.memory ? bytesToGigabytes(information.memory).toFixed(2) : "0,0"}GB</p>
+                                Memoria:  <p id="type">{information.memory ? information.memory : "0,0GB"}</p>
                             </TableCell>
                         </TableRow>
                         <TableRow>
@@ -271,17 +225,7 @@ export const Table = ({
                         <HeaderCell>Adaptadores de Rede</HeaderCell>
                     </TableHeader>
                     <TableBody>
-                    {networkDevices.length > 0 ? (
-                                networkDevices.map((device, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>{device}</TableCell>
-                                    </TableRow>
-                                ))
-                            ) : (
-                                <TableRow>
-                                    <TableCell>Nenhum adaptador de rede encontrado</TableCell>
-                                </TableRow>
-                            )}
+                        {handleConvertJSON()}
                     </TableBody>
                 </TableContent>
             }

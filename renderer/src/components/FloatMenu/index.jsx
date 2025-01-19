@@ -6,6 +6,7 @@ import { DeleteComputer } from "../../services/server/DeleteComputer";
 import { addUser } from "../../services/server/addUser";
 import { RemoveShutdownDB, UpdatePowerOffDB } from "../../services/server/Shutdown";
 import { MakeReport } from "../../services/server/Report";
+import { CancelShutDown } from "../../services/cliente/Shutdown";
 
 
 export const FloatButton = ({
@@ -117,9 +118,11 @@ export const FloatButton = ({
                     poweroffhour: 'none',
                     ip: ip,
                 }
+                console.log(formData)
                 const response = await RemoveShutdownDB(formData)
                 if(response.ok === true) { 
                     recharge(response.ok)
+                    const response1 = await CancelShutDown(ip);
                 }else if(response.ok === null || response.ok === undefined){
 
                 }else { 

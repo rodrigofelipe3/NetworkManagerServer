@@ -6,7 +6,7 @@ export const LoadingComponent = () => {
     return (
         <>
             <LoadingContainer>
-               <CircleLoader/>
+               <CircleLoader />
             </LoadingContainer>
 
         </>

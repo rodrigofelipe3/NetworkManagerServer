@@ -14,28 +14,10 @@ import { Modal } from "../Modal";
 export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) => {
 
     const [isModalView, setIsModalView] = useState(false)
+    const [port, setPort] = useState(0)
     const [isModalViewDelete, setIsModalViewDelete] = useState(false)
     const [input, setInput] = useState({hostname: '' ,userinput: '', userpassword: '', target: ''})
 
-    const [SideBarSize, setSidebarSize] = useState({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    
-      // Função para atualizar o tamanho do modal
-      const updateSideBarSize = () => {
-        setSidebarSize({
-          width: document.body.clientWidth,
-          height: document.body.clientHeight,
-        });
-      };
-    
-      useEffect(() => {
-        // Atualiza o tamanho inicial do modal
-        updateSideBarSize();
-        window.addEventListener("resize", updateSideBarSize);
-        return () => window.removeEventListener("resize", updateSideBarSize);
-      }, []);
 
     const closeNewWindow = () => {
         window.api.ClosePrompt();
@@ -43,7 +25,7 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
     }
 
     const openNewWindow = () => {
-        window.api.OpenPrompt(ipAddress); 
+        window.api.OpenPrompt(`${ipAddress}:${port}`); 
     };
     const handlePowerOff = () => {
         swal({
@@ -147,7 +129,11 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
             })
         }
     }
-
+    const handleOpenCMD = () => { 
+        CheckDisk(ipAddress, { type: "opencmd" })
+        setPort(444)
+        openNewWindow()
+    }
     return (
         <>
             {isModalView && 
@@ -199,7 +185,7 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
                             <MenuItemSidebar onClick={() => ScanHealth(ipAddress, { type: "scanhealth" })} >/scanhealth</MenuItemSidebar>
                             <MenuItemSidebar onClick={() => RestoreHealth(ipAddress, { type: "restorehealth" })} >/restorehealth</MenuItemSidebar>
                         </SubMenuSidebar>
-                        <MenuItemSidebar onClick={() => CheckDisk(ipAddress, { type: "chkdsk" })} >OpenCMD</MenuItemSidebar>
+                        <MenuItemSidebar onClick={() => handleOpenCMD()} >OpenCMD</MenuItemSidebar>
                     </SubMenu>
                 </MenuSidebar>
             </SidebarBody>
