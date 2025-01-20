@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { FaStopCircle } from "react-icons/fa";
 import { FaCirclePlay } from "react-icons/fa6";
+
+
 export const TopContent = styled.div`
   width: 100%;
   display: flex;
@@ -14,10 +16,12 @@ export const TopContent = styled.div`
 
   #Content-CPU { 
     display: flex;
+    width: 85%;
     align-items: center;
     border: solid 2px #797979;
     padding: 0.5rem 1rem 0.5rem 1rem;
     margin-right: 1rem;
+    margin-bottom: 1rem;
     border-radius: 0.8rem;
   }
 
@@ -30,6 +34,7 @@ export const TopContent = styled.div`
   }
   #Content-Memory { 
     display: flex;
+    width: 85%;
     align-items: center;
     border: solid 2px #797979;
     padding: 0.5rem 1rem 0.5rem 1rem;
@@ -52,6 +57,13 @@ export const TopContent = styled.div`
       margin-right: 1rem;
       margin-bottom: 0.5rem;
 
+    }
+  }
+  #div-cpu-temp { 
+    margin-left: 1rem;
+    h2{ 
+      margin-top: 1rem;
+      margin-bottom: 1rem;
     }
   }
 `;
@@ -78,7 +90,6 @@ export const HeaderCell = styled.th`
 
 export const TableBody = styled.tbody`
   width: 100%;
-    
 `;
 
 export const TableRow = styled.tr`

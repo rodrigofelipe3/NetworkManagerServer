@@ -14,8 +14,9 @@ export const InformationContent = styled.div `
     }
     #grid-display { 
         width: 100%;
-        display: grid;
-        grid-template-columns: auto auto;
+        display: flex;
+        justify-content: center;
+        //grid-template-columns: auto auto;
     }
 
     #DisplayGrid { 
@@ -23,15 +24,17 @@ export const InformationContent = styled.div `
         display: grid;
         grid-template-columns: auto auto;
     }
-    #systemInformation { 
+    #systemInformation {
+        width: 50%;
         padding: 5%;
-        margin-left: 15%;
+        margin-left: 5%;
         h1 { 
             padding: 1rem;
         }
     }
     
     #ManagerTask { 
+        width: 50%;
         margin-top: 5%;
         margin-right: 3%;
         margin-left: 2%;

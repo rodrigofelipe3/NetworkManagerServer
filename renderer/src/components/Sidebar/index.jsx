@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { IconEthernet, IconMaintenance, IconPower, IconReturn, IconScreen, MenuItemSidebar, MenuSidebar, ModalPassInput, ModalUserInput, SidebarBody, SubMenuSidebar } from "./style";
+import { IconEthernet, IconMaintenance, IconPower, IconReturn, MenuItemSidebar, MenuSidebar, ModalPassInput, ModalUserInput, SidebarBody, SubMenuSidebar } from "./style";
 import { Wake_On_Lan } from "../../services/server/WakeOnLan";
 import { Restart } from "../../services/cliente/Shutdown";
 import { ShutDownNow } from "../../services/cliente/Shutdown";
@@ -14,10 +14,10 @@ import { Modal } from "../Modal";
 export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) => {
 
     const [isModalView, setIsModalView] = useState(false)
-    const [port, setPort] = useState(0)
     const [isModalViewDelete, setIsModalViewDelete] = useState(false)
+    const [isCLICommand, setIsCLICommand] = useState(false)
+    const [CLICommand, setCLICommand] = useState('')
     const [input, setInput] = useState({hostname: '' ,userinput: '', userpassword: '', target: ''})
-
 
     const closeNewWindow = () => {
         window.api.ClosePrompt();
@@ -25,7 +25,7 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
     }
 
     const openNewWindow = () => {
-        window.api.OpenPrompt(`${ipAddress}:${port}`); 
+        window.api.OpenPrompt(ipAddress); 
     };
     const handlePowerOff = () => {
         swal({
@@ -70,6 +70,8 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
             [name]:value
         }))
     }
+
+   
     const handleWakeOnLan = async () => {
         const response = await Wake_On_Lan(WakeOnLan)
         if (response.ok === true) {
@@ -100,9 +102,15 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
         setIsModalView(false)
         openNewWindow()
     }
-
+    const handleSendCLICommand = async () => { 
+        console.log(CLICommand)
+        const response = await CmdKey(ipAddress, {type: 'clicommand', command: `${input.target? input.target: ''}`})
+        if(response.ok) { 
+            openNewWindow()
+        }
+    }
     const handleOnClickDelete = () => { 
-        CmdKey(ipAddress, {type: 'cmdkey', command: `cmdkey /delete:${input.target}`})
+        CmdKey(ipAddress, {type: 'cmdkey', command: `cmdkey /delete:${input.target? input.target: ''}`})
     }
 
     const handleListCmdKey = () => { 
@@ -129,11 +137,6 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
             })
         }
     }
-    const handleOpenCMD = () => { 
-        CheckDisk(ipAddress, { type: "opencmd" })
-        setPort(444)
-        openNewWindow()
-    }
     return (
         <>
             {isModalView && 
@@ -158,6 +161,15 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
                     </div>
                 </>}/>
             )}
+            {isCLICommand && ( 
+                <Modal view={setIsCLICommand} title={'Enviar Comando de Linha (CLI)'} onClick={handleSendCLICommand} children={
+                <>
+                    <div style={{height: '200px'}}>
+                        <label htmlFor="target" style={{width: "100%", fontSize: '12px'}}>Utilize o CMDKEY "/list" para listar as conexões existentes</label>
+                        <ModalUserInput  type="text" placeholder="ipconfig" name="target" onChange={handleOnChange} />
+                    </div>
+                </>}/>
+            )}
             <SidebarBody collapsed={collapsed} style={{ position: "absolute", border: "none"}}>
                 <MenuSidebar>
                     <SubMenu icon={<IconReturn />} onClick={closeNewWindow}>
@@ -169,9 +181,6 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
                     <SubMenu icon={<IconEthernet></IconEthernet>}>
                         <MenuItemSidebar onClick={() => handleWakeOnLan()}>Wake on Lan</MenuItemSidebar>
                     </SubMenu>
-                    {/*<SubMenu icon={<IconScreen />}>
-                        <MenuItemSidebar >Receber imagem</MenuItemSidebar>
-                    </SubMenu>*/}
                     <SubMenu icon={<IconMaintenance />}>
                         <MenuItemSidebar onClick={() => Scannow(ipAddress, { type: "sfc" })}>System Files Check</MenuItemSidebar>
                         <MenuItemSidebar onClick={() => CheckDisk(ipAddress, { type: "chkdsk" })} >CheckDisk</MenuItemSidebar>
@@ -185,7 +194,7 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
                             <MenuItemSidebar onClick={() => ScanHealth(ipAddress, { type: "scanhealth" })} >/scanhealth</MenuItemSidebar>
                             <MenuItemSidebar onClick={() => RestoreHealth(ipAddress, { type: "restorehealth" })} >/restorehealth</MenuItemSidebar>
                         </SubMenuSidebar>
-                        <MenuItemSidebar onClick={() => handleOpenCMD()} >OpenCMD</MenuItemSidebar>
+                        <MenuItemSidebar onClick={()=> setIsCLICommand(true)}>CLI</MenuItemSidebar>
                     </SubMenu>
                 </MenuSidebar>
             </SidebarBody>

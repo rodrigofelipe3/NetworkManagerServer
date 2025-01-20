@@ -5,7 +5,9 @@ const WebSocketContext = createContext(null);
 
 export const WebSocketProvider = ({ children, ipAddress, connectionError}) => {
     const { sendMessage, lastMessage, readyState } = useWebSocket(`ws://${ipAddress}:443`, {
-        onOpen: () => console.log('Conectado ao servidor cliente via WebSocket.'),
+        onOpen: () => {
+            console.log('Conectado ao servidor cliente via WebSocket.')
+        },
         onClose: () => {
             console.log('Conexão encerrada.');
             sendMessage('close');

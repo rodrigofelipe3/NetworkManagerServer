@@ -37,6 +37,7 @@ export const Table = ({
         usedmemory: 0,
         totalmemory: 0,
         freemem: 0,
+        temp: 0
     });
 
     const [Processos, setProcessos] = useState([{ Name: '', Id: '', Memory_MB: '' }])
@@ -56,12 +57,12 @@ export const Table = ({
         if (connectionStatus == 'Connecting') sendMessage(JSON.stringify({ type: 'authenticate', userId: String(ipAdress) }))
     }, [lastMessage])
 
-    const handleConvertJSON = () => { 
+    const handleConvertJSON = () => {
         try {
             // Converte a string JSON para um objeto (se necessário)
             const Data = information.network_devices
             const parsedJson = JSON.parse(Data)
-            return parsedJson.map(devices => devices.map(devices2=> <TableRow style={{paddingTop: '5px', paddingBottom: '10px'}}>{devices2}</TableRow>))
+            return parsedJson.map(devices => devices.map(devices2 => <TableRow ><TableCell>{devices2}</TableCell></TableRow>))
 
         } catch (error) {
             console.error('Erro ao converter a string em JSON:', error);
@@ -78,16 +79,20 @@ export const Table = ({
             })
         );
 
-        const processes = JSON.parse(processesData);
-        setProcessos(processes)
-        const { usage, memper, usedmemory, totalmemory, freemem } = initialDataObject;
-        setSystemInfo({
-            usage,
-            memper,
-            usedmemory,
-            totalmemory,
-            freemem,
-        });
+        if (processesData != undefined) {
+            const processes = JSON.parse(processesData)
+            setProcessos(processes)
+            const { usage, memper, usedmemory, totalmemory, freemem, temp } = initialDataObject;
+            setSystemInfo({
+                usage,
+                memper,
+                usedmemory,
+                totalmemory,
+                freemem,
+                temp
+            });
+        }
+
 
     }
 
@@ -111,6 +116,16 @@ export const Table = ({
                             </div>
                             <div id="div-chart">
                                 <Chart value={systemInfo.usage} />
+                            </div>
+
+                        </div>
+                        <div id='Content-CPU'>
+                            <div id="div-cpu-temp">
+                                <h2>Temperatura da CPU</h2>
+                                <h2>{systemInfo.temp}º</h2>
+                            </div>
+                            <div id="div-chart">
+                                <Chart value={systemInfo.temp} startAngle={-90} endAngle={90} />
                             </div>
                         </div>
                         <div id='Content-Memory'>
@@ -142,13 +157,13 @@ export const Table = ({
                     <TableBody>
                         {Processos.map((process, index) => process.Name !== "System Idle Process" && process.Name !== "Memory Compression" ? (
 
-                                <TableRow id="task-row" >
-                                    <TableCell id="task-name" key={index}><FloatButton taskkill={true} ip={ipAdress} pid={process.Id}>{process.Name}</FloatButton></TableCell>
-                                   <TableCell key={index}> {process.Memory_MB}MB</TableCell>
-                                    <TableCell key={index}>{process.Id}</TableCell>
-                                </TableRow>
-                            ) : undefined
-                            ) }
+                            <TableRow id="task-row" >
+                                <TableCell id="task-name" key={index}><FloatButton taskkill={true} ip={ipAdress} pid={process.Id}>{process.Name}</FloatButton></TableCell>
+                                <TableCell key={index}> {process.Memory_MB}MB</TableCell>
+                                <TableCell key={index}>{process.Id}</TableCell>
+                            </TableRow>
+                        ) : undefined
+                        )}
                     </TableBody>
 
 

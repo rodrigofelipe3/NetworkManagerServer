@@ -59,7 +59,7 @@ export const InformationScreen = ({
     const handleGetComputerById = async (id) => {
         const response = await getComputerById(id)
         if (response.msg) {
-            
+
             setDataById(response.msg)
         } else {
             swal({
@@ -77,7 +77,7 @@ export const InformationScreen = ({
             handleGetComputerById(selectedKey)
         } catch (e) {
             console.error(e)
-        }finally{ 
+        } finally {
             setIsLoading(false)
         }
     }, [])
@@ -93,12 +93,13 @@ export const InformationScreen = ({
                             {connectionError && <AlertComponent msg={'Erro ao estabelecer métricas com o Computador Cliente'} opened={connectionError} setConnectionErr={setConnectionError} />}
                             <div id={"grid-display"}>
                                 <div id="systemInformation">
-                                    {dataById.id !== "" ?                                       (<Table
-                                                isTaskManager={false}
-                                                headers={["Informações do Sistema"]}
-                                                isSystemInfo={true}
-                                                information={dataById}
-                                            />) 
+                                    {dataById.id !== "" ? 
+                                    (<Table
+                                        isTaskManager={false}
+                                        headers={["Informações do Sistema"]}
+                                        isSystemInfo={true}
+                                        information={dataById}
+                                    />)
                                         : <h1>Nenhum dado encontrado!</h1>}
                                 </div>
                                 <div id="ManagerTask">

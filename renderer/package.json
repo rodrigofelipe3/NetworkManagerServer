@@ -14,10 +14,8 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "axios": "^1.7.9",
     "concurrently": "^9.0.1",
     "cross-env": "^7.0.3",
-    "electron-builder": "^25.0.5",
     "react": "^18.3.1",
     "react-countup": "^6.5.3",
     "react-dom": "^18.3.1",
@@ -43,21 +41,22 @@
     "electron-build": "electron-builder "
   },
   "build": {
-    "appId": "com.ManageNetwork",
-    "productName": "Network Manager",
+    "appId": "com.NetWorkPowerManager",
+    "productName": "Network Power Manager",
     "files": [
       "./main.js",
       "./preload.js",
+      "./loadConfig.js",
       "./node_modules/**/*"
     ],
     "directories": {
-      "output": "C:/Program Files/TI Administration/"
+      "output": "C:/Program Files/AdminNetwork Power Manager/"
     },
     "extraMetadata": {
       "main": "./main.js"
     },
     "win": {
-      "icon": "C:/Program Files/TI Administration/logo.ico",
+      "icon": "C:/Program Files/AdminNetwork Power Manager/logo.ico",
       "target": "portable"
     }
   },
