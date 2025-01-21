@@ -9,7 +9,7 @@ const path = require('path')
 const checkShutdownTime = require("./utils/scheduleShutdown")
 const PORT = 5000
 
-/*const PORT2 = 3000
+const PORT2 = 3000
 const app2 = express()
 
 const pathToFile = path.join(__dirname,'../', 'renderer/build/index.html')
@@ -22,7 +22,7 @@ app2.get('*', (req, res) => {
 app2.listen(PORT2, ()=> { 
     console.log(`Servidor React rodando na porta http://localhost:${PORT2}`);
 })
-  */
+  
 const corsOptions = { 
     origin:"*",
     methods: ["GET", "POST", "PUT", "DELETE", "HEAD"],

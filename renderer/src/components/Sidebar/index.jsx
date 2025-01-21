@@ -16,7 +16,6 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
     const [isModalView, setIsModalView] = useState(false)
     const [isModalViewDelete, setIsModalViewDelete] = useState(false)
     const [isCLICommand, setIsCLICommand] = useState(false)
-    const [CLICommand, setCLICommand] = useState('')
     const [input, setInput] = useState({hostname: '' ,userinput: '', userpassword: '', target: ''})
 
     const closeNewWindow = () => {
@@ -103,7 +102,6 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
         openNewWindow()
     }
     const handleSendCLICommand = async () => { 
-        console.log(CLICommand)
         const response = await CmdKey(ipAddress, {type: 'clicommand', command: `${input.target? input.target: ''}`})
         if(response.ok) { 
             openNewWindow()

@@ -1,7 +1,8 @@
 const { app, BrowserWindow, nativeTheme, ipcMain } = require('electron');
 const path = require('node:path');
 const axios = require('axios');
-const { loadConfig } = require('./loadConfig');
+const { loadConfig, findIpResponse } = require('./loadConfig');
+const { time } = require('node:console');
 
 let mainWindow;
 let promptWindow;
@@ -21,7 +22,10 @@ async function createWindow() {
       contextIsolation: true,
     },
   });
-  const {serverIP} = await loadConfig()
+  const { serverIP } = await loadConfig();
+  if (serverIP == "") {
+    findIpResponse()
+  }
   mainWindow.loadURL(`http://${serverIP}:3000/`);
 }
 
@@ -65,8 +69,10 @@ const createPrompt = async (url) => {
         contextIsolation: true,
       }
     });
-    const {serverIP} = await loadConfig()
-    console.log(url)
+    const { serverIP } = await loadConfig();
+    if (serverIP == "") {
+      findIpResponse()
+    }
     promptWindow.loadURL(`http://${serverIP}:3000/prompt/${url}`)
 
     promptWindow.setTitle('Prompt');
@@ -74,17 +80,30 @@ const createPrompt = async (url) => {
 }
 
 const waitForServer = async () => {
+  
+  createLoading(); 
+
   const MAX_ATTEMPTS = 20; 
   const INTERVAL = 1300; 
 
+  const { serverIP } = await loadConfig();
+  if (serverIP == "") {
+    findIpResponse()
+  }
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     try {
-      const response = await axios.get('http://localhost:3000');
+      const response = await axios.get(`http://${serverIP}:3000`);
       if (response.status === 200) {
+        time.apply()
+        if (loadWindow) {
+          loadWindow.close(); 
+          loadWindow = null;
+        }
         return true; 
+        
       }
     } catch (error) {
-      console.log(`Tentativa ${attempt} falhou. Servidor não disponível.`);
+      alert(`Tentativa ${attempt} falhou. Servidor não disponível.`)
     }
     await new Promise((resolve) => setTimeout(resolve, INTERVAL));
   }
@@ -93,14 +112,9 @@ const waitForServer = async () => {
 };
 
 app.whenReady().then(async () => {
-  createLoading(); 
-
   const serverReady = await waitForServer();
   if (serverReady) {
-    if (loadWindow) {
-      loadWindow.close(); 
-      loadWindow = null;
-    }
+    
     createWindow(); 
   } else {
     console.log('Servidor não respondeu após múltiplas tentativas.');
