@@ -48,7 +48,9 @@ export const FloatButton = ({
             document.removeEventListener('click', handleClickOutside);
         };
     }, []);
-
+    const closeMainWindow = () => { 
+        window.api.CloseMainWindow()
+    }
     const handleContextMenu = (e) => {
         e.preventDefault();
         setMenuPosition({ x: e.pageX, y: e.pageY });
@@ -256,7 +258,8 @@ export const FloatButton = ({
                 }
                 {!taskkill && settings && 
                     <Menu top={menuPosition.y} left={menuPosition.x} visible={visible}>
-                        <MenuItem onClick={() => handleMakeReport()} >Relatório de Configurações</MenuItem>
+                        <MenuItem onClick={() => handleMakeReport()} >Relatório de Máquinas</MenuItem>
+                        <MenuItem onClick={() => closeMainWindow()} >Sair</MenuItem>
                     </Menu>
                 }
                 {children}

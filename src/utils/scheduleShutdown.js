@@ -27,14 +27,14 @@ const checkShutdownTime = () => {
                                     UpdateOnPowerOff(pc.id, false)
                                 }
                             } catch (err) {
-                                console.log(err)
+                                console.log('Erro ao enviar Shutdown', err)
                             }
                         }
                     }
                 }
             })
         } else if (err) {
-            console.log(err)
+            console.log('Erro ao enviar Shutdown', err)
         }
     })
 

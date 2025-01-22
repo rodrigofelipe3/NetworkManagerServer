@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld('api', {
   sendURL: (url) => ipcRenderer.send('set-url', url),
   OpenLoading: ()=> ipcRenderer.send('open-loading'),
   CloseLoading: ()=> ipcRenderer.send('close-loading'),
+  CloseMainWindow: ()=> ipcRenderer.send('close-main-window'),
   receive: (channel, callback) => {
     if (channel === 'update-message') {
       ipcRenderer.on(channel, (_, message) => callback(message));

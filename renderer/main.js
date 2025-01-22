@@ -34,6 +34,7 @@ const createLoading = () => {
     height: 300,
     resizable: false,
     autoHideMenuBar: true,
+    titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
     frame: true, // Remove a barra superior
     title: "Loading",
     icon: "./src/assets/imagens/loading-icon.png",
@@ -57,7 +58,7 @@ const createPrompt = async (url) => {
       height: 500,
       resizable: false,
       autoHideMenuBar: true, //ESCONDE A BARRA DE MENU FIlE etc..,
-      //titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
+      titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
       title: "Prompt",
       icon: "./src/assets/imagens/prompt-icon.png",
       minimizable: false,
@@ -137,6 +138,10 @@ app.whenReady().then(async () => {
       }
     }
   });
+
+  ipcMain.on('close-main-window', (event, arg)=> { 
+    app.quit()
+  })
 });
 
 app.on("window-all-closed", () => {

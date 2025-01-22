@@ -9,7 +9,7 @@ const bytesToGigabytes = (bytes) => {
 };
 
 const Report = () => {
-  const db = new sqlite3.Database("./database.db");
+  const db = new sqlite3.Database("../database/database.db");
 
   const getCurrentDateTime = () => {
     const date = new Date();
@@ -100,5 +100,7 @@ const Report = () => {
     });
   });
 };
+
+Report()
 
 module.exports = Report;

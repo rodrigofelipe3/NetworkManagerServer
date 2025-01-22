@@ -109,6 +109,7 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
     }
     const handleOnClickDelete = () => { 
         CmdKey(ipAddress, {type: 'cmdkey', command: `cmdkey /delete:${input.target? input.target: ''}`})
+        openNewWindow()
     }
 
     const handleListCmdKey = () => { 

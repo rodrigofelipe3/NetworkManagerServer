@@ -4,7 +4,7 @@
   "main": "./main.js",
   "author": {
     "name": "Rodrigo Felipe dos Santos Lima",
-    "email": "rodrigo.suporte@contas.com"
+    "email": "rodrigo.suporte@contas.com.br"
   },
   "private": true,
   "dependencies": {

@@ -1,6 +1,33 @@
 const { logToFile } = require("../utils/LogToFile");
 const sqlite3 = require("sqlite3").verbose();
-const db = new sqlite3.Database("./database/database.db");
+const fs = require('fs');
+const path = require('path');
+
+// Garantir que o diretório existe
+const databaseDir = path.join(__dirname);
+if (!fs.existsSync(databaseDir)) {
+  fs.mkdirSync(databaseDir, { recursive: true });
+  console.log('Diretório criado:', databaseDir);
+}
+
+// Caminho do banco de dados
+const dbPath = path.join(databaseDir, 'database.db');
+console.log('Caminho do banco de dados:', dbPath);
+
+// Inicializar banco de dados
+const db = new sqlite3.Database('./database.db', (err) => { 
+  if (err) { 
+    console.error('Erro ao conectar ao banco de dados:', err.message);
+  } else {
+    console.log('Conexão com o banco de dados bem-sucedida!');
+  }
+});
+
+// Listener de erros
+db.on('error', (err) => {
+  console.error('Erro no banco de dados:', err.message);
+});
+
 
 const createTableIfNotExist = () => {
   db.serialize(() => {
@@ -27,13 +54,14 @@ const createTableIfNotExist = () => {
                 )`,
       (err) => {
         if (err) {
+          console.log("Erro ao criar a tabela:" + err)
           logToFile("Erro ao criar a tabela:" + err.message);
         }
+        console.log('Banco de dados Criado!')
       }
     );
   });
 };
-
 const RegisterComputerDB = (
   host,
   processor,
@@ -137,6 +165,7 @@ const RegisterComputerDB = (
 const GetAllComputer = (callback) => {
   db.all("SELECT * FROM pcs", [], (err, rows) => {
     if (err) {
+      console.log("Houve um erro ao consultar o computador pelo ID: " + err)
       logToFile("Erro ao consultar dados:", err.message);
       callback(err, null);
     } else {
@@ -149,6 +178,7 @@ const GetComputerByIdDB = (id) => {
   return new Promise((resolve, reject) => {
     db.get("SELECT * FROM pcs WHERE id = ?", [id], (err, row) => {
       if (err) {
+        console.log("Houve um erro ao consultar o computador pelo ID: " + err)
         logToFile("Houve um erro ao consultar o computador pelo ID: " + err);
         return resolve({ ok: false }); // Resolva a Promise com erro
       }
@@ -200,7 +230,6 @@ const UpdateOnPowerOff = (id, powerstatus) => {
 };
 
 const UpdatePowerOffState = (poweroff, poweroffhour, ip) => { 
- console.log(poweroffhour)
   return new Promise((resolve, reject)=> { 
     db.run(
       "UPDATE pcs SET poweroff = ?, poweroffhour = ? WHERE ip = ?",
@@ -218,7 +247,6 @@ const UpdatePowerOffState = (poweroff, poweroffhour, ip) => {
 }
 
 const UpdatePowerOfHours = (ip, time) => { 
-  console.log(ip)
   return new Promise((resolve, reject) => {
     db.run(
       "UPDATE pcs SET poweroffhour = ? WHERE ip = ?",
@@ -261,6 +289,7 @@ const addUserDB = (user, ip) => {
     })
   })
 }
+
 
 module.exports = {
   createTableIfNotExist,

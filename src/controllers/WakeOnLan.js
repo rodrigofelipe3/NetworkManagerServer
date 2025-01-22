@@ -7,7 +7,7 @@ const WakeOnLan = (mac) => {
     wol.wake(mac, (err) => {
       if (err) {
         logToFile("Houve um erro ao enviar pacotes: " + err);
-        console.log(err)
+        
         resolve({ok: false, error: err})
       } else {
         wol.createMagicPacket(mac)

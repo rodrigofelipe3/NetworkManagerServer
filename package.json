@@ -18,7 +18,7 @@
       "./src/controllers/Shutdown.js",
       "./src/controllers/WakeOnLan.js",
       "./src/database/database.js",
-      "./src/database/report.js",
+      "./src/reports/report.js",
       "./src/routes/routes.js",
       "./src/utils/CheckStatus.js",
       "./src/utils/GetClientVersion.js",
