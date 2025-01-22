@@ -8,6 +8,7 @@ const LogsViewer = React.memo(({ ipAddress }) => {
         onOpen: () => { console.log('COnexão estabelecida com o servidor') },
         onClose: () => {
             console.log('Conexão encerrada.');;
+            sendMessage('close')
         },
         onError: (error) => {
             console.log('Erro:', error);

@@ -5,18 +5,18 @@ const {createTableIfNotExist} = require("./database/database")
 const cors = require("cors")
 const CheckStatus = require("./utils/CheckStatus")
 const {logToFile, clearLogFile} = require("./utils/LogToFile")
-const path = require('path')
 const checkShutdownTime = require("./utils/scheduleShutdown")
+const path = require('path')
 const PORT = 5000
 
 const PORT2 = 3000
 const app2 = express()
 
-const pathToFile = path.join(__dirname,'../', 'renderer/build/index.html')
-app2.use(express.static('C:/Users/Setor Administrativo/Documents/Admin-Server-Network-Manager/renderer/build/'));
+/*const pathToFile = path.join(__dirname, './build/index.html')*/
+app2.use(express.static('C:\\Program Files\\AdminNetwork Power Manager\\Server\\build\\'));
 
 app2.get('*', (req, res) => {
-    return res.sendFile('C:/Users/Setor Administrativo/Documents/Admin-Server-Network-Manager/renderer/build/index.html');
+    return res.sendFile('C:\\Program Files\\AdminNetwork Power Manager\\Server\\build\\index.html');
 });
 
 app2.listen(PORT2, ()=> { 

@@ -5,7 +5,7 @@ const { logToFile } = require('./LogToFile')
 const GetClientVersion = async () => { 
     return new Promise(async (resolve, reject)=> { 
         try { 
-            fs.readFile('./src/config.json', 'utf-8', (err, data)=> { 
+            fs.readFile('./config.json', 'utf-8', (err, data)=> { 
                 if(err) { 
                     reject(err)
                 }

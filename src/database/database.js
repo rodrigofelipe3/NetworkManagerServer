@@ -1,6 +1,6 @@
 const { logToFile } = require("../utils/LogToFile");
 const sqlite3 = require("sqlite3").verbose();
-const db = new sqlite3.Database("./database.db");
+const db = new sqlite3.Database("./database/database.db");
 
 const createTableIfNotExist = () => {
   db.serialize(() => {

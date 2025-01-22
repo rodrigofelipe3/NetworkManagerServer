@@ -1,5 +1,5 @@
 {
-  "name": "network-manager",
+  "name": "NetworkManagerServer",
   "version": "1.0.0",
   "bin": "src/app.js",
   "private": true,
@@ -11,28 +11,39 @@
   },
   "pkg": {
     "assets": [
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "./src/controllers/Computer.js",
+      "./src/controllers/HeartBeat.js",
+      "./src/controllers/Register.js",
+      "./src/controllers/Shutdown.js",
+      "./src/controllers/WakeOnLan.js",
+      "./src/database/database.js",
+      "./src/database/report.js",
+      "./src/routes/routes.js",
+      "./src/utils/CheckStatus.js",
+      "./src/utils/GetClientVersion.js",
+      "./src/utils/LogToFile.js",
+      "./src/utils/scheduleShutdown.js",
+      "./src/utils/LogToFile.js",
+      "./src/app.js"
+
+
     ],
     "scripts": "src/ServerReact.js",
     "targets": [
       "node16-win-x64"
-    ]
+    ],
+    "outputPath": "C:/Program Files/AdminNetwork Power Manager/Server/"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "electron-builder": "^25.1.7",
     "express": "^4.21.0",
     "node-fetch": "^2.7.0",
-    "node-global-key-listener": "^0.3.0",
     "node-gyp": "^10.2.0",
     "nodemon": "^3.1.4",
     "pkg": "^5.8.1",
-    "robotjs": "^0.6.0",
-    "socket.io": "^4.8.0",
-    "socket.io-client": "^4.8.0",
     "sqlite3": "^5.1.7",
     "sudo-prompt": "^9.2.1",
-    "systeminformation": "^5.23.5",
     "wake_on_lan": "^1.0.0",
     "ws": "^8.18.0",
     "xlsx": "^0.18.5"
