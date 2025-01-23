@@ -1,6 +1,6 @@
 const express = require("express");
 const RegisterComputer = require("../controllers/Register");
-const { GetAllComputer, addUserDB, UpdatePowerOffState } = require("../database/database");
+const { GetAllComputer, addUserDB, UpdatePowerOffState, DeleteUserDB, InsertUserDB } = require("../database/database");
 const HeartBeat = require("../controllers/HeartBeat");
 const { logToFile } = require("../utils/LogToFile");
 const router = express.Router();
@@ -8,6 +8,28 @@ const Report = require("../reports/report")
 const { GetComputerById, DeleteComputer } = require("../controllers/Computer");
 const { WakeOnLan } = require("../controllers/WakeOnLan");
 const { GetClientVersion } = require("../utils/GetClientVersion");
+const jwt = require("jsonwebtoken");
+
+
+
+const checkToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    return res.status(400).json({ msg: "Acesso negado!" });
+  }
+
+  try {
+    const secret = process.env.SECRET;
+    jwt.verify(token, secret);
+    next();
+  } catch (err) {
+    return res.status(400).json({ msg: "Token Inválido!" });
+  }
+};
+
 
 
 router.get('/', (req, res) => {
@@ -18,7 +40,13 @@ router.get('/', (req, res) => {
   }
 })
 
-router.get("/computers", (req, res) => {
+
+router.post("/auth/", async (req, res) => {
+  AuthLogin(req, res)
+});
+
+
+router.get("/computers", checkToken, (req, res) => {
   GetAllComputer((err, rows) => {
     if (err) {
       return res.status(500).json({ error: "Erro ao consultar dados." });
@@ -28,7 +56,10 @@ router.get("/computers", (req, res) => {
   });
 });
 
-router.post("/registerComputer", async (req, res) => {
+
+
+
+router.post("/registerComputer",  async (req, res) => {
   const status = "Conectado"
   const response = await RegisterComputer(req, res, status);
   if (response.ok == true) {
@@ -55,7 +86,7 @@ router.post("/heartbeat/:name", async (req, res) => {
   }
 });
 
-router.get("/computerbyid/:id", async (req, res) => {
+router.get("/computerbyid/:id", checkToken, async (req, res) => {
   const id = req.params.id;
   try {
     const response = await GetComputerById(id);
@@ -70,7 +101,7 @@ router.get("/computerbyid/:id", async (req, res) => {
   }
 });
 
-router.delete("/deletecomputer/:ip", async (req, res) => {
+router.delete("/deletecomputer/:ip", checkToken, async (req, res) => {
   const ip = req.params.ip
   try {
     return await DeleteComputer(ip, res)
@@ -79,7 +110,17 @@ router.delete("/deletecomputer/:ip", async (req, res) => {
   }
 })
 
-router.post("/wakeonlan", async (req, res) => {
+router.delete("/deleteuser/:id", checkToken, async (req, res) => {
+  const {id} = req.body
+  try {
+    const response = await DeleteUserDB(id)
+    return res.status(200).json({ok: response.ok, msg: response.msg})
+  } catch (err) {
+    return res.status(500).json({ ok: false, error: "Erro interno " + err })
+  }
+})
+
+router.post("/wakeonlan", checkToken, async (req, res) => {
   const { mac, ip } = req.body
   try {
     const response = await WakeOnLan(mac, ip)
@@ -93,7 +134,7 @@ router.post("/wakeonlan", async (req, res) => {
   }
 })
 
-router.post("/adduser", async (req, res) => {
+router.post("/adduser", checkToken, async (req, res) => {
   const { user, ip } = req.body
   try {
     const response = await addUserDB(user, ip)
@@ -108,7 +149,22 @@ router.post("/adduser", async (req, res) => {
   }
 })
 
-router.put("/updatepoweroff", async (req, res) => {
+router.post("/createUser", checkToken, async (req, res) => {
+  const { name, email, password } = req.body
+  try {
+    const response = await InsertUserDB(name, email, password)
+    if (response.ok == true) {
+      return res.status(200).json({ ok: true, msg: response.msg })
+    } else {
+      return res.status(404).json({ ok: false, error: response.error })
+    }
+  } catch (err) {
+    logToFile(err)
+    return res.status(500).json({ ok: false, error: err })
+  }
+})
+
+router.put("/updatepoweroff", checkToken, async (req, res) => {
 
   const { poweroff, poweroffhour, ip } = req.body
   try {
@@ -125,7 +181,7 @@ router.put("/updatepoweroff", async (req, res) => {
 
 })
 
-router.post("/report", async (req, res) => {
+router.post("/report", checkToken, async (req, res) => {
   try {
     const response = await Report()
     if (response.ok == true) {

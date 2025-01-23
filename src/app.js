@@ -13,7 +13,6 @@ const PORT = 5000
 const PORT2 = 3000
 const app2 = express()
 
-const pathToFile = path.join(__dirname, './build/index.html')
 app2.use(express.static('C:\\Program Files\\AdminNetwork Power Manager\\Server\\build\\'));
 
 app2.get('*', (req, res) => {

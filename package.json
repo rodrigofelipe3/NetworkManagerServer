@@ -35,8 +35,10 @@
     "outputPath": "C:/Program Files/AdminNetwork Power Manager/Server/"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.2",
     "node-fetch": "^2.7.0",
     "node-gyp": "^10.2.0",
     "nodemon": "^3.1.4",

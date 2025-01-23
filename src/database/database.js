@@ -39,17 +39,48 @@ const createTableIfNotExist = () => {
                     powerstatus BOOLEAN,
                     status TEXT,
                     lasthb DATE
-                )`,
+                );`,
       (err) => {
         if (err) {
-          console.log("Erro ao criar a tabela:" + err)
-          logToFile("Erro ao criar a tabela:" + err.message);
+          console.log("Erro ao criar a tabela de Computadores:" + err)
+          logToFile("Erro ao criar a tabela de Computadores:" + err.message);
         }
-        console.log('Banco de dados Criado!')
+        console.log('Tabela de PCS Criada!')
+      }
+    );
+    db.run(
+      `CREATE TABLE IF NOT EXISTS users (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    email TEXT NOT NULL,
+                    password INTEGER NOT NULL
+                );`,
+      (err) => {
+        if (err) {
+          console.log("Erro ao criar a tabela de Usuários:" + err)
+          logToFile("Erro ao criar a tabela de Usuários:" + err.message);
+        }
+        console.log('Tabela de Usuários Criada!')
       }
     );
   });
 };
+
+const getUsers = (callback) => {
+  const query = "SELECT * FROM users";
+  return new Promise((resolve, reject)=> { 
+    db.all(query, [], (err, rows) => {
+      if (err) {
+          console.error(err.message);
+          logToFile('Erro ao consultar usuários: ', err)
+          reject(callback(err, null));
+      }
+      resolve(callback(null, rows));
+  });
+  })
+    
+};
+
 const RegisterComputerDB = (
   host,
   processor,
@@ -149,6 +180,19 @@ const RegisterComputerDB = (
     });
   })
 };
+
+const InsertUserDB = (name, email, password) => { 
+    return new Promise((resolve, reject)=> { 
+        db.run('INSERT INTO users (name, email, password) VALUES (?, ?, ?)', [name, email, password], (err)=> { 
+          if (err) { 
+            console.log('Erro ao inserir usuário no banco de dados: ', err)
+            reject({ok: false, err: 'Erro ao inserir usuário no banco de dados: ' + err})
+          }
+          resolve({ok: true, msg: 'Usuário criado com sucesso!'})
+        })
+    })
+      
+}
 
 const GetAllComputer = (callback) => {
   db.all("SELECT * FROM pcs", [], (err, rows) => {
@@ -265,6 +309,19 @@ const DeleteComputerDB = (ip) => {
   })
 }
 
+const DeleteUserDB = (id) => {
+  return new Promise((resolve, reject) => {
+    db.run("DELETE FROM users WHERE id = ? ", [id], (err) => {
+      if (err) {
+        logToFile("Erro ao Deletar Usuário " + err)
+        resolve({ ok: false, error: err })
+      } else {
+        resolve({ ok: true, msg: "Usuário Deletado COm sucesso!" })
+      }
+    })
+  })
+}
+
 const addUserDB = (user, ip) => { 
   return new Promise((resolve, reject)=>{
     db.run('UPDATE pcs SET user = ? WHERE ip = ?', [user, ip], (err)=> { 
@@ -280,6 +337,9 @@ const addUserDB = (user, ip) => {
 
 
 module.exports = {
+  DeleteUserDB,
+  InsertUserDB,
+  getUsers,
   createTableIfNotExist,
   RegisterComputerDB,
   GetAllComputer,
