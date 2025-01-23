@@ -1,16 +1,24 @@
 import { Routes, Route } from "react-router-dom";
 import { HomePage } from "../pages/Homepage/HomePage";
 import { PromptPage } from "../pages/PromptPage";
-import { useState } from "react";
+import { LoginPage } from "../pages/LoginPage/LoginPage";
+import { ProtectedRoutes } from "./protectedroutes";
 
-
-export const Router = () => { 
+export const Router = () => {
     return (
         <>
             <Routes>
-                <Route exact path="*" element={<HomePage/>}/>
-                <Route exact path="/" element={<HomePage/>}/>
-                <Route exact path="/prompt/:ip" element={<PromptPage/>}/>
+                <Route exact path="*" element={<LoginPage />} />
+                <Route exact path="/" element={<LoginPage />} />
+                <Route exact path="/home/" element={
+                    <ProtectedRoutes>
+                        <HomePage />
+                    </ProtectedRoutes>} />
+                <Route exact path="/prompt/:ip" element={
+                    <ProtectedRoutes>
+                        <PromptPage />
+                    </ProtectedRoutes>
+                } />
             </Routes>
         </>
     )

@@ -15,5 +15,6 @@ contextBridge.exposeInMainWorld('api', {
   },
   send: (channel, data) => {
     ipcRenderer.send(channel, data);
-  }
+  },
+  GetAddressIP: ()=> ipcRenderer.invoke('serverip')
 });

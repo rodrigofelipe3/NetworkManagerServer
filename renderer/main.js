@@ -138,7 +138,10 @@ app.whenReady().then(async () => {
       }
     }
   });
-
+  ipcMain.handle('serverip', async (event, args)=> { 
+      const { serverIP } = await loadConfig()
+      return serverIP
+  })
   ipcMain.on('close-main-window', (event, arg)=> { 
     app.quit()
   })
