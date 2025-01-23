@@ -9,6 +9,8 @@ const { GetComputerById, DeleteComputer } = require("../controllers/Computer");
 const { WakeOnLan } = require("../controllers/WakeOnLan");
 const { GetClientVersion } = require("../utils/GetClientVersion");
 const jwt = require("jsonwebtoken");
+const { AuthLogin } = require("../controllers/Auth");
+const { CreateAccount } = require("../controllers/CreateAccount");
 
 
 
@@ -42,7 +44,21 @@ router.get('/', (req, res) => {
 
 
 router.post("/auth/", async (req, res) => {
-  AuthLogin(req, res)
+
+  const { email, password } = req.body
+  console.log(email, password)
+  try {
+    const response = await AuthLogin(email, password)
+    console.log(response)
+    if (response.ok == true) {
+      return res.status(200).json({ ok: true, msg: response.msg })
+    } else {
+      return res.status(404).json({ ok: false, error: response.error })
+    }
+  } catch (err) {
+    return res.status(500).json({ ok: false, error: err })
+  }
+
 });
 
 
@@ -59,7 +75,7 @@ router.get("/computers", checkToken, (req, res) => {
 
 
 
-router.post("/registerComputer",  async (req, res) => {
+router.post("/registerComputer", async (req, res) => {
   const status = "Conectado"
   const response = await RegisterComputer(req, res, status);
   if (response.ok == true) {
@@ -111,10 +127,10 @@ router.delete("/deletecomputer/:ip", checkToken, async (req, res) => {
 })
 
 router.delete("/deleteuser/:id", checkToken, async (req, res) => {
-  const {id} = req.body
+  const { id } = req.body
   try {
     const response = await DeleteUserDB(id)
-    return res.status(200).json({ok: response.ok, msg: response.msg})
+    return res.status(200).json({ ok: response.ok, msg: response.msg })
   } catch (err) {
     return res.status(500).json({ ok: false, error: "Erro interno " + err })
   }
@@ -149,10 +165,12 @@ router.post("/adduser", checkToken, async (req, res) => {
   }
 })
 
-router.post("/createUser", checkToken, async (req, res) => {
-  const { name, email, password } = req.body
+router.post("/createUser", async (req, res) => {
+  const {
+    name, email,password, confirmpassword
+} = req.body;
   try {
-    const response = await InsertUserDB(name, email, password)
+    const response = await CreateAccount(name, email,password, confirmpassword, req, res)
     if (response.ok == true) {
       return res.status(200).json({ ok: true, msg: response.msg })
     } else {
@@ -194,15 +212,15 @@ router.post("/report", checkToken, async (req, res) => {
   }
 })
 
-router.post('/updates', async (req, res)=> { 
+router.post('/updates', async (req, res) => {
   const config = await GetClientVersion()
   const version = JSON.parse(config)
-    try { 
-      return res.status(200).json({ok: true, version: version.version, filepath: version.filepath, instalationpath: version.instalationpath})
-    }catch(err){ 
-      return res.status(500).json({ok: false, data: err})
-    }
-    
+  try {
+    return res.status(200).json({ ok: true, version: version.version, filepath: version.filepath, instalationpath: version.instalationpath })
+  } catch (err) {
+    return res.status(500).json({ ok: false, data: err })
+  }
+
 })
 
 module.exports = router;

@@ -3,15 +3,14 @@ const jwt = require("jsonwebtoken");
 const { getUsers } = require("../database/database");
 const { logToFile } = require("../utils/LogToFile");
 
-const AuthLogin = async (res, req) => {
-    const { email, password } = req.body;
+const AuthLogin = async (email, password) => {
     
 
     if (!email) {
-        return res.status(404).json({ error: "O email é obrigatório" });
+        return { ok: false, error: "O email é obrigatório" };
     }
     if (!password) {
-        return res.status(404).json({ error: "A senha é obrigatória" });
+        return { ok: false, error: "A senha é obrigatória" };
     }
 
     const users = await getUsers((err, users) => {
@@ -36,13 +35,12 @@ const AuthLogin = async (res, req) => {
     })
 
     if (!filtredUser) {
-        return res.status(404).json({ error: "Usuário não encontrado" });
+        return { ok: false, error: "Usuário não encontrado" };
     }
-
     const checkPassword = await bcrypt.compare(password, userData.password);
 
     if (!checkPassword) {
-        return res.status(404).json({ error: "A senha é invalída" });
+        return { ok: false, error: "A senha é inválida" };
     }
 
     try {
@@ -54,9 +52,9 @@ const AuthLogin = async (res, req) => {
             secret
         );
 
-        return res.status(200).json({id: userData.id, name: userData.name, token });
+        return {ok: true, msg: 'Usuário logado com sucesso!', id: userData.id, name: userData.name, token }
     } catch (error) {
-        return res.status(404).json({ error: error });
+        return { ok: false, error: "Erro no servidor!" };
     }
 }
 
