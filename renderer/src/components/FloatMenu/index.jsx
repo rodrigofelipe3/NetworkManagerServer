@@ -259,7 +259,7 @@ export const FloatButton = ({
                 {!taskkill && settings && 
                     <Menu top={menuPosition.y} left={menuPosition.x} visible={visible}>
                         <MenuItem onClick={() => handleMakeReport()} >Relatório de Máquinas</MenuItem>
-                        <MenuItem onClick={() => closeMainWindow()} >Sair</MenuItem>
+                        <MenuItem onClick={() => closeMainWindow()}>Sair</MenuItem>
                     </Menu>
                 }
                 {children}

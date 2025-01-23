@@ -1,6 +1,6 @@
 const express = require("express");
 const RegisterComputer = require("../controllers/Register");
-const { GetAllComputer, addUserDB, UpdatePowerOffState, UpdatePowerOfHours } = require("../database/database");
+const { GetAllComputer, addUserDB, UpdatePowerOffState } = require("../database/database");
 const HeartBeat = require("../controllers/HeartBeat");
 const { logToFile } = require("../utils/LogToFile");
 const router = express.Router();
@@ -111,7 +111,6 @@ router.post("/adduser", async (req, res) => {
 router.put("/updatepoweroff", async (req, res) => {
 
   const { poweroff, poweroffhour, ip } = req.body
-  console.log(poweroff, poweroffhour, ip)
   try {
     const response = await UpdatePowerOffState(poweroff, poweroffhour, ip)
     if (response.ok == true) {
@@ -145,7 +144,6 @@ router.post('/updates', async (req, res)=> {
     try { 
       return res.status(200).json({ok: true, version: version.version, filepath: version.filepath, instalationpath: version.instalationpath})
     }catch(err){ 
-      console.log(err)
       return res.status(500).json({ok: false, data: err})
     }
     

@@ -25,9 +25,8 @@
       "./src/utils/LogToFile.js",
       "./src/utils/scheduleShutdown.js",
       "./src/utils/LogToFile.js",
-      "./src/app.js"
-
-
+      "./src/app.js",
+      "./src/config.json"
     ],
     "scripts": "src/ServerReact.js",
     "targets": [

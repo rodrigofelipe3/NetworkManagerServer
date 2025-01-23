@@ -3,18 +3,18 @@ import { Header, IconSearch, IconSettings, IconUpdate, Li, Nav, SearchInput, Ul 
 import { FloatButton } from "../FloatMenu";
 const logo = require("../../assets/imagens/logo.png");
 
-export const CompHeader = ({ InputValue, setInputValue, recharge}) => {
-    const [isVisible, setIsVisible] = useState(false); 
+export const CompHeader = ({ InputValue, setInputValue, recharge }) => {
+    const [isVisible, setIsVisible] = useState(false);
 
     const handleOnChange = (event) => {
         setInputValue(event.target.value);
     };
 
     const toggleSearchInput = () => {
-        setIsVisible(prevState => !prevState); 
+        setIsVisible(prevState => !prevState);
     };
 
-    const handleSetRecharge = () => { 
+    const handleSetRecharge = () => {
         recharge(true)
     }
     return (
@@ -27,16 +27,16 @@ export const CompHeader = ({ InputValue, setInputValue, recharge}) => {
                         </Li>
                         <Li>
                             <div id="icon-content">
-                               
+
                                 <SearchInput
                                     type="text"
                                     name="value"
                                     placeholder="Digite o nome do Host"
                                     value={InputValue}
                                     onChange={handleOnChange}
-                                    isVisible={isVisible} 
+                                    isVisible={isVisible}
                                 />
-                              
+
                                 <div id="search" onClick={toggleSearchInput}>
                                     <IconSearch />
                                 </div>
@@ -44,7 +44,7 @@ export const CompHeader = ({ InputValue, setInputValue, recharge}) => {
                                     <IconUpdate />
                                 </div>
                                 <div id="settings">
-                                    <FloatButton taskkill={false} settings={true}><IconSettings /></FloatButton> 
+                                    <FloatButton taskkill={false} settings={true}><IconSettings /></FloatButton>
                                 </div>
                             </div>
                         </Li>

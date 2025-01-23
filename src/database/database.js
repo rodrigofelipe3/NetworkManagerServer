@@ -1,21 +1,9 @@
 const { logToFile } = require("../utils/LogToFile");
 const sqlite3 = require("sqlite3").verbose();
-const fs = require('fs');
-const path = require('path');
 
-// Garantir que o diretório existe
-const databaseDir = path.join(__dirname);
-if (!fs.existsSync(databaseDir)) {
-  fs.mkdirSync(databaseDir, { recursive: true });
-  console.log('Diretório criado:', databaseDir);
-}
-
-// Caminho do banco de dados
-const dbPath = path.join(databaseDir, 'database.db');
-console.log('Caminho do banco de dados:', dbPath);
 
 // Inicializar banco de dados
-const db = new sqlite3.Database('./database.db', (err) => { 
+const db = new sqlite3.Database('C:\\Program Files\\AdminNetwork Power Manager\\Server\\database\\database.db', (err) => { 
   if (err) { 
     console.error('Erro ao conectar ao banco de dados:', err.message);
   } else {
@@ -165,7 +153,7 @@ const RegisterComputerDB = (
 const GetAllComputer = (callback) => {
   db.all("SELECT * FROM pcs", [], (err, rows) => {
     if (err) {
-      console.log("Houve um erro ao consultar o computador pelo ID: " + err)
+     
       logToFile("Erro ao consultar dados:", err.message);
       callback(err, null);
     } else {
@@ -178,7 +166,7 @@ const GetComputerByIdDB = (id) => {
   return new Promise((resolve, reject) => {
     db.get("SELECT * FROM pcs WHERE id = ?", [id], (err, row) => {
       if (err) {
-        console.log("Houve um erro ao consultar o computador pelo ID: " + err)
+        
         logToFile("Houve um erro ao consultar o computador pelo ID: " + err);
         return resolve({ ok: false }); // Resolva a Promise com erro
       }

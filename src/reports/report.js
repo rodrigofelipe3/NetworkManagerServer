@@ -1,15 +1,8 @@
-const sqlite3 = require("sqlite3").verbose();
 const xlsx = require("xlsx");
-const fs = require("fs");
 const { logToFile } = require("../utils/LogToFile");
-
-const bytesToGigabytes = (bytes) => {
-  const gigabytes = bytes / 1024 ** 3;
-  return gigabytes;
-};
+const { GetAllComputer } = require("../database/database");
 
 const Report = () => {
-  const db = new sqlite3.Database("../database/database.db");
 
   const getCurrentDateTime = () => {
     const date = new Date();
@@ -27,19 +20,19 @@ const Report = () => {
 
   const tableName = `${baseTableName}_${getCurrentDateTime()}`;
   return new Promise((resolve, reject) => {
-    db.serialize(() => {
-      db.all(
-        `SELECT host, processor, memory, hard_disk, operating_system, arch, monitors, user, poweroffhour FROM pcs`,
-        (err, rows) => {
-          if (err) {
-            logToFile(err.message);
-            resolve({ ok: false, error: err });
-          }
+    GetAllComputer((err, rows) => {
+      if (err) {
+        logToFile(err.message);
+        resolve({ ok: false, error: err });
+      }
+      try {
+        console.log("ROWS: ", rows)
+        if (rows != undefined && rows != null && rows.length > 0) {
           const presetColumns = rows.map((row) => ({
             Host: row.host,
             Usuario: row.user,
             Processador: row.processor,
-            Memoria: bytesToGigabytes(row.memory).toFixed(2) + "GB",
+            Memoria: row.memory,
             SSD: row.hard_disk,
             SO: row.operating_system,
             Arch: row.arch,
@@ -60,7 +53,7 @@ const Report = () => {
           worksheet["!merges"] = [
             { s: { r: 0, c: 0 }, e: { r: 0, c: numCols - 1 } },
           ];
-          
+
           xlsx.utils.sheet_add_aoa(
             worksheet,
             [
@@ -78,7 +71,7 @@ const Report = () => {
             ],
             { origin: "A2" }
           );
-          
+
           xlsx.utils.sheet_add_json(worksheet, presetColumns, {
             origin: "A3",
             skipHeader: true,
@@ -91,16 +84,17 @@ const Report = () => {
             },
           };
 
-          const filePath = `./reports/${tableName}.xlsx`;
+          const filePath = `C:\\Program Files\\AdminNetwork Power Manager\\Server\\reports\\${tableName}.xlsx`;
           xlsx.writeFile(workbook, filePath);
 
           resolve({ ok: true, msg: "Relatório Gerado com sucesso!" });
         }
-      );
-    });
+      } catch (e) {
+        console.log(e)
+        reject({ ok: false, msg: "Erro ao gerar Relatório: ", e });
+      }
+    })
   });
 };
-
-Report()
 
 module.exports = Report;

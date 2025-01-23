@@ -1,9 +1,10 @@
 const fs = require('fs');
-
+const path = require('path')
+const pathToFile = path.join(__dirname, '../', 'log', 'log.txt')
 
 const clearLogFile = () => {
-    if (fs.existsSync("../log/log.txt")) {
-        fs.unlink("./log.txt", (err) => {
+    if (fs.existsSync('C:\\Program Files\\AdminNetwork Power Manager\\Server\\log\\log.txt')) {
+        fs.unlink('C:\\Program Files\\AdminNetwork Power Manager\\Server\\log\\log.txt', (err) => {
             if (err) {
                 console.error('Erro ao apagar o arquivo de log:', err.message);
             } else {
@@ -18,7 +19,7 @@ const clearLogFile = () => {
 const logToFile = (message) => {
     const logMessage = `${new Date().toISOString()} - ${message}\n`;
 
-    fs.appendFile("./log/log.txt", logMessage, (err) => {
+    fs.appendFile('C:\\Program Files\\AdminNetwork Power Manager\\Server\\log\\log.txt', logMessage, (err) => {
         if (err) {
             console.error('Erro ao escrever no arquivo de log:', err.message);
         } else {

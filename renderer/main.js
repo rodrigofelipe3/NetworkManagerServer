@@ -14,6 +14,7 @@ async function createWindow() {
     height: 768,
     icon: "./src/assets/imagens/logo.ico",
     resizable: false,
+    titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
     autoHideMenuBar: true, // Esconde a barra de menu File etc.
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -58,7 +59,6 @@ const createPrompt = async (url) => {
       height: 500,
       resizable: false,
       autoHideMenuBar: true, //ESCONDE A BARRA DE MENU FIlE etc..,
-      titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
       title: "Prompt",
       icon: "./src/assets/imagens/prompt-icon.png",
       minimizable: false,
