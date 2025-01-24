@@ -69,6 +69,7 @@ export const FormLogin = () => {
             Cookies.remove("email")
             Cookies.remove("pass")
         }
+ 
         try {
             if (!validateEmail(formLogin.email)) {
                 setError(true);
@@ -78,26 +79,29 @@ export const FormLogin = () => {
                 setHelperText('');
             }
             const response = await Authenticate(formLogin);
-            if (response === true) {
+            console.log('RESPONSE: ', response)
+            if (response.ok === true) {
                 navigate('/home')
+                console.log('Navegando para HOME')
             } else {
                 navigate('/login');
                 swal({
                     title: "Error!",
-                    text: response.error,
+                    text: response.error? response.error :"Erro desconhecido.",
                     icon: "error",
                     timer: 2000,
                     button: false
                 });
             }
         } catch (err) {
-            swal({
+            /*swal({
                 title: "Error!",
-                text: err,
+                text: err? err : 'Erro desconhecido!',
                 icon: "error",
                 timer: 2000,
                 button: false
-            });
+            });*/
+            console.log(err)
         } 
     };
 
@@ -121,9 +125,7 @@ export const FormLogin = () => {
                 <CloseIconButton></CloseIconButton>
             </CloseButton>
             <ContainerLogin>
-                <LoginForm onSubmitCapture={(event) => {
-                    handleSubmit(event);
-                }}>
+                <LoginForm onSubmit={(event) => handleSubmit(event)}>
                     <ContentForm>
                         <img src={logo} alt="logo" style={{ width: "25%", height: "75%", margin: "0 auto" }} />
                     </ContentForm>

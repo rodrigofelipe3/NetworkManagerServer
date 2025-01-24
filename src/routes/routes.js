@@ -24,7 +24,7 @@ const checkToken = (req, res, next) => {
   }
 
   try {
-    const secret = process.env.SECRET;
+    const secret = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
     jwt.verify(token, secret);
     next();
   } catch (err) {
@@ -51,7 +51,7 @@ router.post("/auth/", async (req, res) => {
     const response = await AuthLogin(email, password)
     console.log(response)
     if (response.ok == true) {
-      return res.status(200).json({ ok: true, msg: response.msg })
+      return res.status(200).json({ ok: true, msg: response.msg, token: response.token })
     } else {
       return res.status(404).json({ ok: false, error: response.error })
     }
@@ -127,7 +127,8 @@ router.delete("/deletecomputer/:ip", checkToken, async (req, res) => {
 })
 
 router.delete("/deleteuser/:id", checkToken, async (req, res) => {
-  const { id } = req.body
+  const id = req.params.id
+  console.log(id)
   try {
     const response = await DeleteUserDB(id)
     return res.status(200).json({ ok: response.ok, msg: response.msg })
@@ -165,12 +166,10 @@ router.post("/adduser", checkToken, async (req, res) => {
   }
 })
 
-router.post("/createUser", async (req, res) => {
-  const {
-    name, email,password, confirmpassword
-} = req.body;
+router.post("/createUser", checkToken, async (req, res) => {
+  
   try {
-    const response = await CreateAccount(name, email,password, confirmpassword, req, res)
+    const response = await CreateAccount( req, res)
     if (response.ok == true) {
       return res.status(200).json({ ok: true, msg: response.msg })
     } else {

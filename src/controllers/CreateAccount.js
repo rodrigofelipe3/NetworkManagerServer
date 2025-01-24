@@ -1,28 +1,26 @@
 const bcrypt = require("bcrypt");
 const { getUsers, InsertUserDB } = require("../database/database");
 
-const CreateAccount = async (name, email,password, confirmpassword, req, res) => {
+const CreateAccount = async ( req, res) => {
     
-   
+    const {
+        name, email,password, confirmpassword
+    } = req.body;
     console.log(name, email, password, confirmpassword)
     if (!name) {
-        return res.status(404).json({ error: "O name não pode ser vazio ou nulo" });
+        return {ok: false, error: "O name não pode ser vazio ou nulo" }
     }
     if (!email) {
-        return res.status(404).json({ error: "O email não pode ser vazio ou nulo" });
+        return {ok: false, error: "O email não pode ser vazio ou nulo" }
     }
     if (!password) {
-        return res
-            .status(404)
-            .json({ error: "A senha não pode ser vazia ou nula" });
+        return {ok: false, error: "A senha não pode ser vazia ou nula" }
     }
     if (!confirmpassword) {
-        return res
-            .status(404)
-            .json({ error: "A confirmação de senha não pode ser vazia ou nula" });
-    }
+        return {ok: false, error: "A confirmação de senha não pode ser vazia ou nula" }
+        }
     if (confirmpassword != password) {
-        return res.status(404).json({ error: "As senhas devem ser iguais" });
+       return {ok: false, error: "As senhas devem ser iguais" }
     }
 
     //Verificar se o usuário já existe
@@ -31,14 +29,14 @@ const CreateAccount = async (name, email,password, confirmpassword, req, res) =>
             console.log('Erro ao consultar usuarios: ', err)
             logToFile('Erro ao consultar usuarios: ', err)
         }
-        const user = users.map((data)=> data.email == email? email : null)
-        return user
+        return users.filter((data)=> {return data.email == email? email : ''})
+        
     })
 
-    console.log(UserExist)
-
-    if (UserExist) {
-        return res.status(422).json({ error: "O usuário já existe" });
+    
+    
+    if (Array.isArray(UserExist) && UserExist && !UserExist.length == 0 ) {
+       return {ok: false, error: "O usuário já existe" }
     }
     const salt = await bcrypt.genSalt(12);
     const passWordHash = await bcrypt.hash(password, salt);
@@ -47,12 +45,12 @@ const CreateAccount = async (name, email,password, confirmpassword, req, res) =>
         //Salvando o usuário no Banco de Dados
         const response = await InsertUserDB(name, email, passWordHash)
         if(response.ok == true) { 
-            return res.json(200).json({ok: true, msg: 'Usuário cadastrado!'})
+            return {ok: true, msg: 'Usuário cadastrado!'}
         }else { 
-            return res.json(200).json({ok: false, msg: 'Usuário ja existe!!'})
+           return {ok: false, msg: 'Usuário ja existe!!'}
         }
     } catch (err) {
-        return res.status(500).json({ error: "Houve um erro " + err });
+        return {ok: false, error: "Houve um erro " + err }
     }
 }
 

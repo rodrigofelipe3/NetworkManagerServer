@@ -14,8 +14,8 @@ async function createWindow() {
     height: 768,
     icon: "./src/assets/imagens/logo.ico",
     resizable: false,
-    titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
-    autoHideMenuBar: true, // Esconde a barra de menu File etc.
+    //titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
+    autoHideMenuBar: false, // Esconde a barra de menu File etc.
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: false,
@@ -47,7 +47,7 @@ const createLoading = () => {
     },
   });
 
-  loadWindow.loadFile( "C:/Program Files/AdminNetwork Power Manager/win-unpacked/build/loading.html"); // Certifique-se de ter o arquivo de loading.
+  loadWindow.loadFile( "C:/Program Files/AdminNetwork Power Manager/build/loading.html"); // Certifique-se de ter o arquivo de loading.
   loadWindow.setTitle("Loading");
 };
 
@@ -96,12 +96,13 @@ const waitForServer = async () => {
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     try {
       const response = await axios.get(`http://${serverIP}:3000`);
+      console.log(`Conectando a http://${serverIP}:3000`)
       if (response.status === 200) {
         loadWindow.webContents.send("update-message", "Servidor iniciado!");
         await new Promise((resolve) => setTimeout(resolve, 1000));
         loadWindow.close();
         loadWindow = null;
-
+        
         return true;
       }
     } catch (error) {

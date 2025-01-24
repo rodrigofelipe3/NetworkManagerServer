@@ -313,10 +313,11 @@ const DeleteUserDB = (id) => {
   return new Promise((resolve, reject) => {
     db.run("DELETE FROM users WHERE id = ? ", [id], (err) => {
       if (err) {
+        console.log("Erro ao Deletar Usuário " + err)
         logToFile("Erro ao Deletar Usuário " + err)
         resolve({ ok: false, error: err })
       } else {
-        resolve({ ok: true, msg: "Usuário Deletado COm sucesso!" })
+        resolve({ ok: true, msg: "Usuário Deletado Com sucesso!" })
       }
     })
   })
