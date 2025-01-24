@@ -28,7 +28,7 @@ const createConfigJson = (serverIP) => {
 
 // Função para realizar solicitações a uma faixa de IPs
 const findIpResponse = async () => {
-  const { serverIp, startIP, endIP } = await loadConfig();
+  const { serverIP, startIP, endIP } = await loadConfig();
   if (startIP != undefined) {
     const ipToInt = (ip) =>
       ip.split(".").reduce((acc, oct) => (acc << 8) + parseInt(oct), 0);

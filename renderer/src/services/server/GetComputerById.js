@@ -4,10 +4,7 @@ import swal from "sweetalert"
 export const getComputerById = async (id) => { 
     return new Promise((resolve, reject) => {
         window.api.GetAddressIP()?.then(async (serverIP) => {
-          let token = sessionStorage.getItem(1);
-          do {
-            token = sessionStorage.getItem(1);
-          } while (token === null);
+          let token = sessionStorage.getItem('Access-Token');
           const URL = `http://${serverIP}:5000/api/computerbyid/${id}`;
           const options = {
             method: "GET",

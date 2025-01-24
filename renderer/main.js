@@ -7,15 +7,15 @@ let mainWindow;
 let promptWindow;
 let loadWindow;
 
-async function createWindow() {
+async function createWindow(page) {
   nativeTheme.themeSource = "dark";
   mainWindow = new BrowserWindow({
     width: 1366,
     height: 768,
     icon: "./src/assets/imagens/logo.ico",
     resizable: false,
-    //titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
-    autoHideMenuBar: false, // Esconde a barra de menu File etc.
+    titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
+    autoHideMenuBar: true, // Esconde a barra de menu File etc.
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: false,
@@ -26,7 +26,7 @@ async function createWindow() {
   if (serverIP == "") {
     findIpResponse();
   }
-  mainWindow.loadURL(`http://${serverIP}:3000/`);
+  mainWindow.loadURL(`http://${serverIP}:3000/${page}`);
 }
 
 const createLoading = () => {
@@ -96,6 +96,7 @@ const waitForServer = async () => {
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     try {
       const response = await axios.get(`http://${serverIP}:3000`);
+      console.log(response)
       console.log(`Conectando a http://${serverIP}:3000`)
       if (response.status === 200) {
         loadWindow.webContents.send("update-message", "Servidor iniciado!");
@@ -106,11 +107,11 @@ const waitForServer = async () => {
         return true;
       }
     } catch (error) {
-      alert(`Tentativa ${attempt} falhou. Servidor não disponível.`);
+      console.log(`Tentativa ${attempt} de conexão com o servidor http://${serverIP}:3000 falhou. Servidor não disponível.`);
     }
     await new Promise((resolve) => setTimeout(resolve, INTERVAL));
   }
-  alert(`Tentativa de Conexão falhou. Servidor não disponível.`);
+  console.log(`Tentativa de Conexão falhou. Servidor não disponível.`);
   loadWindow.close();
   loadWindow = null;
   return false;
@@ -145,6 +146,13 @@ app.whenReady().then(async () => {
   })
   ipcMain.on('close-main-window', (event, arg)=> { 
     app.quit()
+  })
+  ipcMain.on('navigate-to', async (event, arg)=> { 
+    if(arg == 'home'){ 
+      const { serverIP } = await loadConfig();
+      console.log('Navegando para: ', arg)
+      mainWindow.loadURL(`http://${serverIP}:3000/${arg}`)
+    }
   })
 });
 

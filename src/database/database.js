@@ -94,7 +94,6 @@ const RegisterComputerDB = (
   mac_address,
   network_devices,
   poweroff,
-  poweroffhour,
   powerstatus,
   status,
   lastHB
@@ -105,6 +104,7 @@ const RegisterComputerDB = (
 
       db.get("SELECT * FROM pcs WHERE host = ?", [host], (err, row) => {
         if (err) {
+          console.log('Erro ao selecionar: ', err)
           logToFile(
             "Erro ao verificar se o computador já está registrado: " + err.message
           );
@@ -114,7 +114,7 @@ const RegisterComputerDB = (
         if (row) {
           // O computador já foi registrado
           db.run(
-            "UPDATE pcs SET processor = ?, memory = ? , hard_disk = ? , operating_system = ?,  arch =?,  release =?, monitors = ? ,ip = ?, mac_address=?, network_devices = ?, poweroff = ?, poweroffhour =?, powerstatus = ?, status = ?, lasthb = ?  WHERE host = ?",
+            "UPDATE pcs SET processor = ?, memory = ? , hard_disk = ? , operating_system = ?,  arch =?,  release =?, monitors = ? ,ip = ?, mac_address=?, network_devices = ?, poweroff = ?, powerstatus = ?, status = ?, lasthb = ?  WHERE host = ?",
             [
               processor,
               memory,
@@ -127,7 +127,6 @@ const RegisterComputerDB = (
               mac_address,
               network_devices,
               poweroff,
-              poweroffhour,
               powerstatus,
               status,
               lastHB,
@@ -136,11 +135,14 @@ const RegisterComputerDB = (
             (err) => {
               if (err) {
                 logToFile("Erro ao atualizar o status: " + err.message);
+                console.log("Erro ao atualizar o status: " + err.message);
                 resolve({ok: false, error: err});
               } else {
+                console.log(`Status do computador ${host} atualizado para ${status}`)
                 logToFile(
                   `Status do computador ${host} atualizado para ${status}`
                 );
+                console.log("Computador atualizado.")
                 resolve({ok: false, msg: "Computador atualizado."});
               }
             }
@@ -161,7 +163,6 @@ const RegisterComputerDB = (
               mac_address,
               network_devices,
               poweroff,
-              poweroffhour,
               powerstatus,
               status,
               lastHB
@@ -171,6 +172,7 @@ const RegisterComputerDB = (
                 logToFile("Erro ao inserir dados: " + err.message);
                 resolve({ ok: false, error: err })
               } else {
+                console.log("Computador registrado com sucesso!")
                 resolve({ ok: true, msg: "Computador registrado com sucesso!" });
               }
             }
@@ -219,7 +221,7 @@ const GetComputerByIdDB = (id) => {
   });
 };
 
-const UpdateStatus = (status, hostname, lastHB) => {
+const UpdateStatus = (status, lastHB, hostname) => {
   
   return new Promise((resolve, reject) => {
     db.run(
@@ -227,6 +229,7 @@ const UpdateStatus = (status, hostname, lastHB) => {
       [status, lastHB, hostname],
       (err) => {
         if (err) {
+          console.log("erro ao atualizar status HEARTBEAT")
           logToFile("Erro ao atualizar o status: " + err);
           resolve(false);
         }
@@ -298,11 +301,14 @@ const UpdatePowerOfHours = (ip, time) => {
 
 const DeleteComputerDB = (ip) => {
   return new Promise((resolve, reject) => {
+    console.log('Deletando PC: ', ip)
     db.run("DELETE FROM pcs WHERE ip = ? ", [ip], (err) => {
       if (err) {
+        console.log(err)
         logToFile("Erro ao Deletar " + err)
         resolve({ ok: false, error: err })
       } else {
+        console.log("Computador deletado com sucesso! ", ip)
         resolve({ ok: true, msg: "Computador deletado com sucesso!" })
       }
     })

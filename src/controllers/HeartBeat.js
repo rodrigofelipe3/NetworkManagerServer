@@ -8,7 +8,7 @@ const HeartBeat =  (hostname, lastHB) => {
                 logToFile("Erro ao procurar computador" + err)
             }else { 
                 const response =  await UpdateStatus("Conectado", hostname, lastHB)
-                
+                console.log(lastHB)
                 if(response == true){ 
                     resolve({ok: true})
                 } else { 

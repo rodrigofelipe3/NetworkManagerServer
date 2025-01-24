@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ContainerJSX } from "../../components/Container";
 import { GetData } from "../../services/server/getData";
-import { getComputerById } from "../../services/server/GetComputerById";
-import { LoadingComponent } from "../../components/IsLoading";
 import swal from "sweetalert"
 import { InformationScreen } from "../../components/screens/ViewInformation";
 import { ComputerListScreen } from "../../components/screens/ListCompScreen";
@@ -14,31 +12,12 @@ export const HomePage = () => {
     const [viewInformation, setViewInformation] = useState(false)
     const [adressIp, setAdressip] = useState()
     const [macAdress, setMacAdress] = useState("")
-    const [isLoading, setIsLoading] = useState(false)
     const [InputValue, setInputValue] = useState("")
     const [InputValue2, setInputValue2] = useState("")
     const [connectionErr, setConnectionErr] = useState(null)
     const [selectedKey, setSelectedKey] = useState("")
     const [recharge, setRecharge] = useState(false)
     const [data, setData] = useState([{
-        id: "",
-        host: "",
-        processor: "",
-        memory: "",
-        hard_disk: "",
-        operating_system: "",
-        arch: "",
-        release: "",
-        monitors: "",
-        ip: "",
-        mac_address: "",
-        status: "",
-        network_devices: [""],
-        poweroff: '',
-        poweroffhour: ""
-    },
-    ])
-    const [dataById, setDataById] = useState([{
         id: "",
         host: "",
         processor: "",
@@ -66,18 +45,18 @@ export const HomePage = () => {
                 icon: "error",
                 timer: 2000
             })
-
+            console.log(response)
         } else {
             setData(response)
         }
     }
-    
-    
+
+
     const handleClick = async (pcs, ip, mac) => {
 
         const keyValue = pcs ? pcs : "1";
         setAdressip(ip)
-        setMacAdress(mac)   
+        setMacAdress(mac)
         setSelectedKey(keyValue);
         setViewInformation(true);
         const options = {
@@ -85,7 +64,7 @@ export const HomePage = () => {
         }
         const response = await CmdKey(adressIp, options)
         console.log(response)
-        if (response?.ok == false) { 
+        if (response?.ok == false) {
             setConnectionErr(true)
         }
     };
@@ -97,17 +76,22 @@ export const HomePage = () => {
     );
 
     useEffect(() => {
-        setIsLoading(true)
+        console.log('Entrando na Tela de Home Page')
         try {
-             if (viewInformation === false) {
+            if (viewInformation === false) {
                 handleGetData()
-                
+
             }
 
         } catch (err) {
-
+            swal({
+                title: 'Error',
+                text: err ? err : "erro desconhecido",
+                timer: 5000,
+                icon: 'error',
+                buttons: false
+            })
         } finally {
-            setIsLoading(false)
             setRecharge(false)
         }
 
@@ -115,7 +99,7 @@ export const HomePage = () => {
     return (
         <>
             <ContainerJSX>
-            {isLoading && <LoadingComponent />}
+
                 <CompHeader
                     setInputValue={setInputValue}
                     InputValue={InputValue}
@@ -130,13 +114,12 @@ export const HomePage = () => {
                         recharge={setRecharge}
                     />
                 )}
-                { viewInformation && (
-                  <InformationScreen
-                    selectedKey ={selectedKey}
-                    data={dataById}
-                    ipAdress={adressIp}
-                    macAdress={macAdress}
-                    viewInformation={setViewInformation}
+                {viewInformation && (
+                    <InformationScreen
+                        selectedKey={selectedKey}
+                        ipAdress={adressIp}
+                        macAdress={macAdress}
+                        viewInformation={setViewInformation}
                     />
                 )}
             </ContainerJSX>

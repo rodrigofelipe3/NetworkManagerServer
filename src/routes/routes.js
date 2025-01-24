@@ -76,8 +76,7 @@ router.get("/computers", checkToken, (req, res) => {
 
 
 router.post("/registerComputer", async (req, res) => {
-  const status = "Conectado"
-  const response = await RegisterComputer(req, res, status);
+  const response = await RegisterComputer(req, res);
   if (response.ok == true) {
     return res.status(200).json({ ok: true, msg: response.msg });
   } else if (response.ok == false && response.msg) {

@@ -81,7 +81,7 @@ export const FormLogin = () => {
             const response = await Authenticate(formLogin);
             console.log('RESPONSE: ', response)
             if (response.ok === true) {
-                navigate('/home')
+                window.api.NavigateTo('home')
                 console.log('Navegando para HOME')
             } else {
                 navigate('/login');
@@ -94,14 +94,13 @@ export const FormLogin = () => {
                 });
             }
         } catch (err) {
-            /*swal({
+            swal({
                 title: "Error!",
                 text: err? err : 'Erro desconhecido!',
                 icon: "error",
                 timer: 2000,
                 button: false
-            });*/
-            console.log(err)
+            });
         } 
     };
 

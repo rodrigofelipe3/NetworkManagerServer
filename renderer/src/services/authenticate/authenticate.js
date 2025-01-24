@@ -33,7 +33,7 @@ export const Authenticate = async (formLogin) => {
           }
         })
         .catch((err) => {
-          return { err: "Erro: " + err };
+          resolve({ Ok: false, error: "Erro: " + err });
         });
     });
   });
@@ -43,9 +43,3 @@ export const UserAuthenticated = () => {
   return !sessionStorage.getItem("Access-Token") ? false : true;
 };
 
-export const ClienteAuthenticated = () => {
-  return !sessionStorage.getItem("Access-Token") &&
-    sessionStorage.getItem("Type") === "Usuário"
-    ? false
-    : true;
-};

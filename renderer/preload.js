@@ -16,5 +16,6 @@ contextBridge.exposeInMainWorld('api', {
   send: (channel, data) => {
     ipcRenderer.send(channel, data);
   },
-  GetAddressIP: ()=> ipcRenderer.invoke('serverip')
+  GetAddressIP: ()=> ipcRenderer.invoke('serverip'),
+  NavigateTo: (page)=> ipcRenderer.send('navigate-to', page)
 });

@@ -10,26 +10,6 @@ import swal from "sweetalert";
 
 export const InformationScreen = ({
     selectedKey,
-    data = [{
-
-        id: "",
-        host: "",
-        processor: "",
-        memory: "",
-        hard_disk: "",
-        operating_system: "",
-        arch: "",
-        release: "",
-        monitors: "",
-        ip: "",
-        mac_address: "",
-        status: "",
-        network_devices: [""],
-        poweroff: '',
-        poweroffhour: ""
-
-    },
-    ],
     ipAdress,
     macAdress,
     viewInformation,

@@ -2,11 +2,13 @@ import swal from "sweetalert";
 
 export const Wake_On_Lan = async (data) => {
   window.api.GetAddressIP()?.then(async (serverIP) => {
+    let token = sessionStorage.getItem('Access-Token');
     const URL = `http://${serverIP}:5000/api/wakeonlan`;
     const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
     };
