@@ -15,7 +15,7 @@ async function createWindow(page) {
     icon: "./src/assets/imagens/logo.ico",
     resizable: false,
     titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
-    autoHideMenuBar: true, // Esconde a barra de menu File etc.
+    autoHideMenuBar: false, // Esconde a barra de menu File etc.
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: false,
