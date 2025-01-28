@@ -241,7 +241,7 @@ export const FloatButton = ({
     }
     return (
         <>
-            <div onContextMenu={handleContextMenu} style={{ width: "100%", display: "flex" }}>
+            <div onContextMenu={handleContextMenu}>
 
                 {taskkill && !settings &&
                     <Menu top={menuPosition.y} left={menuPosition.x} visible={visible}>

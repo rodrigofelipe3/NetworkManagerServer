@@ -93,7 +93,6 @@ const RegisterComputerDB = (
   ip,
   mac_address,
   network_devices,
-  poweroff,
   powerstatus,
   status,
   lastHB
@@ -114,7 +113,7 @@ const RegisterComputerDB = (
         if (row) {
           // O computador já foi registrado
           db.run(
-            "UPDATE pcs SET processor = ?, memory = ? , hard_disk = ? , operating_system = ?,  arch =?,  release =?, monitors = ? ,ip = ?, mac_address=?, network_devices = ?, poweroff = ?, powerstatus = ?, status = ?, lasthb = ?  WHERE host = ?",
+            "UPDATE pcs SET processor = ?, memory = ? , hard_disk = ? , operating_system = ?,  arch =?,  release =?, monitors = ? ,ip = ?, mac_address=?, network_devices = ?, poweroff = 0, powerstatus = ?, status = ?, lasthb = ?  WHERE host = ?",
             [
               processor,
               memory,
@@ -126,7 +125,6 @@ const RegisterComputerDB = (
               ip,
               mac_address,
               network_devices,
-              poweroff,
               powerstatus,
               status,
               lastHB,
@@ -149,7 +147,7 @@ const RegisterComputerDB = (
           );
         } else {
           db.run(
-            "INSERT INTO pcs (host, processor, memory, hard_disk, operating_system, arch, release, monitors, ip, mac_address, network_devices, poweroff, poweroffhour, powerstatus, status, lasthb) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO pcs (host, processor, memory, hard_disk, operating_system, arch, release, monitors, ip, mac_address, network_devices,  powerstatus, status, lasthb) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
               host,
               processor,
@@ -162,7 +160,6 @@ const RegisterComputerDB = (
               ip,
               mac_address,
               network_devices,
-              poweroff,
               powerstatus,
               status,
               lastHB
@@ -199,7 +196,6 @@ const InsertUserDB = (name, email, password) => {
 const GetAllComputer = (callback) => {
   db.all("SELECT * FROM pcs", [], (err, rows) => {
     if (err) {
-     
       logToFile("Erro ao consultar dados:", err.message);
       callback(err, null);
     } else {
@@ -212,7 +208,6 @@ const GetComputerByIdDB = (id) => {
   return new Promise((resolve, reject) => {
     db.get("SELECT * FROM pcs WHERE id = ?", [id], (err, row) => {
       if (err) {
-        
         logToFile("Houve um erro ao consultar o computador pelo ID: " + err);
         return resolve({ ok: false }); // Resolva a Promise com erro
       }
@@ -221,12 +216,12 @@ const GetComputerByIdDB = (id) => {
   });
 };
 
-const UpdateStatus = (status, lastHB, hostname) => {
+const UpdateStatus = (status, lastHB, powerstatus, hostname) => {
   
   return new Promise((resolve, reject) => {
     db.run(
-      "UPDATE pcs SET status = ?, lasthb = ? WHERE host = ?",
-      [status, lastHB, hostname],
+      "UPDATE pcs SET status = ?, lasthb = ?, powerstatus = ? WHERE host = ?",
+      [status, lastHB, powerstatus, hostname],
       (err) => {
         if (err) {
           console.log("erro ao atualizar status HEARTBEAT")
@@ -241,8 +236,8 @@ const UpdateStatus = (status, lastHB, hostname) => {
 
 const UpdateStatusToOff = (status, hostname) => {
   db.run(
-    "UPDATE pcs SET status = ? WHERE host = ?",
-    [status, hostname],
+    "UPDATE pcs SET status = ? powerstatus = ? WHERE host = ?",
+    [status, 0,hostname],
     (err) => {
       if (err) {
         logToFile("Erro ao atualizar o status: " + err);

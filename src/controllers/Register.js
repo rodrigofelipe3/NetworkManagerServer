@@ -2,7 +2,7 @@ const { RegisterComputerDB } = require("../database/database")
 const {logToFile} = require("../utils/LogToFile")
 
 const RegisterComputer = async (req, res)=> { 
-    const {host , processor, memory, hard_disk, operating_system, arch, release, monitors, ip, mac_address, network_devices, poweroff,  powerstatus} = req.body;
+    const {host , processor, memory, hard_disk, operating_system, arch, release, monitors, ip, mac_address, network_devices,  powerstatus} = req.body;
     
     const status = "Conectado"
     const lastHB = new Date(Date.now())
@@ -21,7 +21,7 @@ const RegisterComputer = async (req, res)=> {
     }
     
     try{
-        const response = await RegisterComputerDB(host , processor, memory, String(hard_disk), operating_system, arch, release, String(monitors), ip, mac_address, JSON.stringify(network_devices), poweroff,  powerstatus, status, lastHB)  
+        const response = await RegisterComputerDB(host , processor, memory, String(hard_disk), operating_system, arch, release, String(monitors), ip, mac_address, JSON.stringify(network_devices),  powerstatus, status, lastHB)  
         return response
     }catch (err){ 
         logToFile("Erro ao registrar " + err)

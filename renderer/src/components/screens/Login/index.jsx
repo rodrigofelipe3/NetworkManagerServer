@@ -39,7 +39,7 @@ export const FormLogin = () => {
             [name]: value,
         }));
     };
-    const closeMainWindow = () => { 
+    const closeMainWindow = () => {
         window.api.CloseMainWindow()
     }
     useEffect(() => {
@@ -69,7 +69,7 @@ export const FormLogin = () => {
             Cookies.remove("email")
             Cookies.remove("pass")
         }
- 
+
         try {
             if (!validateEmail(formLogin.email)) {
                 setError(true);
@@ -87,7 +87,7 @@ export const FormLogin = () => {
                 navigate('/login');
                 swal({
                     title: "Error!",
-                    text: response.error? response.error :"Erro desconhecido.",
+                    text: response.error ? response.error : "Erro desconhecido.",
                     icon: "error",
                     timer: 2000,
                     button: false
@@ -96,12 +96,12 @@ export const FormLogin = () => {
         } catch (err) {
             swal({
                 title: "Error!",
-                text: err? err : 'Erro desconhecido!',
+                text: err ? err : 'Erro desconhecido!',
                 icon: "error",
                 timer: 2000,
                 button: false
             });
-        } 
+        }
     };
 
 
@@ -119,12 +119,20 @@ export const FormLogin = () => {
 
     return (
         <>
-            <ContainerJSX/>
-            <CloseButton onClick={()=> closeMainWindow()}>
+            <ContainerJSX />
+            <CloseButton onClick={() => closeMainWindow()}>
                 <CloseIconButton></CloseIconButton>
             </CloseButton>
             <ContainerLogin>
-                <LoginForm onSubmit={(event) => handleSubmit(event)}>
+                <LoginForm 
+                    onSubmit={handleSubmit}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                            e.preventDefault();
+                            handleSubmit(e);
+                        }
+                    }}
+                >
                     <ContentForm>
                         <img src={logo} alt="logo" style={{ width: "25%", height: "75%", margin: "0 auto" }} />
                     </ContentForm>

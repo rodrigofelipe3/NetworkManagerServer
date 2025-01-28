@@ -7,9 +7,9 @@ const consolebg = require("../../../assets/imagens/network-console.png")
 export const GridContent = styled.div `
     width: 100%;
     margin: 0 auto;
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    grid-template-columns: auto auto auto auto;
     
 `
 

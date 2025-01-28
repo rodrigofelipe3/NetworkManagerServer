@@ -2,7 +2,7 @@ import swal from "sweetalert";
 import { CreateShutDown } from "../cliente/Shutdown";
 
 export const RemoveShutdownDB = async (
-  data = { poweroff: "", poweroffhour: 0, ip: "" }
+  data = { poweroff: "", poweroffhour: 'none', ip: "" }
 ) => {
   return new Promise(async (resolve, reject) => {
     return new Promise((resolve, reject) => {
@@ -61,7 +61,6 @@ export const RemoveShutdownDB = async (
 export const UpdatePowerOffDB = async (
   data = { poweroff: "", poweroffhour: "", ip: "" }
 ) => {
-  console.log(data);
   const response1 = await CreateShutDown(data.ip, data.poweroffhour);
 
   return new Promise(async (resolve, reject) => {

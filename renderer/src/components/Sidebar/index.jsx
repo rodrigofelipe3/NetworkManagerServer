@@ -45,12 +45,17 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
                         timer: 2000
                     })
                 } else if (response == null || response == undefined) {
-
-                } else {
                     swal({
                         title: "Error!",
-                        text: response.error,
+                        text: 'Erro ao desligar o computador',
                         icon: "error",
+                        timer: 2000
+                    })
+                } else {
+                    swal({
+                        title: "Feito!",
+                        text: 'Computador Desligado!',
+                        icon: "success",
                         timer: 2000
                     })
                 }
@@ -118,20 +123,19 @@ export const SideBar = ({ collapsed, ipAddress, macAddress, viewInformation }) =
     }
     const handleRestart = () => {
         const response = Restart(ipAddress)
-        if (response.ok == true) {
-            swal({
-                title: "Feito!",
-                text: response.msg,
-                icon: "success",
-                timer: 2000
-            })
-        } else if (response == null || response == undefined) {
-
-        } else {
+        
+        if (response == null || response == undefined) {
             swal({
                 title: "Error!",
-                text: response.error,
+                text: 'Erro ao enviar comando de Reiniciar',
                 icon: "error",
+                timer: 2000
+            })
+        } else {
+            swal({
+                title: "Feito!",
+                text: 'Computador Desligado',
+                icon: "success",
                 timer: 2000
             })
         }
