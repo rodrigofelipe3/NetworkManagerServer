@@ -71,9 +71,9 @@ export const HomePage = () => {
     };
 
     const filteredComputers = data.filter(computer =>
-        computer.host.toLowerCase().includes(InputValue.toLowerCase() || InputValue2.toLowerCase()) ||
-        computer.status.toLowerCase().includes(InputValue.toLowerCase() || InputValue2.toLowerCase()) ||
-        computer.poweroff === Number(InputValue) || Number(InputValue2) || computer.department.toLowerCase().includes(InputValue.toLowerCase())
+        (computer.host && computer.host.toLowerCase().includes(InputValue.toLowerCase() || InputValue2.toLowerCase())) ||
+        (computer.status && computer.status.toLowerCase().includes(InputValue.toLowerCase() || InputValue2.toLowerCase())) ||
+        (computer.department && computer.department.toLowerCase().includes(InputValue.toLowerCase()))
     );
 
     useEffect(() => {
