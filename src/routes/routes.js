@@ -1,10 +1,10 @@
 const express = require("express");
 const RegisterComputer = require("../controllers/Register");
-const { GetAllComputer, addUserDB, UpdatePowerOffState, DeleteUserDB, InsertUserDB } = require("../database/database");
+const { GetAllComputer, addUserDB, UpdatePowerOffState, DeleteUserDB, InsertUserDB, InsertPeriphals, addDepartmentDB } = require("../database/database");
 const HeartBeat = require("../controllers/HeartBeat");
 const { logToFile } = require("../utils/LogToFile");
 const router = express.Router();
-const Report = require("../reports/report")
+const { Report, ReportPeriphals } = require("../reports/report")
 const { GetComputerById, DeleteComputer } = require("../controllers/Computer");
 const { WakeOnLan } = require("../controllers/WakeOnLan");
 const { GetClientVersion } = require("../utils/GetClientVersion");
@@ -72,9 +72,6 @@ router.get("/computers", checkToken, (req, res) => {
   });
 });
 
-
-
-
 router.post("/registerComputer", async (req, res) => {
   const response = await RegisterComputer(req, res);
   if (response.ok == true) {
@@ -84,6 +81,25 @@ router.post("/registerComputer", async (req, res) => {
   } else {
     return res.status(500).json({ ok: false, error: response.error });
   }
+});
+
+router.post("/addtradeperiphals", checkToken, async (req, res) => {
+  const { data, product, department, delivered_by, receiver_name, reason, price } = req.body
+  if (!product || !department || !delivered_by || !receiver_name || !reason || !price || !data) return res.status(401).json({ ok: false, error: 'Preencha todos os campos' })
+  let priceSplited = price.split('R$')
+  let priceFormatted = priceSplited[1].replace(',', '.')
+  console.log(parseFloat(priceFormatted))
+  try {
+    const response = await InsertPeriphals(data, product, department, delivered_by, receiver_name, reason, parseFloat(priceFormatted))
+    if (response.ok == true) {
+      return res.status(200).json({ ok: true, msg: response.msg })
+    } else if (response.ok == false) {
+      return res.status(404).json({ ok: false, msg: response.error })
+    }
+  } catch (err) {
+    return res.status(500).json({ ok: false, error: err })
+  }
+
 });
 
 router.post("/heartbeat/:name", async (req, res) => {
@@ -151,24 +167,39 @@ router.post("/wakeonlan", checkToken, async (req, res) => {
 })
 
 router.post("/adduser", checkToken, async (req, res) => {
-  const { user, ip } = req.body
-  try {
-    const response = await addUserDB(user, ip)
-    if (response.ok == true) {
-      return res.status(200).json({ ok: true, msg: response.msg })
-    } else {
-      return res.status(404).json({ ok: false, error: response.error })
+  const { user, ip, type } = req.body
+  if (type == 'user') {
+    try {
+      const response = await addUserDB(user, ip)
+      if (response.ok == true) {
+        return res.status(200).json({ ok: true, msg: response.msg })
+      } else {
+        return res.status(400).json({ ok: false, error: response.error })
+      }
+    } catch (err) {
+      logToFile(err)
+      return res.status(500).json({ ok: false, error: err })
     }
-  } catch (err) {
-    logToFile(err)
-    return res.status(500).json({ ok: false, error: err })
+  }else if(type == 'department'){ 
+    try {
+      const response = await addDepartmentDB(user, ip)
+      if (response.ok == true) {
+        return res.status(200).json({ ok: true, msg: response.msg })
+      } else {
+        return res.status(400).json({ ok: false, error: response.error })
+      }
+    } catch (err) {
+      logToFile(err)
+      return res.status(500).json({ ok: false, error: err })
+    }
   }
+
 })
 
-router.post("/createUser", checkToken, async (req, res) => {
-  
+router.post("/createUser", async (req, res) => {
+
   try {
-    const response = await CreateAccount( req, res)
+    const response = await CreateAccount(req, res)
     if (response.ok == true) {
       return res.status(200).json({ ok: true, msg: response.msg })
     } else {
@@ -197,17 +228,32 @@ router.put("/updatepoweroff", checkToken, async (req, res) => {
 
 })
 
-router.post("/report", checkToken, async (req, res) => {
-  try {
-    const response = await Report()
-    if (response.ok == true) {
-      return res.status(200).json({ ok: true, msg: response.msg })
-    } else {
-      return res.status(404).json({ ok: false, error: response.error })
+router.post("/report/:type", checkToken, async (req, res) => {
+  const type = req.params.type
+  if (type == 'pcs') {
+    try {
+      const response = await Report()
+      if (response.ok == true) {
+        return res.status(200).json({ ok: true, msg: response.msg })
+      } else {
+        return res.status(404).json({ ok: false, error: response.error })
+      }
+    } catch (err) {
+      return res.status(500).json({ ok: false, error: err })
     }
-  } catch (err) {
-    return res.status(500).json({ ok: false, error: err })
+  } else if (type == 'periphals') {
+    try {
+      const response = await ReportPeriphals()
+      if (response.ok == true) {
+        return res.status(200).json({ ok: true, msg: response.msg })
+      } else {
+        return res.status(404).json({ ok: false, error: response.error })
+      }
+    } catch (err) {
+      return res.status(500).json({ ok: false, error: err })
+    }
   }
+
 })
 
 router.post('/updates', async (req, res) => {
@@ -216,7 +262,9 @@ router.post('/updates', async (req, res) => {
   try {
     return res.status(200).json({ ok: true, version: version.version, filepath: version.filepath, instalationpath: version.instalationpath })
   } catch (err) {
+    logToFile('Erro na rota Updates: ' + err)
     return res.status(500).json({ ok: false, data: err })
+
   }
 
 })

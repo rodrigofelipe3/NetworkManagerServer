@@ -121,17 +121,7 @@ export const ModalUserInput = styled.input `
     border: solid #000 1px;
     border-radius: 5px;
     font-size: 1.3rem;
-    width: 80%;
-    margin-bottom: 10px;
-    margin-top: 10px;
-`
-
-export const ModalPassInput = styled.input `
-    padding: 15px;
-    border: solid #000 1px;
-    border-radius: 5px;
-    width: 80%;
-    font-size: 1.3rem;
+    width: 100%;
     margin-bottom: 10px;
     margin-top: 10px;
 `

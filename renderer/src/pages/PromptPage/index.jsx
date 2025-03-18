@@ -4,8 +4,10 @@ import LogsViewer from "../../components/LogViewer";
 
 
 export const PromptPage = () => { 
-    const {ip} = useParams()
-    return (<>
-        <LogsViewer ipAddress={ip}></LogsViewer>
-    </>)
+    const {ip, type} = useParams()
+    return (
+    <>
+        <LogsViewer ipAddress={ip} type={type} ></LogsViewer>
+    </>
+    )
 }

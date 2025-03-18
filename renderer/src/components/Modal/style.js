@@ -8,13 +8,18 @@ export const ModalContainer = styled.div `
     width: ${({ width }) => width}px;
     height: ${({ height }) => height}px;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+    
+    label { 
+        color: #000;
+    }
 `
 
 export const ModalBody = styled.div `
     position: absolute;
-    left: 25%;
-    top: 25%;
-    width: 50%;
+    left: 20%;
+    top: 15%;
+    width: 60%;
+    border-radius: 2rem;
     //height: 50%;
     background-color: #fff;
     z-index: 10000;
@@ -37,7 +42,9 @@ export const ModalTitle = styled.div `
 
 export const ModalContent = styled.div `
     width: 100%;
-    padding: 35px;
+    padding-left: 3rem;
+    margin-top: 2rem;
+    margin-bottom: 7rem;
 `
 
 

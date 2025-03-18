@@ -7,7 +7,6 @@ export const CmdContent = styled.div`
     max-width: 1280px;
     margin: 0 auto;
     justify-content: center;
-    border: solid 1px #fff;
     overflow-x: hidden;
     
 `
@@ -19,6 +18,8 @@ export const CmdBody = styled.div `
     margin: 0 auto;
     width: 100%;
     height: 500px;
+    scrollbar-width: 1rem;
+    scrollbar-color: #fff;
     overflow-x: hidden;
     overflow-y: scroll; 
     word-wrap: break-word;
@@ -29,6 +30,10 @@ export const CmdBody = styled.div `
 
     p{ 
         margin: 0.500rem;
+    }
+
+    pre { 
+        margin-left: 2rem;
     }
 `
 
@@ -71,4 +76,22 @@ export const CloseIcon = styled(IoMdClose)`
     &:hover { 
         background-color: red;
     }
+`
+
+export const DivInput = styled.div `
+    margin-top: 1rem;
+    font-size: 1rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    
+`
+export const PromptInput = styled.input `
+    font-size: 1rem;
+    padding-left: 0.3rem;
+    width: 100%;
+    background-color: transparent;
+    border-color: transparent;
+    outline: none;
+    color: #fff;
 `

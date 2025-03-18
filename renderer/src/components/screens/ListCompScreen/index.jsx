@@ -10,21 +10,21 @@ export const ComputerListScreen = ({
     setInputValue,
     filter,
 }) => {
-    const poweroff = data.map((dados)=> dados.poweroff)
+    const poweroff = data.map((dados)=> dados.poweroffhour != 'none' && dados.poweroffhour != null && dados.poweroffhour != '')
     const status =  data.map((dados)=> dados.status)
     let StatusConected  = status.filter(data => data === 'Conectado').length
     let StatusDisconected  = status.filter(data => data === 'Offline').length
-    let PowerOffProgramed = poweroff.filter(data => data === 1).length
     
     const [Conected, setConected] = useState()
     const [shutdownProgramed, setShutdownProgramed] = useState()
     const [Disconected, setDisconected] = useState()
     useEffect(()=> { 
-
+        let arrayPowerOff = []
+        poweroff.filter((dados)=> dados == true? arrayPowerOff.push(dados) : undefined)
+        console.log(arrayPowerOff)
        setConected(StatusConected)
        setDisconected(StatusDisconected)
-       setShutdownProgramed(PowerOffProgramed)
-        
+       setShutdownProgramed(arrayPowerOff.length > 0? arrayPowerOff.length : 0)
     }, [data])
 
    

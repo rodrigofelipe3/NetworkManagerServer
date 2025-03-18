@@ -1,18 +1,18 @@
 import swal from "sweetalert"
 
-export const MakeReport = async (type) => { 
+export const TradePeriphals = async (formData) => { 
     return new Promise((resolve, reject) => {
         window.api.GetAddressIP()?.then(async (serverIP) => {
           let token = sessionStorage.getItem('Access-Token');
-          const URL = `http://${serverIP}:5000/api/report/${type}`;
+          const URL = `http://${serverIP}:5000/api/addtradeperiphals`;
           const options = {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
                "Authorization": `Bearer ${token}`
             },
+            body: JSON.stringify(formData)
           };
-    
           const response = await fetch(URL, options)
             .then((response) => response.json())
             .then((data) => {

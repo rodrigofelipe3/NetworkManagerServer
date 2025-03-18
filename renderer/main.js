@@ -14,8 +14,8 @@ async function createWindow(page) {
     height: 768,
     icon: "./src/assets/imagens/logo.ico",
     resizable: false,
-    titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
-    autoHideMenuBar: false, // Esconde a barra de menu File etc.
+    //titleBarStyle: 'hidden', //"ESCONDE O TITULO DO PROGRAMA "
+    autoHideMenuBar: true, // Esconde a barra de menu File etc.
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: false,
@@ -150,7 +150,6 @@ app.whenReady().then(async () => {
   ipcMain.on('navigate-to', async (event, arg)=> { 
     if(arg == 'home'){ 
       const { serverIP } = await loadConfig();
-      console.log('Navegando para: ', arg)
       mainWindow.loadURL(`http://${serverIP}:3000/${arg}`)
     }
   })

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, MenuItem } from "./style";
+import { InputDiv, Menu, MenuItem, ModalDiv } from "./style";
 import swal from "sweetalert";
 import { Taskkill } from "../../services/cliente/Taskkill";
 import { DeleteComputer } from "../../services/server/DeleteComputer";
@@ -7,7 +7,9 @@ import { addUser } from "../../services/server/addUser";
 import { RemoveShutdownDB, UpdatePowerOffDB } from "../../services/server/Shutdown";
 import { MakeReport } from "../../services/server/Report";
 import { CancelShutDown } from "../../services/cliente/Shutdown";
-
+import { Modal } from "../Modal";
+import { ModalUserInput } from "../Sidebar/style";
+import { TradePeriphals } from "../../services/server/TradePeriphals";
 
 export const FloatButton = ({
     children,
@@ -20,6 +22,18 @@ export const FloatButton = ({
     const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
     const [visible, setVisible] = useState(false);
     const [value, setValue] = useState('');
+    const [isModalView, setIsModalView] = useState(false)
+    const [price, setPrice] = useState()
+    const [dataInput, setDataInput] = useState({
+        data: '',
+        product: '',
+        department: '',
+        delivered_by: '',
+        receiver_name: '',
+        reason: '',
+        price: price
+    })
+
 
     const handleTaskkill = async (ip, pid) => {
         const response = await Taskkill(ip, pid)
@@ -33,7 +47,7 @@ export const FloatButton = ({
         } else {
             swal({
                 title: "Oops",
-                text: "Erro: " + response.error,
+                text: response.error? response.error : 'Erro desconhecido!',
                 icon: "error",
                 timer: 2000
             })
@@ -48,7 +62,7 @@ export const FloatButton = ({
             document.removeEventListener('click', handleClickOutside);
         };
     }, []);
-    const closeMainWindow = () => { 
+    const closeMainWindow = () => {
         window.api.CloseMainWindow()
     }
     const handleContextMenu = (e) => {
@@ -56,20 +70,20 @@ export const FloatButton = ({
         setMenuPosition({ x: e.pageX, y: e.pageY });
         setVisible(true);
     };
-    var inputValue;
+    var inputValue = '';
     const handleChangeUser = (e) => {
         inputValue = e.target.value;
     }
 
-    const handleConnectUser = () => { 
+    const handleConnectUser = (type) => {
         swal({
             title: "Atenção!",
-            text: "Digite o nome do usuário deste computador",
+            text: type === 'user'? "Digite o nome do usuário deste computador" : "Digite o nome do departamento deste computador",
             icon: "warning",
             content: {
                 element: "input",
                 attributes: {
-                    placeholder: "Joãozinho",
+                    placeholder: type === 'user'? "Nome do Usuário": "Nome do Departamento",
                     type: "text",
                     value: inputValue,
                     onchange: handleChangeUser
@@ -79,11 +93,12 @@ export const FloatButton = ({
 
         }).then(async (data) => {
             if (data) {
-                const formData = { 
+                const formData = {
                     user: inputValue,
-                    ip: ip
+                    ip: ip,
+                    type: type,
                 }
-                
+
                 const response = await addUser(formData)
                 if (response.ok == true) {
                     recharge(response.ok)
@@ -97,7 +112,7 @@ export const FloatButton = ({
                 } else {
                     swal({
                         title: "Error!",
-                        text: response.error,
+                        text: response.error? response.error : 'Erro desconhecido!',
                         icon: "error",
                         timer: 2000
                     })
@@ -115,19 +130,19 @@ export const FloatButton = ({
             buttons: true
         }).then(async (value) => {
             if (value) {
-                const formData = { 
+                const formData = {
                     poweroff: 0,
                     poweroffhour: 'none',
                     ip: ip,
                 }
                 console.log(formData)
                 const response = await RemoveShutdownDB(formData)
-                if(response.ok === true) { 
+                if (response.ok === true) {
                     recharge(response.ok)
                     const response1 = await CancelShutDown(ip);
-                }else if(response.ok === null || response.ok === undefined){
+                } else if (response.ok === null || response.ok === undefined) {
 
-                }else { 
+                } else {
 
                 }
             }
@@ -148,6 +163,41 @@ export const FloatButton = ({
         setValue(inputValue);
     }
 
+    const handleAddTradePeriphals = async () => {
+        const response = await TradePeriphals(dataInput)
+        if (response.ok == true) {
+            swal({
+                title: "Feito!",
+                text: response.msg ? response.msg : 'Erro desconhecido',
+                icon: "success",
+                timer: 3000
+            })
+            setDataInput({
+                data: '',
+                product: '',
+                department: '',
+                delivered_by: '',
+                receiver_name: '',
+                reason: '',
+                price: price
+            })
+            setPrice('')
+        } else if (response.ok == false) {
+            swal({
+                title: "Error!",
+                text: response.error? response.error : 'Erro desconhecido!',
+                icon: "error",
+                timer: 3000
+            })
+        }
+    }
+    const handleOnChangeModal = (e) => {
+        const { name, value } = e.target
+        setDataInput((prevData) => ({
+            ...prevData,
+            [name]: value
+        }))
+    }
     const handleCreateShutDown = async () => {
         swal({
             title: "Atenção!",
@@ -167,7 +217,7 @@ export const FloatButton = ({
         }).then(async (value) => {
             console.log(value)
             if (value) {
-                const formData = { 
+                const formData = {
                     poweroff: 1,
                     poweroffhour: value,
                     ip: ip
@@ -200,7 +250,7 @@ export const FloatButton = ({
                 } else {
                     swal({
                         title: "Error!",
-                        text: response.error,
+                        text: response.error? response.error : 'Erro desconhecido!',
                         icon: "error",
                         timer: 2000
                     })
@@ -209,7 +259,7 @@ export const FloatButton = ({
         })
     }
 
-    const handleMakeReport = async () => {
+    const handleMakeReport = async (type) => {
         swal({
             title: "Atenção!",
             text: "Tem certeza que deseja gerar Relatório?",
@@ -218,7 +268,7 @@ export const FloatButton = ({
             buttons: true
         }).then(async (value) => {
             if (value === true) {
-                const response = await MakeReport()
+                const response = await MakeReport(type)
 
                 if (response.ok === true) {
                     swal({
@@ -231,7 +281,7 @@ export const FloatButton = ({
                 } else {
                     swal({
                         title: "Error!",
-                        text: response.error,
+                        text: response.error? response.error : 'Erro desconhecido!',
                         icon: "error",
                         timer: 2000
                     })
@@ -239,8 +289,75 @@ export const FloatButton = ({
             }
         })
     }
+
+    const formatCurrency = (input) => {
+        // Remove tudo que não for número
+        let numericValue = input.replace(/\D/g, "");
+
+        // Converte para número e divide por 100 para obter formato decimal
+        let formattedValue = (Number(numericValue) / 100).toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+        });
+        setPrice(formattedValue);
+        setDataInput((prevData) => ({ ...prevData, price: formattedValue }))
+        console.log(dataInput)
+    };
+
+
+    const handleChangeData = (e) => {
+        let value = e.target.value;
+        // Remove tudo que não for número
+        value = value.replace(/\D/g, "");
+
+        // Adiciona as barras automaticamente
+        if (value.length > 2) value = value.slice(0, 2) + "/" + value.slice(2);
+        if (value.length > 5) value = value.slice(0, 5) + "/" + value.slice(5);
+
+        // Garante que o formato não ultrapasse DD/MM/AAAA
+        if (value.length > 10) value = value.slice(0, 10);
+
+        setDataInput((prevData) => ({ ...prevData, data: value }))
+    };
+
     return (
         <>
+            {isModalView &&
+                (<Modal view={setIsModalView} title={'Troca de periférico'} onClick={handleAddTradePeriphals} children={
+                    <>
+                        <ModalDiv >
+                            <InputDiv>
+                                <label htmlFor="data">Data:</label>
+                                <ModalUserInput type="text" name="data" placeholder="DD/MM/AAAA" onChange={handleChangeData} value={dataInput.data} />
+                            </InputDiv>
+                            <InputDiv>
+                                <label htmlFor="product">Produto:</label>
+                                <ModalUserInput type="text" name="product" placeholder="Teclado" onChange={handleOnChangeModal} value={dataInput.product} />
+                            </InputDiv>
+                            <InputDiv>
+                                <label htmlFor="department">Setor: </label>
+                                <ModalUserInput type="text" name="department" placeholder="Fiscal" onChange={handleOnChangeModal} value={dataInput.department} />
+                            </InputDiv>
+                            <InputDiv>
+                                <label htmlFor="delivered_by">Liberado por: </label>
+                                <ModalUserInput type="text" name="delivered_by" placeholder="Rodrigo" onChange={handleOnChangeModal} value={dataInput.delivered_by} />
+                            </InputDiv>
+                            <InputDiv>
+                                <label htmlFor="receiver_name">Para: </label>
+                                <ModalUserInput type="text" name="receiver_name" placeholder="Marcos" onChange={handleOnChangeModal} value={dataInput.receiver_name} />
+                            </InputDiv>
+
+                            <InputDiv>
+                                <label htmlFor="reason">Motivo: </label>
+                                <ModalUserInput type="text" name="reason" placeholder="Motivo para troca..." onChange={handleOnChangeModal} value={dataInput.reason} />
+                            </InputDiv>
+                            <InputDiv>
+                                <label htmlFor="price">Preço: </label>
+                                <ModalUserInput type="text" name="price" placeholder="R$ 00,00" onChange={(e) => formatCurrency(e.target.value)} value={price} />
+                            </InputDiv>
+                        </ModalDiv>
+                    </>
+                }></Modal>)}
             <div onContextMenu={handleContextMenu}>
 
                 {taskkill && !settings &&
@@ -248,17 +365,20 @@ export const FloatButton = ({
                         <MenuItem onClick={() => handleTaskkill(ip, pid)} >Finalizar tarefa</MenuItem>
                     </Menu>
                 }
-                {!taskkill && !settings && 
+                {!taskkill && !settings &&
                     <Menu top={menuPosition.y} left={menuPosition.x} visible={visible}>
+                        <MenuItem onClick={() => handleConnectUser('user')} >Definir Usuário</MenuItem>
+                        <MenuItem onClick={() => handleConnectUser('department')} >Definir Departamento</MenuItem>
                         <MenuItem onClick={() => handleDeleteComputer()} >Deletar este Computador</MenuItem>
                         <MenuItem onClick={() => handleCancelShutdown()} >Cancelar Shutdown</MenuItem>
                         <MenuItem onClick={() => handleCreateShutDown()} >Programar Shutdown</MenuItem>
-                        <MenuItem onClick={() => handleConnectUser()} >Definir Usuário</MenuItem>
                     </Menu>
                 }
-                {!taskkill && settings && 
+                {!taskkill && settings &&
                     <Menu top={menuPosition.y} left={menuPosition.x} visible={visible}>
-                        <MenuItem onClick={() => handleMakeReport()} >Relatório de Máquinas</MenuItem>
+                        <MenuItem onClick={() => setIsModalView(true)} >Adicionar troca de Periférico</MenuItem>
+                        <MenuItem onClick={() => handleMakeReport('pcs')} >Relatório de Máquinas</MenuItem>
+                        <MenuItem onClick={() => handleMakeReport('periphals')} >Relatório Troca de Periféricos</MenuItem>
                         <MenuItem onClick={() => closeMainWindow()}>Fechar Aplicação</MenuItem>
                     </Menu>
                 }

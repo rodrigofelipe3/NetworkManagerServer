@@ -2,7 +2,6 @@ const wol = require("wake_on_lan");
 const { logToFile } = require("../utils/LogToFile");
 
 const WakeOnLan = (mac) => {
-  
   return new Promise((resolve, reject) => {
     wol.wake(mac, (err) => {
       if (err) {

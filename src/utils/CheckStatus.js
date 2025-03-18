@@ -10,7 +10,7 @@ const CheckStatus = () => {
     } else {
       rows.map((pcs) => {
         const lastHbAsInt = new Date(pcs.lasthb).getTime();
-        
+        console.log(currentTime - lastHbAsInt > TIMEOUT)
         if (currentTime - lastHbAsInt > TIMEOUT && pcs.status === "Conectado") {
                 UpdateStatusToOff("Offline", pcs.host);
         }

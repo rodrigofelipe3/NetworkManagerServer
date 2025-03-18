@@ -20,9 +20,9 @@ export const Router = () => {
               </ProtectedRoutes>
             }
           />
-          <Route
+        <Route
             exact
-            path="/prompt/:ip"
+            path="/prompt/:ip/:type"
             element={
                 <PromptPage />
             }

@@ -63,6 +63,25 @@ const createTableIfNotExist = () => {
         console.log('Tabela de Usuários Criada!')
       }
     );
+    db.run(
+      `CREATE TABLE IF NOT EXISTS periphals (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    data DATE NOT NULL,
+                    product VARCHAR(255) NOT NULL,
+                    department VARCHAR(255) NOT NULL,
+                    receiver_name VARCHAR(255) NOT NULL,
+                    delivered_by VARCHAR(255) NOT NULL,
+                    reason TEXT NOT NULL,
+                    price REAL NOT NULL
+                );`,
+      (err) => {
+        if (err) {
+          console.log("Erro ao criar a tabela de Usuários:" + err)
+          logToFile("Erro ao criar a tabela de Usuários:" + err.message);
+        }
+        console.log('Tabela de periféricos Criada!')
+      }
+    );
   });
 };
 
@@ -101,7 +120,7 @@ const RegisterComputerDB = (
   return new Promise((resolve, reject) => {
     db.serialize(() => {
 
-      db.get("SELECT * FROM pcs WHERE host = ?", [host], (err, row) => {
+      db.get("SELECT * FROM pcs WHERE ip = ?", [ip], (err, row) => {
         if (err) {
           console.log('Erro ao selecionar: ', err)
           logToFile(
@@ -113,7 +132,7 @@ const RegisterComputerDB = (
         if (row) {
           // O computador já foi registrado
           db.run(
-            "UPDATE pcs SET processor = ?, memory = ? , hard_disk = ? , operating_system = ?,  arch =?,  release =?, monitors = ? ,ip = ?, mac_address=?, network_devices = ?, poweroff = 0, powerstatus = ?, status = ?, lasthb = ?  WHERE host = ?",
+            "UPDATE pcs SET processor = ?, memory = ? , hard_disk = ? , operating_system = ?,  arch =?,  release =?, monitors = ? ,host = ?, mac_address=?, network_devices = ?, poweroff = 0, powerstatus = ?, status = ?, lasthb = ?  WHERE ip = ?",
             [
               processor,
               memory,
@@ -122,13 +141,13 @@ const RegisterComputerDB = (
               arch,
               release,
               monitors,
-              ip,
+              host,
               mac_address,
               network_devices,
               powerstatus,
               status,
               lastHB,
-              host,
+              ip,
             ],
             (err) => {
               if (err) {
@@ -193,10 +212,44 @@ const InsertUserDB = (name, email, password) => {
       
 }
 
+const InsertPeriphals = (data, product, department, delivered_by, receiver_name, reason, price) => {
+  return new Promise((resolve, reject)=> { 
+    db.run(
+      "INSERT INTO periphals (data, product, department, delivered_by, receiver_name, reason, price) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [
+        data, product, department, delivered_by, receiver_name, reason, price
+      ],
+      (err) => {
+        if (err) {
+          logToFile("Erro ao inserir dados: " + err.message);
+          console.log(err)
+          reject({ ok: false, error: err })
+        } else {
+          console.log("Periferico inserido com sucesso!")
+          resolve({ ok: true, msg: "Periferico inserido com sucesso!" });
+        }
+      }
+    );
+  }) 
+  
+}
+
 const GetAllComputer = (callback) => {
   db.all("SELECT * FROM pcs", [], (err, rows) => {
     if (err) {
       logToFile("Erro ao consultar dados:", err.message);
+      callback(err, null);
+    } else {
+      callback(null, rows);
+    }
+  });
+};
+
+const GetPeriphals = (callback) => {
+  db.all("SELECT * FROM periphals", [], (err, rows) => {
+    if (err) {
+      console.log('Erro ao consultar dados Periphals ', err)
+      logToFile("Erro ao consultar dados Periphals:", err.message);
       callback(err, null);
     } else {
       callback(null, rows);
@@ -235,9 +288,10 @@ const UpdateStatus = (status, lastHB, powerstatus, hostname) => {
 };
 
 const UpdateStatusToOff = (status, hostname) => {
+  console.log(status, hostname)
   db.run(
-    "UPDATE pcs SET status = ? powerstatus = ? WHERE host = ?",
-    [status, 0,hostname],
+    "UPDATE pcs SET status = ?, powerstatus = 0 WHERE host = ?",
+    [status,hostname],
     (err) => {
       if (err) {
         logToFile("Erro ao atualizar o status: " + err);
@@ -336,9 +390,22 @@ const addUserDB = (user, ip) => {
     })
   })
 }
-
+const addDepartmentDB = (department, ip) => { 
+  return new Promise((resolve, reject)=>{
+    db.run('UPDATE pcs SET department = ? WHERE ip = ?', [department, ip], (err)=> { 
+      if(err){ 
+        logToFile("Erro ao Atualizar o nome do Departamento" + err)
+        console.log(err)
+        resolve({ok: false, error: err})
+      }else { 
+        resolve({ok: true, msg: "Departamento atualizado com sucesso!"})
+      }
+    })
+  })
+}
 
 module.exports = {
+  addDepartmentDB,
   DeleteUserDB,
   InsertUserDB,
   getUsers,
@@ -352,5 +419,7 @@ module.exports = {
   addUserDB,
   UpdatePowerOffState,
   UpdateOnPowerOff,
-  UpdatePowerOfHours
+  UpdatePowerOfHours,
+  InsertPeriphals,
+  GetPeriphals
 };

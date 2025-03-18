@@ -1,31 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
-import { CmdBody, CmdContent } from './style';
+import { CmdBody, CmdContent, DivInput, PromptInput } from './style';
 
-const LogsViewer = React.memo(({ ipAddress }) => {
+const LogsViewer = React.memo(({ ipAddress, type}) => {
     const [logs, setLogs] = useState(''); // Armazena a saída completa como string
-    const { sendMessage, lastMessage, readyState } = useWebSocket(`ws://${ipAddress}:5002`, {
+    const [viewInput, setViewInput] = useState(true)
+    const messagesEndRef = useRef(null);
+    const promptRef = useRef(null)
+    const [InputValue, setInputValue] = useState({ type: type, command: '' })
+
+    const { sendMessage, lastMessage, readyState } = useWebSocket(`ws://${ipAddress}/${type}`, {
         onOpen: () => { console.log('COnexão estabelecida com o servidor') },
         onClose: () => {
-            console.log('Conexão encerrada.');;
-            sendMessage('close')
+            console.log('Conexão encerrada.');
         },
         onError: (error) => {
             console.log('Erro:', error);
         },
-        shouldReconnect: () => false,
+        shouldReconnect: () => true,
     });
 
-    // Atualiza os logs ao receber novas mensagens
+    const handleOnChange = (e) => {
+        const { name, value } = e.target
+        setInputValue((prevData) => ({
+            ...prevData,
+            [name]: value
+        }))
+    }
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
     useEffect(() => {
         if (lastMessage?.data) {
-            setLogs((prevLogs) => prevLogs + lastMessage.data + '\n'); // Adiciona nova mensagem com quebra de linha
+            console.log(lastMessage?.data)
+            setLogs((prevLogs) => prevLogs + lastMessage.data + '\n');
         }
 
-        return () => {
-            sendMessage('close')
+        if (lastMessage?.data == 'await') setViewInput(false)
+        else if (lastMessage?.data !== 'await') {
+            setViewInput(true)
+            
         }
     }, [lastMessage]);
+
+    useEffect(()=> { 
+        if(viewInput && promptRef.current) { 
+            promptRef.current.focus()
+        }
+        scrollToBottom()
+    }, [logs, viewInput])
 
     // Status da conexão
     const connectionStatus = {
@@ -45,6 +71,20 @@ const LogsViewer = React.memo(({ ipAddress }) => {
                 <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
                     {logs}
                 </pre>
+                {viewInput &&
+                    <DivInput ref={messagesEndRef}>C:/Windows/System32>
+                        <PromptInput ref={promptRef} type="text" placeholder='' onChange={handleOnChange} value={InputValue.command} name='command' onKeyDown={(e) => {
+                            if (e.key == "Enter") {
+                                e.preventDefault()
+                                sendMessage(JSON.stringify(InputValue))
+                                setInputValue({ type: 'CLI', command: '' })
+                                setViewInput(false)
+                            }
+                        }} />
+                    </DivInput>
+                }
+
+
             </CmdBody>
         </CmdContent>
     );

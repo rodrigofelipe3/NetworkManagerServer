@@ -28,6 +28,8 @@ export const HomePage = () => {
         release: "",
         monitors: "",
         ip: "",
+        user: '',
+        department: '',
         mac_address: "",
         status: "",
         network_devices: [""],
@@ -41,11 +43,10 @@ export const HomePage = () => {
         if (response.error) {
             swal({
                 title: "Oops..",
-                text: "Error " + response.error,
+                text: response.error ? response.error : "Erro desconhecido!",
                 icon: "error",
                 timer: 2000
             })
-            console.log(response)
         } else {
             setData(response)
         }
@@ -72,7 +73,7 @@ export const HomePage = () => {
     const filteredComputers = data.filter(computer =>
         computer.host.toLowerCase().includes(InputValue.toLowerCase() || InputValue2.toLowerCase()) ||
         computer.status.toLowerCase().includes(InputValue.toLowerCase() || InputValue2.toLowerCase()) ||
-        computer.poweroff === Number(InputValue) || Number(InputValue2)
+        computer.poweroff === Number(InputValue) || Number(InputValue2) || computer.department.toLowerCase().includes(InputValue.toLowerCase())
     );
 
     useEffect(() => {

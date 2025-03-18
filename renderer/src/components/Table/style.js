@@ -129,6 +129,7 @@ export const TableRow = styled.tr`
   }
 
   #task-name {
+    padding: 1rem;
     text-align: start;
   }
 

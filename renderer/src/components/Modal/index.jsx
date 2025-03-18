@@ -12,7 +12,6 @@ export const Modal = ({title, children, onClick, view}) => {
           height: window.innerHeight,
         });
       
-        // Função para atualizar o tamanho do modal
         const updateModalSize = () => {
           setModalSize({
             width: document.body.clientWidth,
@@ -21,13 +20,9 @@ export const Modal = ({title, children, onClick, view}) => {
         };
       
         useEffect(() => {
-          // Atualiza o tamanho inicial do modal
           updateModalSize();
-      
-          // Adiciona o evento resize para redimensionamento em tempo real
           window.addEventListener("resize", updateModalSize);
       
-          // Remove o evento ao desmontar o componente
           return () => window.removeEventListener("resize", updateModalSize);
         }, []);
         

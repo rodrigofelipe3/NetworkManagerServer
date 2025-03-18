@@ -37,7 +37,6 @@ export const Table = ({
         usedmemory: 0,
         totalmemory: 0,
         freemem: 0,
-        temp: 0
     });
 
     const [Processos, setProcessos] = useState([{ Name: '', Id: '', Memory_MB: '' }])
@@ -82,14 +81,14 @@ export const Table = ({
         if (processesData != undefined) {
             const processes = JSON.parse(processesData)
             setProcessos(processes)
-            const { usage, memper, usedmemory, totalmemory, freemem, temp } = initialDataObject;
+            const { usage, memper, usedmemory, totalmemory, freemem } = initialDataObject;
             setSystemInfo({
                 usage,
                 memper,
                 usedmemory,
                 totalmemory,
                 freemem,
-                temp
+                
             });
         }
 
@@ -102,12 +101,12 @@ export const Table = ({
             {isTaskManager &&
 
                 <TopContent>
-                    {connectionStatus == "Open" ? (
+                    {/*connectionStatus == "Open" ? (
                         <div id="StopButton">
                             <h3>Parar Métricas: </h3>
                             <StopButton onClick={() => sendMessage('close')} />
                         </div>
-                    ) : undefined}
+                    ) : undefined*/}
                     <div id="DisplayGrid">
                         <div id='Content-CPU'>
                             <div id="div-cpu-percent">
@@ -119,15 +118,7 @@ export const Table = ({
                             </div>
 
                         </div>
-                        <div id='Content-CPU'>
-                            <div id="div-cpu-temp">
-                                <h2>Temperatura da CPU</h2>
-                                <h2>{systemInfo.temp}º</h2>
-                            </div>
-                            <div id="div-chart">
-                                <Chart value={systemInfo.temp} startAngle={-90} endAngle={90} />
-                            </div>
-                        </div>
+                        
                         <div id='Content-Memory'>
                             <div id="div-memory-percent">
                                 <h2 style={{ marginBottom: '0' }}>RAM</h2>
@@ -233,6 +224,11 @@ export const Table = ({
                         <TableRow>
                             <TableCell id="information">
                                 Status: <p id="type">{information.status ? information.status : "NULL"}</p>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell id="information">
+                                Horário de Desligamento: <p id="type">{information.poweroffhour && information.poweroffhour != 'none'? information.poweroffhour : "Sem hora para desligar"}</p>
                             </TableCell>
                         </TableRow>
                     </TableBody>
