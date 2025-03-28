@@ -135,15 +135,14 @@ export const FloatButton = ({
                     poweroffhour: 'none',
                     ip: ip,
                 }
-                console.log(formData)
                 const response = await RemoveShutdownDB(formData)
                 if (response.ok === true) {
+                    await CancelShutDown(ip)
                     recharge(response.ok)
-                    const response1 = await CancelShutDown(ip);
                 } else if (response.ok === null || response.ok === undefined) {
-
+                    return
                 } else {
-
+                    return
                 }
             }
         })
@@ -224,6 +223,7 @@ export const FloatButton = ({
                 }
                 const response = await UpdatePowerOffDB(formData)
                 recharge(response.ok)
+                
             }
         })
     }

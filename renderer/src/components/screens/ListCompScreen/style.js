@@ -1,19 +1,21 @@
 import styled from "styled-components";
 import CountUp from 'react-countup';
 import { FaEllipsisVertical } from "react-icons/fa6";
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 const consolebg = require("../../../assets/imagens/network-console.png")
 
 
-export const GridContent = styled.div `
-    width: 100%;
+export const GridContent = styled.div`
+    width: 87%;
     margin: 0 auto;
+    padding-bottom: 1.5rem;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: start;
     
 `
 
-export const HeaderContent = styled.div `
+export const HeaderContent = styled.div`
     width: 90%;
     display: flex;
     justify-content: space-around;
@@ -22,7 +24,7 @@ export const HeaderContent = styled.div `
 
 `
 
-export const Console = styled.div `
+export const Console = styled.div`
     width: 15rem;
     height: 7rem;
     display: flex;
@@ -65,4 +67,23 @@ export const VerticalIcon = styled(FaEllipsisVertical)`
         color: #fff;
         background-color: #0056C6;
     }
+`
+
+export const DepartmentDiv = styled.div`
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    color: #fff;
+
+    h2 { 
+        margin-left: 8%;
+        margin-bottom: 1%;
+    }
+`
+export const ArrowRightIcon = styled(KeyboardDoubleArrowRightIcon)`
+    width: 3rem;
+    color: #fff;
+    transition: transform 0.3s ease-in-out; // Animação suave
+    transform: rotate(${(props) => (props.rotate ? "90deg" : "0deg")});
+    cursor: pointer;
 `

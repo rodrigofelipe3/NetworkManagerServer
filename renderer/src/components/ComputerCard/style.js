@@ -7,6 +7,7 @@ export const CardBody = styled.div `
     background-color: #242424;
     border-radius: 0.900rem;
     cursor: pointer;
+    width: 375px;
 
     &:hover{ 
         background-color: #202020;
@@ -42,6 +43,10 @@ export const CardContent = styled.div `
         text-align: start;
         padding: 1rem;
         align-content: center;
+
+        h3 { 
+            font-size: 100%;
+        }
     }
 
     & img { 

@@ -4,7 +4,7 @@ import useWebSocket from 'react-use-websocket';
 const WebSocketContext = createContext(null);
 
 export const WebSocketProvider = ({ children, ipAddress, connectionError}) => {
-    const { sendMessage, lastMessage, readyState } = useWebSocket(`ws://${ipAddress}:443`, {
+    const { sendMessage, lastMessage, readyState } = useWebSocket(`ws://${ipAddress}:446`, {
         onOpen: () => {
             console.log('Conectado ao servidor cliente via WebSocket.')
         },

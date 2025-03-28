@@ -1,10 +1,8 @@
 import swal from "sweetalert";
-import { CreateShutDown } from "../cliente/Shutdown";
 
 export const RemoveShutdownDB = async (
   data = { poweroff: "", poweroffhour: 'none', ip: "" }
 ) => {
-  return new Promise(async (resolve, reject) => {
     return new Promise((resolve, reject) => {
       window.api.GetAddressIP()?.then(async (serverIP) => {
         let token = sessionStorage.getItem('Access-Token');
@@ -55,16 +53,12 @@ export const RemoveShutdownDB = async (
           });
       });
     });
-  });
 };
 
 export const UpdatePowerOffDB = async (
   data = { poweroff: "", poweroffhour: "", ip: "" }
 ) => {
-  const response1 = await CreateShutDown(data.ip, data.poweroffhour);
-
   return new Promise(async (resolve, reject) => {
-    if (response1.ok == true) {
       window.api.GetAddressIP()?.then(async (serverIP) => {
         let token = sessionStorage.getItem('Access-Token');
         const URL = `http://${serverIP}:5000/api/updatepoweroff`;
@@ -76,11 +70,10 @@ export const UpdatePowerOffDB = async (
           },
           body: JSON.stringify(data),
         };
-
         const response = await fetch(URL, options)
           .then((response) => response.json())
           .then((data) => {
-            if (data.ok == true) {
+            if (data.ok === true) {
               swal({
                 title: "Done!",
                 text: data.msg,
@@ -112,15 +105,5 @@ export const UpdatePowerOffDB = async (
           });
         resolve({ ok: false });
       });
-    } else {
-      swal({
-        title: "Error",
-        text: response1.error,
-        icon: "error",
-        timer: 3000,
-        buttons: false,
-      });
-      resolve({ ok: false });
-    }
   });
 };

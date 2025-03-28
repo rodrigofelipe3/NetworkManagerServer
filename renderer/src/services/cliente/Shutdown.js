@@ -18,7 +18,7 @@ export const CancelShutDown = async (IP) => {
         .catch((err) => {
             return swal({
                 title: "Error",
-                text: "Não foi possivel contactar o computador selecionado.",
+                text: "Não foi possivel contactar o computador selecionado. " + err,
                 icon: "error",
                 timer: 3000,
                 buttons: false
